@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<logger name="Coal Engine Logger">
+    <output>console</output>
+    <output><file zip="true">logs/latest.log</file></output>
+    <format>[%d] <![CDATA[<%c>]]> (%t) - %s</format>
+</logger>
