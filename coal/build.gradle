@@ -6,8 +6,34 @@
 
 plugins {
     id 'dk.sebsa.java-library-conventions'
+    id 'maven-publish'
 }
+
+group = 'dk.sebsa'
+version = '1.0.0-SNAPSHOT'
+description = 'Emerald Logging Lib'
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 dependencies {
     implementation "dk.sebsa:emerald:1.0-SNAPSHOT"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "dk.sebsa"
+            artifactId = "coal"
+            version = version
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.pkg.jetbrains.space/emerald/p/coal/coal"
+            credentials {
+                username = "$System.env.JB_SPACE_CLIENT_ID"
+                password = "$System.env.JB_SPACE_CLIENT_SECRET"
+            }
+        }
+    }
 }
