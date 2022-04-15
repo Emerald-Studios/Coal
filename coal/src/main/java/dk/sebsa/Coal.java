@@ -1,15 +1,29 @@
 package dk.sebsa;
 
+import dk.sebsa.coal.Application;
+import dk.sebsa.coal.debug.CoalImGUI;
+import dk.sebsa.coal.events.LayerStackEventTask;
+import dk.sebsa.coal.events.LayerStackInitTask;
+import dk.sebsa.coal.events.LayerStackUpdateTask;
+import dk.sebsa.coal.math.Time;
+import dk.sebsa.coal.tasks.TaskManager;
+import dk.sebsa.coal.tasks.ThreadLogging;
+import dk.sebsa.coal.tasks.ThreadManager;
+import dk.sebsa.emerald.Logable;
 import dk.sebsa.emerald.Logger;
 import dk.sebsa.emerald.LoggerFactory;
+import dk.sebsa.emerald.outputs.FileOutput;
+
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
- * The mother of of Coal programs.
+ * The mother of all Coal programs.
  *
  * @author Sebsa
  * @since 1.0.0-SNAPSHOT
  */
-public class Coal {
+public class Coal extends Logable {
 	public static Coal instance;
 
 	// Coal Settings & Info
@@ -22,17 +36,142 @@ public class Coal {
 
 	// Runtime stuff
 	public static Logger logger;
-//	private Application application;
-//	private TaskManager taskManager;
-//	private ThreadManager threadManager;
+	private Application application;
+	private TaskManager taskManager;
+	private ThreadManager threadManager;
 
-	public static void fireUp() {
-		Emerald.VERBOSE_LOAD = DEBUG;
+	/**
+	 * Adds and application to the Coal runtime. (Currently coal doesn't support more than 1 running app)
+	 * If no coal instance exist, this will create it.
+	 *
+	 * @param app A new Coal application
+	 * @param debug Enables or Disables debug features
+	 */
+	public static void fireUp(Application app, boolean debug) {
+		if(instance != null) instance.addApplication(app);
+		else {
+			Coal.DEBUG = debug;
+			Emerald.VERBOSE_LOAD = debug;
 
-		// Logging
-		LoggerFactory loggerFactory = new LoggerFactory();
-		logger = loggerFactory.buildFromFile("/loggers/CoalEngineLogger.xml");
-		Emerald.logSystemInfo(logger);
+			// Logging
+			LoggerFactory loggerFactory = new LoggerFactory();
+			logger = loggerFactory.buildFromFile("/loggers/CoalEngineLogger.xml");
+			Emerald.logSystemInfo(logger);
+
+			instance = new Coal(app);
+		}
+	}
+
+
+	private void addApplication(Application app) {
+		if(application != null) throw new IllegalStateException("Coal currently doesn't support multiple applications");
+		else this.application = app;
+
+		log("Added application: " + app);
+	}
+
+	private Coal(Application app) {
+		super(logger);
+		log("Running using Coal, " + COAL_VERSION);
+		addApplication(app);
+
+		// Main Coal stuff
+		try {
+			init();		// Init Coal, and setup workers (+Pre-Main Loop)
+			mainLoop();	// Actual main loop
+		} catch (Exception | Error e) { e.printStackTrace(); }
+
+		//FileOutput.flush();
+
+		// Close Stuff
+		log("Entering Cleanup");
+		if(DEBUG) CoalImGUI.cleanup();
+		application.cleanup();
+		threadManager.stop();
+		ThreadLogging.logAll(logger);
 		Emerald.close();
 	}
+
+	private void init() {
+		Time.init();
+
+		// Init GLFW and OpenGL
+		log("Initializing GLFW & OpenGL");
+		application.init();
+		application.window.loadMode();
+
+		// Debug only inits
+		if(DEBUG) CoalImGUI.init(application);
+
+		// Init Workers
+		log("Initializing Threading Platform");
+		taskManager = new TaskManager();
+		threadManager = new ThreadManager(taskManager, logger);
+
+		threadManager.init();
+
+		// Add init tasks
+		log("Adding init tasks to multi threaded worker system");
+		taskManager.doTask(new LayerStackInitTask(application.stack));
+
+		// Pre-Main Loop
+		log("Entering pre-main loop");
+		while(taskManager.stuffToDo()) {
+			// Render Loading Screen
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+			// Next Frame
+			glfwSwapBuffers(application.window.getID()); // swap the color buffers
+			glfwPollEvents(); // Poll for window events.
+
+			// Make Stuff Happen
+			ThreadLogging.logAll(logger);
+			taskManager.frame(threadManager);
+		}
+
+		// Pre-Main Loop
+		application.window.normalMode();
+		log("Exiting...");
+	}
+
+	private void mainLoop() {
+		log("Entering Main Loop");
+
+		while(!application.shouldClose()) {
+			//FileOutput.flush();
+			// Poll For Events
+			glfwPollEvents();
+
+			// Handle Logic (Frame Loop)
+			// What needs to happen:
+			// 	-X Handle events
+			//	-O Window & Input Update
+			//	-X LayerUpdate
+			//	-X Update Time
+			//	-O Update Entities
+			Time.procsess();
+
+			taskManager.doTask(new LayerStackUpdateTask(application.stack)); // Handle event task
+			taskManager.doTask(new LayerStackEventTask(application.stack)); // Handle event task
+
+			while(taskManager.stuffToDo()) {
+				taskManager.frame(threadManager);
+				ThreadLogging.logAll(logger);
+			}
+
+			// Late Updates
+			application.window.update();
+			application.input.endFrame();
+
+			// Render
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+			application.stack.render();
+			glfwSwapBuffers(application.window.getID()); // swap the color buffers
+		}
+	}
+
+	/**
+	 * @return the threadManager
+	 */
+	private ThreadManager getThreadManager() { return threadManager; }
 }
