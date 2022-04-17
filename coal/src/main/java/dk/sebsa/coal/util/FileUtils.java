@@ -29,11 +29,11 @@ public class FileUtils {
         return list;
     }
     public static String readAllLines(InputStream is) throws IOException {
-        String e = "";
+        StringBuilder e = new StringBuilder();
         for(String line : readAllLinesList(is)) {
-            e += line + "\n";
+            e.append(line).append("\n");
         }
 
-        return e;
+        return e.toString();
     }
 }

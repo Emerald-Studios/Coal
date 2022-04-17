@@ -12,7 +12,7 @@ import dk.sebsa.emerald.Logger;
  * @since 1.0.0-SNAPSHOT
  */
 public class ThreadLogging {
-    public static  List<String> toBeLogged = Collections.synchronizedList(new ArrayList<String>());
+    public static  List<String> toBeLogged = Collections.synchronizedList(new ArrayList<>());
     public static void log(String s) { toBeLogged.add(Coal.logger.formatString(s, "TaskThread")); }
     public static void log(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className)); }
 

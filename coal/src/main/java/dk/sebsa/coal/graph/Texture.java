@@ -49,7 +49,7 @@ public class Texture extends Asset {
 
         // Load texture from stream
         byte[] bytes = new byte[8000];
-        int curByte = 0;
+        int curByte;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {
@@ -58,7 +58,7 @@ public class Texture extends Asset {
         } catch (IOException e) { e.printStackTrace(); }
 
         bytes = bos.toByteArray();
-        ByteBuffer buffer = (ByteBuffer) BufferUtils.createByteBuffer(bytes.length);
+        ByteBuffer buffer = BufferUtils.createByteBuffer(bytes.length);
         buffer.put(bytes).flip();
         data = stbi_load_from_memory(buffer, widthBuffer, heightBuffer, channelsBuffer, 4);
 

@@ -9,6 +9,7 @@ import dk.sebsa.coal.util.ConfigAsset;
 import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
@@ -17,8 +18,8 @@ import java.util.jar.JarFile;
 public class AssetManager {
     public static List<Asset> loadedAssets = new ArrayList<>();
     public static List<Asset> newAssets = new ArrayList<>();
-    private static Class<AssetManager> clazz = AssetManager.class;
-    private static ClassLoader cl = clazz.getClassLoader();
+    private static final Class<AssetManager> clazz = AssetManager.class;
+    private static final ClassLoader cl = clazz.getClassLoader();
     private static final List<AssetProvider> assetProviders = new ArrayList<>();
     private static final List<AssetLocation> assetLocations = new ArrayList<>();
     private static final Map<String, Asset> assetNameMap = new HashMap<>();
@@ -47,14 +48,14 @@ public class AssetManager {
         }
     }
 
-    private static void importFromJar() throws UnsupportedEncodingException, IOException {
+    private static void importFromJar() throws IOException {
         // Loads the engine resources from a jar
         String me = clazz.getName().replace(".", "/") + ".class";
         URL dirUrl = cl.getResource(me);
 
         if(dirUrl.getProtocol().equals("jar")) {
             String jarPath = dirUrl.getPath().substring(5, dirUrl.getPath().indexOf("!"));
-            JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+            JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
             Enumeration<JarEntry> entries = jar.entries();
 
             while(entries.hasMoreElements()) {
@@ -67,7 +68,7 @@ public class AssetManager {
     }
 
     private static void importFromSketchyJar(Consumer<Object> log) throws IOException {
-        List<String> paths = new ArrayList<String>();
+        List<String> paths = new ArrayList<>();
         InputStream in = cl.getResourceAsStream("coal");
         if(in == null) {
             log.accept("When importing assets from jar folder was not found: coal");

@@ -26,7 +26,7 @@ public class FBO {
     public final int width;
     public final int height;
 
-    private static List<FBO> fbos = new ArrayList<>();
+    private static final List<FBO> fbos = new ArrayList<>();
 
     public FBO(int width, int height) {
         this.width = width;
