@@ -2,6 +2,6 @@
 
 <logger name="Coal Engine Logger">
     <output>console</output>
-    <output><file zip="true">logs/latest.log</file></output>
+    <output><file zip="true">../logs/latest.log</file></output>
     <format>[%d] <![CDATA[<%c>]]> (%t) - %s</format>
 </logger>

@@ -14,6 +14,8 @@ import dk.sebsa.emerald.Logger;
 public class ThreadLogging {
     public static  List<String> toBeLogged = Collections.synchronizedList(new ArrayList<String>());
     public static void log(String s) { toBeLogged.add(Coal.logger.formatString(s, "TaskThread")); }
+    public static void log(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className)); }
+
     public static void logAll(Logger l) {
         while(!toBeLogged.isEmpty()) {
             l.log(toBeLogged.get(0), "NoFormat");
