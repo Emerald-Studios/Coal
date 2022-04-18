@@ -15,8 +15,16 @@ public abstract class Asset {
 
     public abstract void destroy();
 
-    public Asset loadAsset() {
+    public Asset loadAsset() throws AssetExitsException {
+        // Name Generation
+        name = location.location();
+        if(name.startsWith("/coal")) name = name.replaceFirst("/coal/", "");
+
         if(Coal.TRACE) log("Creating Asset! " + location + ", Name: " + name);
+
+        if(AssetManager.getAssetNameMap().containsKey(name)) throw new AssetExitsException();
+        else AssetManager.getAssetNameMap().put(name, this);
+
         load();
         return this;
     }

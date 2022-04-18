@@ -5,6 +5,7 @@ import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.Texture;
 import dk.sebsa.coal.util.ConfigAsset;
+import lombok.Getter;
 
 import java.io.*;
 import java.net.URL;
@@ -22,6 +23,7 @@ public class AssetManager {
     private static final ClassLoader cl = clazz.getClassLoader();
     private static final List<AssetProvider> assetProviders = new ArrayList<>();
     private static final List<AssetLocation> assetLocations = new ArrayList<>();
+    @Getter
     private static final Map<String, Asset> assetNameMap = new HashMap<>();
 
     public static Asset getAsset(String name) {
@@ -102,9 +104,9 @@ public class AssetManager {
         Asset a;
         while (!newAssets.isEmpty()) {
             a = newAssets.get(0);
-            a.name = a.location.location();
-            a.loadAsset();
-            assetNameMap.put(a.name, a);
+            try {
+                a.loadAsset();
+            } catch (AssetExitsException e) { Coal.logger.log("Asset " + a.name + ", already exists", clazz.getSimpleName()); }
 
             newAssets.remove(0);
         }

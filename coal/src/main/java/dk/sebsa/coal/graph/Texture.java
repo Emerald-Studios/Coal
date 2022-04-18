@@ -31,7 +31,6 @@ public class Texture extends Asset {
     }
 
     public Texture load(String name, TextureInfo ti) {
-        this.name = location.location();
         this.width = ti.width;
         this.height = ti.height;
         this.id = ti.id;

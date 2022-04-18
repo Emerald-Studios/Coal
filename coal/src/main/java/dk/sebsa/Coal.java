@@ -1,14 +1,18 @@
 package dk.sebsa;
 
 import dk.sebsa.coal.Application;
+import dk.sebsa.coal.asset.AssetExitsException;
+import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.AssetManagerInitTask;
 import dk.sebsa.coal.debug.CoalImGUI;
+import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackInitTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.FBO;
-import dk.sebsa.coal.graph.TestRenderer;
+import dk.sebsa.coal.graph.Texture;
+import dk.sebsa.coal.graph.renderes.TestRenderer;
 import dk.sebsa.coal.math.Time;
 import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
@@ -122,6 +126,12 @@ public class Coal extends Logable {
         log("Adding init tasks to multi threaded worker system");
         taskManager.doTask(new AssetManagerInitTask());
         taskManager.doTask(new LayerStackInitTask(application.stack));
+
+        // Prepare for init screen
+        Texture initTexture;
+        try {
+            initTexture = (Texture) new Texture(new AssetLocation(AssetLocationType.Jar, "/coal/internal/textures/Chicken.png")).loadAsset();
+        } catch (AssetExitsException e) { initTexture = (Texture) AssetManager.getAsset("internal/textures/Chicken.png"); }
 
         // Pre-Main Loop
         log("Entering pre-main loop");

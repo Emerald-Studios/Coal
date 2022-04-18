@@ -17,8 +17,6 @@ public class GLSLShaderProgram extends Asset {
 
     @Override @SneakyThrows
     public void load() {
-        name = location.location();
-
         log("Creating shader program...");
         programId = glCreateProgram();
         if (programId == 0) {

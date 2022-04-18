@@ -1,6 +1,8 @@
-package dk.sebsa.coal.graph;
+package dk.sebsa.coal.graph.renderes;
 
 import dk.sebsa.coal.asset.AssetManager;
+import dk.sebsa.coal.graph.GLSLShaderProgram;
+import dk.sebsa.coal.graph.Mesh;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL15.*;
@@ -11,7 +13,7 @@ public class TestRenderer {
     private static GLSLShaderProgram shader;
 
     public static void render(Mesh mesh) {
-        if(shader == null) shader = (GLSLShaderProgram) AssetManager.getAsset("/coal/internal/shaders/Coal3dDefault.glsl");
+        if(shader == null) shader = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal3dDefault.glsl");
         shader.bind();
 
         // Draw the mesh
