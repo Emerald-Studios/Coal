@@ -2,6 +2,7 @@ package dk.sebsa.coal;
 
 import dk.sebsa.Coal;
 import dk.sebsa.coal.events.LayerStack;
+import dk.sebsa.coal.graph.RenderPipeline;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.io.GLFWWindow;
 
@@ -19,7 +20,7 @@ public abstract class Application {
     public GLFWWindow window;
     public LayerStack stack;
     public GLFWInput input;
-
+    public RenderPipeline renderPipeline;
 
     public Application(GLFWWindow window) {
         this.window = window;

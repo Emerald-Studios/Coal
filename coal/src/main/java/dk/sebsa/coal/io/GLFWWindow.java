@@ -1,9 +1,11 @@
 package dk.sebsa.coal.io;
 
 
+import lombok.Getter;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
 
 import dk.sebsa.Coal;
@@ -31,6 +33,8 @@ public class GLFWWindow {
     private boolean isFullscreen, actuallyFullscreen = false;
     private int[] posX = new int[1];
     private int[] posY = new int[1];
+    @Getter
+    private GLCapabilities glCapabilities;
 
     private void log(String s) { Coal.logger.log(s, "GLFWWindow"); }
     public GLFWWindow(String windowTitle, Color clearColor, int w, int h) {
@@ -107,7 +111,7 @@ public class GLFWWindow {
         // LWJGL detects the context that is current in the current thread,
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
-        GL.createCapabilities();
+        glCapabilities = GL.createCapabilities();
 
         log("Finalizing window setup 2");
         // Enable transparency

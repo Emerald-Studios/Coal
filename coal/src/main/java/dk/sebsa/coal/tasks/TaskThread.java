@@ -18,7 +18,7 @@ public class TaskThread extends Thread {
         this.threadManager = threadManager;
     }
 
-    protected void log(String s) { ThreadLogging.log(s); }
+    protected void log(String s) { ThreadLogging.log(s, "TaskThread"); }
 
     @Override
     public void run() {

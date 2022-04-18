@@ -18,10 +18,13 @@ import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
 import dk.sebsa.coal.tasks.ThreadManager;
 import dk.sebsa.coal.util.DebugRenderingUtils;
+import dk.sebsa.coal.util.InitScreenRenderer;
 import dk.sebsa.emerald.Logable;
 import dk.sebsa.emerald.Logger;
 import dk.sebsa.emerald.LoggerFactory;
 import dk.sebsa.emerald.outputs.FileOutput;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryUtil;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -124,22 +127,21 @@ public class Coal extends Logable {
 
         // Add init tasks
         log("Adding init tasks to multi threaded worker system");
-        taskManager.doTask(new AssetManagerInitTask());
+        taskManager.doTask(new AssetManagerInitTask(application.window.getID(), application.window.getGlCapabilities()));
         taskManager.doTask(new LayerStackInitTask(application.stack));
 
-        // Prepare for init screen
-        Texture initTexture;
-        try {
-            initTexture = (Texture) new Texture(new AssetLocation(AssetLocationType.Jar, "/coal/internal/textures/Chicken.png")).loadAsset();
-        } catch (AssetExitsException e) { initTexture = (Texture) AssetManager.getAsset("internal/textures/Chicken.png"); }
+        // Render Init Screen, this is done once pr color buffer
+        InitScreenRenderer.render();
+        glfwSwapBuffers(application.window.getID());
+        InitScreenRenderer.render();
+
+        // Remove capabilities cause AssetManagerInit uses them
+        GL.setCapabilities(null);
+        glfwMakeContextCurrent(MemoryUtil.NULL);
 
         // Pre-Main Loop
         log("Entering pre-main loop");
         while(taskManager.stuffToDo()) {
-            // Render Loading Screen
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-            // Next Frame
             glfwSwapBuffers(application.window.getID()); // swap the color buffers
             glfwPollEvents(); // Poll for window events.
 
@@ -148,7 +150,9 @@ public class Coal extends Logable {
             taskManager.frame(threadManager);
         }
 
-        AssetManager.initLoadAllAssets();
+        // Return Capabilities
+        glfwMakeContextCurrent(application.window.getID());
+        GL.setCapabilities(application.window.getGlCapabilities());
 
         // Pre-Main Loop
         application.window.normalMode();
@@ -186,8 +190,9 @@ public class Coal extends Logable {
 
             // Render
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-            application.stack.render();                               // Render Layerstack UI
+            if(application.renderPipeline != null) application.renderPipeline.renderStageAll();
             TestRenderer.render(DebugRenderingUtils.SQUARE_MESH);
+            application.stack.render();                               // Render Layerstack UI
 
             glfwSwapBuffers(application.window.getID()); // swap the color buffers
         }

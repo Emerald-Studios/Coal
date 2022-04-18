@@ -9,7 +9,7 @@ import dk.sebsa.coal.tasks.ThreadLogging;
 public abstract class Layer {
     public boolean enabled = true;
 
-    protected void log(Object o) { ThreadLogging.log(o.toString()); }
+    protected void log(Object o) { ThreadLogging.log(o.toString(), this.getClass().getSimpleName()); }
 
     protected abstract boolean handleEvent(Event e);
     protected abstract void init();

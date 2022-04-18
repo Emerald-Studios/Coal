@@ -5,6 +5,7 @@ import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.util.FileUtils;
 import lombok.SneakyThrows;
 
+import static org.lwjgl.opengl.GL11.glGetError;
 import static org.lwjgl.opengl.GL20.*;
 
 public class GLSLShaderProgram extends Asset {
@@ -20,7 +21,7 @@ public class GLSLShaderProgram extends Asset {
         log("Creating shader program...");
         programId = glCreateProgram();
         if (programId == 0) {
-            throw new Exception("Could not create Shader");
+            throw new RuntimeException("Could not create Shader: " + glGetError());
         }
 
         // Create shader

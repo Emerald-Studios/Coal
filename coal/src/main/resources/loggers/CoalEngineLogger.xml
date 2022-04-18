@@ -4,4 +4,6 @@
     <output>console</output>
     <output><file zip="true">../logs/latest.log</file></output>
     <format>[%d] <![CDATA[<%c>]]> (%t) - %s</format>
+    <warnFormat>WARN: %fi</warnFormat>
+    <errorFormat>ERR: %fi</errorFormat>
 </logger>

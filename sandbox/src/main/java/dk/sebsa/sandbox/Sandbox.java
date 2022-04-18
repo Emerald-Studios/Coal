@@ -2,6 +2,8 @@ package dk.sebsa.sandbox;
 
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
+import dk.sebsa.coal.graph.RenderPipeline;
+import dk.sebsa.coal.graph.TestStage;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
 
@@ -18,5 +20,7 @@ public class Sandbox extends Application {
         super(new GLFWWindow("Sandbox", Color.cyan(), 800, 600));
         stack.stack.add(new DebugLayer(this));
         stack.stack.add(new SandboxLayer(this));
+
+        renderPipeline = new RenderPipeline.RenderPipelineBuilder().appendStage(new TestStage()).build();
     }
 }

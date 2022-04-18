@@ -12,5 +12,6 @@ public abstract class Task {
     public long startTime;
 
     protected void log(Object o) { ThreadLogging.log(o.toString(), this.getClass().getSimpleName()); }
-    protected Consumer<Object> logConsumer = this::log;
+    protected void warn(Object o) { ThreadLogging.warn(o.toString(), this.getClass().getSimpleName()); }
+    protected void error(Object o) { ThreadLogging.error(o.toString(), this.getClass().getSimpleName()); }
 }

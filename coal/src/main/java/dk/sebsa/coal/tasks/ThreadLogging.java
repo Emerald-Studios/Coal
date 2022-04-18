@@ -6,6 +6,7 @@ import java.util.List;
 
 import dk.sebsa.Coal;
 import dk.sebsa.emerald.Logger;
+import dk.sebsa.emerald.LogLevel;
 
 /**
  * @author Sebsa
@@ -13,8 +14,9 @@ import dk.sebsa.emerald.Logger;
  */
 public class ThreadLogging {
     public static  List<String> toBeLogged = Collections.synchronizedList(new ArrayList<>());
-    public static void log(String s) { toBeLogged.add(Coal.logger.formatString(s, "TaskThread")); }
-    public static void log(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className)); }
+    public static void log(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className, Coal.logger.getFormat())); }
+    public static void warn(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className, Coal.logger.getWarnFormat())); }
+    public static void error(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className, Coal.logger.getErrorFormat())); }
 
     public static void logAll(Logger l) {
         while(!toBeLogged.isEmpty()) {

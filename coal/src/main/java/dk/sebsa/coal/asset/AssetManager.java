@@ -30,7 +30,7 @@ public class AssetManager {
         return assetNameMap.get(name);
     }
 
-    public static void initGetAllAssets(Consumer<Object> log) {
+    public static void initGetAllAssets(Consumer<Object> log, Consumer<Object> errorLog) {
         log.accept("Getting list of all assets");
 
         // Load all assets from jar
@@ -39,9 +39,9 @@ public class AssetManager {
         String protocol = dirUrl.getProtocol();
 
         try { // Depending on the enviroment the assets has to be loaded from an "external folder" (Often when running from IDE)
-            if(dirUrl != null && protocol.equals("file")) { log.accept("IDE Support Jar Load"); importFromSketchyJar(log); }
+            if(dirUrl != null && protocol.equals("file")) { log.accept("IDE Support Jar Load"); importFromSketchyJar(log, errorLog); }
             else { log.accept("Classic Jar Load"); importFromJar();}
-        } catch (IOException e) { log.accept("Error loading assets: "); e.printStackTrace(); }
+        } catch (IOException e) { errorLog.accept("Error loading assets: "); e.printStackTrace(); }
 
         // Get assets from asset providers
         log.accept("Load from " + assetProviders.size() + " AssetProvider(s)");
@@ -69,11 +69,11 @@ public class AssetManager {
         }
     }
 
-    private static void importFromSketchyJar(Consumer<Object> log) throws IOException {
+    private static void importFromSketchyJar(Consumer<Object> log, Consumer<Object> errorLog) throws IOException {
         List<String> paths = new ArrayList<>();
         InputStream in = cl.getResourceAsStream("coal");
         if(in == null) {
-            log.accept("When importing assets from jar folder was not found: coal");
+            errorLog.accept("When importing assets from jar folder was not found: coal");
         } else {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String line;
@@ -87,31 +87,32 @@ public class AssetManager {
         }
     }
 
-    public static void initCreateAllAssets(Consumer<Object> log) {
+    public static void initCreateAllAssets(Consumer<Object> log, Consumer<Object> errorLog) {
         log.accept("Instantiate all assets");
         // Instantiate all assets
         for(AssetLocation location : assetLocations) {
             if(location.location().endsWith(".coal")) newAssets.add(new ConfigAsset(location));
-            else if(location.location().endsWith(".glsl")) newAssets.add(new GLSLShaderProgram(location));
             else if(location.location().endsWith(".png")) newAssets.add(new Texture(location));
-            else log.accept("Unknown asset type, " + location);
+            else if(location.location().endsWith(".glsl")) newAssets.add(new GLSLShaderProgram(location));
+
+            else errorLog.accept("Unknown asset type, " + location);
         }
     }
 
-    public static void initLoadAllAssets() {
-        Coal.logger.log("Load all assets", clazz.getSimpleName());
+    public static void initLoadAllAssets(Consumer<Object> log, Consumer<Object> warnLog) {
+        log.accept("Load all assets");
 
         Asset a;
         while (!newAssets.isEmpty()) {
             a = newAssets.get(0);
             try {
                 a.loadAsset();
-            } catch (AssetExitsException e) { Coal.logger.log("Asset " + a.name + ", already exists", clazz.getSimpleName()); }
+            } catch (AssetExitsException e) { warnLog.accept("Asset " + a.name + ", already exists"); }
 
             newAssets.remove(0);
         }
     }
-    
+
     public static void cleanup() {
         for (Asset a: loadedAssets) {
             a.destroy();

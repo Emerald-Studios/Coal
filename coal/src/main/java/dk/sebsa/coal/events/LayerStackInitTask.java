@@ -1,5 +1,10 @@
 package dk.sebsa.coal.events;
 
+import dk.sebsa.coal.asset.AssetExitsException;
+import dk.sebsa.coal.asset.AssetLocation;
+import dk.sebsa.coal.asset.AssetManager;
+import dk.sebsa.coal.enums.AssetLocationType;
+import dk.sebsa.coal.graph.Texture;
 import dk.sebsa.coal.tasks.Task;
 
 /**
