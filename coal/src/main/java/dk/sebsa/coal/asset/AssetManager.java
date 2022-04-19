@@ -71,19 +71,24 @@ public class AssetManager {
 
     private static void importFromSketchyJar(Consumer<Object> log, Consumer<Object> errorLog) throws IOException {
         List<String> paths = new ArrayList<>();
-        InputStream in = cl.getResourceAsStream("coal");
-        if(in == null) {
-            errorLog.accept("When importing assets from jar folder was not found: coal");
-        } else {
+        List<String> streams = new ArrayList<>();
+        streams.add("coal");
+
+        while(!streams.isEmpty()) {
+            InputStream in = cl.getResourceAsStream(streams.get(0));
+            if(in == null) errorLog.accept("When importing assets from jar folder was not found: coal");
+
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String line;
 
             while((line = br.readLine()) != null) {
-                assetLocations.add(new AssetLocation(AssetLocationType.Jar, "/" + line));
+                if(line.contains(".")) assetLocations.add(new AssetLocation(AssetLocationType.Jar, "/" + streams.get(0) + "/" + line));
+                else streams.add(streams.get(0) + "/" + line);
             }
 
             in.close();
             br.close();
+            streams.remove(0);
         }
     }
 
