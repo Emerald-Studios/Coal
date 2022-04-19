@@ -3,6 +3,7 @@ package dk.sebsa.sandbox;
 
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.enums.EventTypes;
+import dk.sebsa.coal.enums.PolygonMode;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
 import dk.sebsa.coal.io.KeyPressedEvent;
@@ -35,7 +36,11 @@ public class SandboxLayer extends Layer {
 
     @Override
     protected void update() {
-
+        if(application.input.isKeyPressed(GLFW.GLFW_KEY_F4)) {
+            if(application.renderPipeline.polygonMode.equals(PolygonMode.Fill)) application.renderPipeline.polygonMode = PolygonMode.Line;
+            else application.renderPipeline.polygonMode = PolygonMode.Fill;
+        }
+        if(application.input.isKeyPressed(GLFW.GLFW_KEY_F3)) Sandbox.instance.debugLayer.enabled = !Sandbox.instance.debugLayer.enabled;
     }
 
     @Override
