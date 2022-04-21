@@ -1,17 +1,13 @@
 package dk.sebsa;
 
 import dk.sebsa.coal.Application;
-import dk.sebsa.coal.asset.AssetExitsException;
-import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.AssetManagerInitTask;
 import dk.sebsa.coal.debug.CoalImGUI;
-import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackInitTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.FBO;
-import dk.sebsa.coal.graph.Texture;
 import dk.sebsa.coal.graph.renderes.TestRenderer;
 import dk.sebsa.coal.math.Time;
 import dk.sebsa.coal.tasks.TaskManager;
@@ -28,7 +24,6 @@ import org.lwjgl.system.MemoryUtil;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.memFree;
 
 /**
  * The mother of all Coal programs.
@@ -104,6 +99,8 @@ public class Coal extends Logable {
         FBO.cleanup();
         threadManager.stop();
         ThreadLogging.logAll(logger);
+        log("I thinks this is it, my time has come. Bye!");
+        log("(Program lifetime was: " + (Time.getTime() * 0.001f)/60 + " Minutes)");
         Emerald.close();
     }
 

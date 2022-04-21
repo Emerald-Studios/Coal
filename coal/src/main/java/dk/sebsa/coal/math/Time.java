@@ -73,16 +73,16 @@ public class Time {
         frames++;
     }
 
-    public static final long getTime() {
+    public static long getTime() {
         rawTime = System.nanoTime();
         return (TimeUnit.MILLISECONDS.convert(rawTime - startTime, TimeUnit.NANOSECONDS));
     }
 
-    public static final float getDeltaTime() {
+    public static float getDeltaTime() {
         return deltaTime;
     }
 
-    public static final float getUnscaledDelta() {
+    public static float getUnscaledDelta() {
         return unscaledDelta;
     }
 

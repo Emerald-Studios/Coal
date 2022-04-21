@@ -35,6 +35,7 @@ public abstract class ImGuiLayer extends Layer {
 
     @Override
     protected boolean handleEvent(Event e) {
+        if(selfDestruct) return false;
         // Send input data to ImGUI
         final ImGuiIO io = ImGui.getIO();
         if(e.eventType() == EventTypes.MouseMove) {

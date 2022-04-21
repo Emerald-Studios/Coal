@@ -16,18 +16,17 @@ public abstract class Application {
     public abstract String getName();
     public abstract String getAuthor();
     public abstract String getVersion();
+    protected abstract GLFWWindow initApp();
 
     public GLFWWindow window;
     public LayerStack stack;
     public GLFWInput input;
     public RenderPipeline renderPipeline;
 
-    public Application(GLFWWindow window) {
-        this.window = window;
-        this.stack = new LayerStack();
-    }
-
     public void init() {
+        this.stack = new LayerStack();
+        this.window = initApp();
+
         window.init();
         input = new GLFWInput(this, Coal.logger);
         input.addCallbacks();
