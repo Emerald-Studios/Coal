@@ -27,10 +27,10 @@ public class Texture extends Asset {
 
     @Override
     public void load() {
-        load("e", loadTexture());
+        load(loadTexture());
     }
 
-    public Texture load(String name, TextureInfo ti) {
+    public Texture load(TextureInfo ti) {
         this.width = ti.width;
         this.height = ti.height;
         this.id = ti.id;
@@ -86,10 +86,16 @@ public class Texture extends Asset {
         return new TextureInfo(width, height, textureId);
     }
 
+    public void bind() {
+        glBindTexture(GL_TEXTURE_2D, id);
+    }
+
     @Override
     public void destroy() {
         glDeleteTextures(id);
     }
+
+    public void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 
     protected static class TextureInfo {
         public int width;

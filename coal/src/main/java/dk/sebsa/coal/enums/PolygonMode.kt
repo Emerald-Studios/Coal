@@ -1,6 +1,9 @@
-package dk.sebsa.coal.enums;
+package dk.sebsa.coal.enums
 
-public enum PolygonMode {
-    Fill,
-    Line,
+/**
+ * @author Sebsa
+ * @since 1.0.0-SNAPSHOT
+ */
+enum class PolygonMode {
+    Fill, Line
 }

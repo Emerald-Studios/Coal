@@ -7,6 +7,7 @@
 plugins {
     id 'dk.sebsa.java-library-conventions'
     id 'maven-publish'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
 }
 
 group = 'dk.sebsa'
@@ -31,5 +32,23 @@ publishing {
                 password = "$System.env.JB_SPACE_CLIENT_SECRET"
             }
         }
+    }
+}
+
+// IDE GENERETED KOTLIN SUPPORT
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "16"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "16"
     }
 }

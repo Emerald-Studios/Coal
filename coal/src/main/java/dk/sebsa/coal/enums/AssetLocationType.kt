@@ -1,7 +1,9 @@
-package dk.sebsa.coal.enums;
+package dk.sebsa.coal.enums
 
-public enum AssetLocationType {
-    LocalFile,
-    Code,
-    Jar,
+/**
+ * @author Sebsa
+ * @since 1.0.0-SNAPSHOT
+ */
+enum class AssetLocationType {
+    LocalFile, Code, Jar
 }

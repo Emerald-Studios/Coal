@@ -22,6 +22,7 @@ public abstract class Application {
     public LayerStack stack;
     public GLFWInput input;
     public RenderPipeline renderPipeline;
+    private boolean forceClose = false;
 
     public void init() {
         this.stack = new LayerStack();
@@ -38,10 +39,14 @@ public abstract class Application {
         window.cleanup();
     }
 
-    public boolean shouldClose() { return glfwWindowShouldClose(window.getID()); }
+    public boolean shouldClose() { return forceClose || glfwWindowShouldClose(window.getID()); }
 
     @Override
     public String toString() {
         return getName() + " by " + getAuthor() +", v" + getVersion() + " (" + getClass().getName() + ")";
+    }
+
+    public void forceClose() {
+        forceClose = true;
     }
 }
