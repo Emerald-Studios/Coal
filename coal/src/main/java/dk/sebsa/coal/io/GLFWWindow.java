@@ -1,6 +1,7 @@
 package dk.sebsa.coal.io;
 
 
+import dk.sebsa.coal.graph.Rect;
 import lombok.Getter;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -27,7 +28,8 @@ public class GLFWWindow {
 
     private String windowTitle;
     private Color clearColor;
-    private int w, h;
+    @Getter
+    private int width, height;
     private boolean vsync = true;
     private boolean minimized = false;
     private boolean isFullscreen, actuallyFullscreen = false;
@@ -35,13 +37,15 @@ public class GLFWWindow {
     private int[] posY = new int[1];
     @Getter
     private GLCapabilities glCapabilities;
+    public final Rect rect = new Rect();
 
     private void log(String s) { Coal.logger.log(s, "GLFWWindow"); }
-    public GLFWWindow(String windowTitle, Color clearColor, int w, int h) {
+    public GLFWWindow(String windowTitle, Color clearColor, int width, int height) {
         this.windowTitle = windowTitle;
         this.clearColor = clearColor;
-        this.w = w;
-        this.h = h;
+        this.width = width;
+        this.height = height;
+        rect.set(0,0,width,height);
     }
 
     public void init() {
@@ -60,6 +64,12 @@ public class GLFWWindow {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
+        // OSX Support
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
 
         log("Create Window (" + windowTitle + ")");
         // Create the window
@@ -71,8 +81,9 @@ public class GLFWWindow {
         // Setup resize callback
         glfwSetFramebufferSizeCallback(id, (window, w, h) -> {
             if(!actuallyFullscreen) {
-                this.w = w;
-                this.h = h;
+                this.width = w;
+                this.height = h;
+                rect.set(0,0,width,height);
             }
             minimized = w == 0 && h == 0;
 
@@ -103,6 +114,10 @@ public class GLFWWindow {
         log("Finalizing window setup 1");
         glfwMakeContextCurrent(id);
         glfwSwapInterval(vsync ? 1 : 0);
+
+        // Anti alizin
+        glfwWindowHint(GLFW_STENCIL_BITS, 4);
+        glfwWindowHint(GLFW_SAMPLES, 4);
 
         log("Init OpenGL");
         // Init OpenGL
@@ -137,17 +152,12 @@ public class GLFWWindow {
             log("Changed fullscren to: " + isFullscreen);
 
             if (isFullscreen) {
-                this.isFullscreen = true;
-
                 GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
                 glfwGetWindowPos(id, posX, posY);
                 glfwSetWindowMonitor(id, glfwGetPrimaryMonitor(), 0, 0, videoMode.width(), videoMode.height(), GLFW_DONT_CARE);
                 // Enable v-sync
                 glfwSwapInterval(vsync ? 1 : 0);
-            } else {
-                this.isFullscreen = false;
-                glfwSetWindowMonitor(id, 0, posX[0], posY[0], w, h, GLFW_DONT_CARE);
-            }
+            } else glfwSetWindowMonitor(id, 0, posX[0], posY[0], width, height, GLFW_DONT_CARE);
         }
     }
 
@@ -158,7 +168,7 @@ public class GLFWWindow {
 
     public void normalMode() {
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-        glfwSetWindowSize(id, w, h);
+        glfwSetWindowSize(id, width, height);
         glfwSetWindowTitle(id, windowTitle);
 
         centerWindow();
@@ -175,7 +185,7 @@ public class GLFWWindow {
         glfwSetErrorCallback(null).free();
     }
 
-    public void setSize(int width, int height) { this.w = width; this.h = height; glfwSetWindowSize(id, w, h); log("Changed size to: " + width + ", " + height);}
+    public void setSize(int width, int height) { this.width = width; this.height = height; glfwSetWindowSize(id, this.width, this.height); log("Changed size to: " + width + ", " + height);}
     public void setClearColor(Color c) { clearColor = c; glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a); log("Changed clearcolor to: " + c); }
     public void setWindowTitle(String s) { windowTitle = s; glfwSetWindowTitle(id, s); log("Changed windowtitle to: " + s); }
 
@@ -197,8 +207,8 @@ public class GLFWWindow {
         // Center the window
         glfwSetWindowPos(
                 id,
-                (vidmode.width() - w) / 2,
-                (vidmode.height() - h) / 2
+                (vidmode.width() - width) / 2,
+                (vidmode.height() - height) / 2
         );
     }
 

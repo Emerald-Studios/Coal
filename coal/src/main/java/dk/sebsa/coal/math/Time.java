@@ -86,7 +86,7 @@ public class Time {
         return unscaledDelta;
     }
 
-    public static final int getFPS() {
+    public static int getFPS() {
         return framesPerSecond;
     }
 

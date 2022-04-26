@@ -35,7 +35,7 @@ public class FBO {
         depthBufferID = createDepthBufferAttachment();
 
         int textureID = createTextureAttachment();
-        texture = new Texture(AssetLocation.none).load("FBO-"+textureID, new Texture.TextureInfo(width, height, textureID));
+        texture = new Texture(AssetLocation.none).load(new Texture.TextureInfo(width, height, textureID));
         unBind();
 
         fbos.add(this);

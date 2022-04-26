@@ -66,7 +66,7 @@ public class Coal extends Logable {
             logger = loggerFactory.buildFromFile("/loggers/CoalEngineLogger.xml");
             Emerald.logSystemInfo(logger);
 
-            instance = new Coal(app);
+            new Coal(app);
         }
     }
 
@@ -80,6 +80,8 @@ public class Coal extends Logable {
 
     private Coal(Application app) {
         super(logger);
+        instance = this;
+
         log("Running using Coal, " + COAL_VERSION);
         addApplication(app);
 
@@ -156,6 +158,11 @@ public class Coal extends Logable {
         log("Exiting...");
     }
 
+    public static void shutdownDueToError() {
+        logger.log("A shutdown request had been created");
+        instance.application.forceClose();
+    }
+
     private void mainLoop() {
         log("Entering Main Loop");
 
@@ -187,8 +194,7 @@ public class Coal extends Logable {
 
             // Render
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-            if(application.renderPipeline != null) application.renderPipeline.renderStageAll();
-            TestRenderer.render(DebugRenderingUtils.SQUARE_MESH);
+            if(application.renderPipeline != null) application.renderPipeline.renderStageAll(application);
             application.stack.render();                               // Render Layerstack UI
 
             glfwSwapBuffers(application.window.getID()); // swap the color buffers
