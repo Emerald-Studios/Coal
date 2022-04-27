@@ -1,10 +1,9 @@
 package dk.sebsa.coal.asset;
 
-import dk.sebsa.Coal;
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.Texture;
-import dk.sebsa.coal.util.ConfigAsset;
+import dk.sebsa.coal.io.util.ConfigAsset;
 import lombok.Getter;
 
 import java.io.*;

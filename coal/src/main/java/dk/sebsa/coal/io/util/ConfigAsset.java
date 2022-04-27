@@ -1,4 +1,4 @@
-package dk.sebsa.coal.util;
+package dk.sebsa.coal.io.util;
 
 import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;

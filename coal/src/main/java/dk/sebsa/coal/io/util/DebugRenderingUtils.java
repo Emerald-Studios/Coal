@@ -1,4 +1,4 @@
-package dk.sebsa.coal.util;
+package dk.sebsa.coal.io.util;
 
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.graph.Mesh;

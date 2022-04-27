@@ -1,4 +1,4 @@
-package dk.sebsa.coal.util;
+package dk.sebsa.coal.io.util;
 
 import java.io.*;
 import java.util.ArrayList;

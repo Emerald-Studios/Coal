@@ -30,11 +30,11 @@ public class GLFWWindow {
     private Color clearColor;
     @Getter
     private int width, height;
-    private boolean vsync = true;
+    private final boolean vsync = true;
     private boolean minimized = false;
     private boolean isFullscreen, actuallyFullscreen = false;
-    private int[] posX = new int[1];
-    private int[] posY = new int[1];
+    private final int[] posX = new int[1];
+    private final int[] posY = new int[1];
     @Getter
     private GLCapabilities glCapabilities;
     public final Rect rect = new Rect();
@@ -205,6 +205,7 @@ public class GLFWWindow {
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         // Center the window
+        assert vidmode != null;
         glfwSetWindowPos(
                 id,
                 (vidmode.width() - width) / 2,
@@ -213,7 +214,7 @@ public class GLFWWindow {
     }
 
     /**
-     * @return
+     * @return The GLFW window id
      */
     public long getID() {
         return id;

@@ -1,20 +1,23 @@
 package dk.sebsa;
 
 import dk.sebsa.coal.Application;
+import dk.sebsa.coal.asset.AssetExitsException;
+import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.AssetManagerInitTask;
 import dk.sebsa.coal.debug.CoalImGUI;
+import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackInitTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.FBO;
-import dk.sebsa.coal.graph.renderes.TestRenderer;
+import dk.sebsa.coal.graph.GLSLShaderProgram;
+import dk.sebsa.coal.graph.renderes.Render2D;
 import dk.sebsa.coal.math.Time;
 import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
 import dk.sebsa.coal.tasks.ThreadManager;
-import dk.sebsa.coal.util.DebugRenderingUtils;
-import dk.sebsa.coal.util.InitScreenRenderer;
+import dk.sebsa.coal.io.util.InitScreenRenderer;
 import dk.sebsa.emerald.Logable;
 import dk.sebsa.emerald.Logger;
 import dk.sebsa.emerald.LoggerFactory;
@@ -152,6 +155,12 @@ public class Coal extends Logable {
         // Return Capabilities
         glfwMakeContextCurrent(application.window.getID());
         GL.setCapabilities(application.window.getGlCapabilities());
+
+        // Render 2D init
+        GLSLShaderProgram shader2d;
+        try { shader2d = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/Coal2dDefault.glsl")).loadAsset(); }
+        catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
+        Render2D.init(application.window, shader2d);
 
         // Pre-Main Loop
         application.window.normalMode();

@@ -1,7 +1,7 @@
 package dk.sebsa.coal.asset;
 
 import dk.sebsa.coal.enums.AssetLocationType;
-import dk.sebsa.coal.util.FileUtils;
+import dk.sebsa.coal.io.util.FileUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
