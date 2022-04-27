@@ -1,7 +1,6 @@
 package dk.sebsa.coal.graph;
 
 import dk.sebsa.coal.Application;
-import dk.sebsa.coal.graph.renderes.Render2D;
 
 import static org.lwjgl.opengl.GL11.*;
 

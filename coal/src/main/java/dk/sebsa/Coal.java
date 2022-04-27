@@ -12,7 +12,7 @@ import dk.sebsa.coal.events.LayerStackInitTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.FBO;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
-import dk.sebsa.coal.graph.renderes.Render2D;
+import dk.sebsa.coal.graph.renderes.Core2D;
 import dk.sebsa.coal.math.Time;
 import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
@@ -127,15 +127,23 @@ public class Coal extends Logable {
 
         threadManager.init();
 
+        // Core2D init
+        GLSLShaderProgram shader2d;
+        try { shader2d = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/Coal2dDefault.glsl")).loadAsset(); }
+        catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
+        Core2D.init(application.window, shader2d);
+
         // Add init tasks
         log("Adding init tasks to multi threaded worker system");
         taskManager.doTask(new AssetManagerInitTask(application.window.getID(), application.window.getGlCapabilities()));
         taskManager.doTask(new LayerStackInitTask(application.stack));
 
         // Render Init Screen, this is done once pr color buffer
-        InitScreenRenderer.render();
+        Core2D.prepare();
+        InitScreenRenderer.render(application.window.rect);
         glfwSwapBuffers(application.window.getID());
-        InitScreenRenderer.render();
+        InitScreenRenderer.render(application.window.rect);
+        Core2D.unprepare();
 
         // Remove capabilities cause AssetManagerInit uses them
         GL.setCapabilities(null);
@@ -155,12 +163,6 @@ public class Coal extends Logable {
         // Return Capabilities
         glfwMakeContextCurrent(application.window.getID());
         GL.setCapabilities(application.window.getGlCapabilities());
-
-        // Render 2D init
-        GLSLShaderProgram shader2d;
-        try { shader2d = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/Coal2dDefault.glsl")).loadAsset(); }
-        catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
-        Render2D.init(application.window, shader2d);
 
         // Pre-Main Loop
         application.window.normalMode();

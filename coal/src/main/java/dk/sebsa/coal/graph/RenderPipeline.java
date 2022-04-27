@@ -2,9 +2,7 @@ package dk.sebsa.coal.graph;
 
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
-import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.enums.PolygonMode;
-import dk.sebsa.coal.graph.renderes.Render2D;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

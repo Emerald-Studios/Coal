@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL30;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Render2D {
+public class Core2D {
     // Constants
     private static final Color white = Color.white(); // Create once so theres no leak
     private static final Rect ZERO_RECT = new Rect();
@@ -64,6 +64,10 @@ public class Render2D {
 
     public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect, GLSLShaderProgram shader) {
         drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, shader);
+    }
+
+    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect) {
+        drawTextureWithTextCoords(tex, drawRect, new Rect(0,0,1,1), guiMesh, defaultShader);
     }
 
     public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect) {

@@ -16,7 +16,7 @@ import java.util.List;
 
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetLocation;
-import dk.sebsa.coal.graph.renderes.Render2D;
+import dk.sebsa.coal.graph.renderes.Core2D;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
@@ -98,9 +98,9 @@ public class FBO {
 
     public static void renderFBO(Application app, FBO fbo, Rect r) {
         if(fbo == null) return;
-        Render2D.prepare();
-        Render2D.drawTextureWithTextCoords(fbo.getTexture(), app.window.rect, r);
-        Render2D.unprepare();
+        Core2D.prepare();
+        Core2D.drawTextureWithTextCoords(fbo.getTexture(), app.window.rect, r);
+        Core2D.unprepare();
     }
 }
 

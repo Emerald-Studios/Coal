@@ -1,0 +1,82 @@
+package dk.sebsa.coal.ecs;
+
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class Entity {
+    @Getter
+    private List<Entity> children;
+    @Getter
+    private List<Component> components;
+    @Getter
+    private Entity parent;
+    public final Transform transform;
+    public static Entity master = new Entity(0);
+    @Getter
+    public String name = "New Entity";
+    @Getter
+    private final String id = UUID.randomUUID().toString();
+
+    private Entity(int i) { transform = null; }
+    public Entity() {
+        this.parent = master;
+        children = new ArrayList<>();
+        components = new ArrayList<>();
+        transform = new Transform(this);
+    }
+
+
+    public Entity(Entity parent) {
+        this.parent = parent;
+        children = new ArrayList<>();
+        components = new ArrayList<>();
+        transform = new Transform(this);
+    }
+
+    // Parent And Child Stuff
+    public void parent(Entity e) {
+        if(e == null) e = master;
+        if(parent != null) {
+            if(parent != e) parent.removeChild(this);
+            else return;
+        }
+        parent = e;
+        parent.children.add(this);
+        transform.recalculateLocalTransformation();
+    }
+
+    public void removeChild(Entity e) {
+        int i;
+        for(i = 0; i < children.size(); i++) {
+            if(children.get(i)==e) {
+                removeChild(i);
+                return;
+            }
+        }
+    }
+
+    public void removeChild(int v) {
+        if(v >= children.size()) return;
+
+        children.remove(v);
+    }
+    // Parent And Child Stuff
+
+    public String toString() {
+        if(name != "New Entity") return "Entity(" + name + ")";
+        else return "Entity(" + id + ")";
+    }
+
+    public void removeComponent(Component c) {
+        components.remove(c);
+    }
+
+    public Component addComponent(Component c) {
+        components.add(c);
+        c.init(this);
+        return c;
+    }
+}
