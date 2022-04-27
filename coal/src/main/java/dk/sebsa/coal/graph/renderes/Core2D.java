@@ -26,7 +26,7 @@ public class Core2D {
 
 
     public static void init(GLFWWindow w, GLSLShaderProgram s) {
-        log("Initializing Render2D");
+        log("Initializing Core2D");
         window = w;
         defaultShader = s;
 

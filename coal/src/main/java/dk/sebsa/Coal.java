@@ -127,16 +127,17 @@ public class Coal extends Logable {
 
         threadManager.init();
 
-        // Core2D init
-        GLSLShaderProgram shader2d;
-        try { shader2d = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/Coal2dDefault.glsl")).loadAsset(); }
-        catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
-        Core2D.init(application.window, shader2d);
-
         // Add init tasks
         log("Adding init tasks to multi threaded worker system");
         taskManager.doTask(new AssetManagerInitTask(application.window.getID(), application.window.getGlCapabilities()));
         taskManager.doTask(new LayerStackInitTask(application.stack));
+
+        // Core2D init
+        log("Render Screen...");
+        GLSLShaderProgram shader2d;
+        try { shader2d = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/Coal2dDefault.glsl")).loadAsset(); }
+        catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
+        Core2D.init(application.window, shader2d);
 
         // Render Init Screen, this is done once pr color buffer
         Core2D.prepare();
@@ -144,6 +145,7 @@ public class Coal extends Logable {
         glfwSwapBuffers(application.window.getID());
         InitScreenRenderer.render(application.window.rect);
         Core2D.unprepare();
+        log("Render Screen Done!");
 
         // Remove capabilities cause AssetManagerInit uses them
         GL.setCapabilities(null);

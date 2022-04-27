@@ -20,14 +20,14 @@ public class Entity {
     @Getter
     private final String id = UUID.randomUUID().toString();
 
-    private Entity(int i) { transform = null; }
+    private Entity(int i) { children = new ArrayList<>(); transform = new MasterEntityTransform(this); name = "COAL-INTERNAL-MASTER"; }
+
     public Entity() {
         this.parent = master;
         children = new ArrayList<>();
         components = new ArrayList<>();
         transform = new Transform(this);
     }
-
 
     public Entity(Entity parent) {
         this.parent = parent;
