@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class RenderPipeline {
     private final List<RenderStage> stages;
-    private boolean hasPrintedDebugMessageYet = false;
+    private boolean hasPrintedDebugMessageYet;
     public PolygonMode polygonMode = PolygonMode.Fill;
 
     private RenderPipeline(List<RenderStage> stages) {
@@ -44,7 +44,7 @@ public class RenderPipeline {
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
 
-                Coal.logger.error("Render stage: " + stage.getName() + ", failed to run. Error: " + e.getMessage() + "\nStacktrace: " + sw.toString(), getClass().getSimpleName());
+                Coal.logger.error("Render stage: " + stage.getName() + ", failed to run. Error: " + e.getMessage() + "\nStacktrace: " + sw, getClass().getSimpleName());
                 Coal.shutdownDueToError();
             }
         }

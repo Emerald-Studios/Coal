@@ -197,9 +197,7 @@ public class Coal extends Logable {
                 ThreadLogging.logAll(logger);
             }
 
-            // Late Updates
             application.window.update();
-            application.input.endFrame();
 
             // Render
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
@@ -207,6 +205,10 @@ public class Coal extends Logable {
             application.stack.render();                               // Render Layerstack UI
 
             glfwSwapBuffers(application.window.getID()); // swap the color buffers
+
+            // Late Updates
+            application.window.endFrame();
+            application.input.endFrame();
         }
     }
 }

@@ -45,9 +45,10 @@ public class Render2D {
         // Disable 3d
         glDisable(GL_DEPTH_TEST);
 
+        if(window.isDirty()) ortho = Matrix4x4f.ortho(0, window.getWidth(), window.getHeight(), 0, -1, 1);
+
         // Render preparation
         defaultShader.bind();
-        ortho = Matrix4x4f.ortho(0, window.getWidth(), window.getHeight(), 0, -1, 1);
         defaultShader.setUniform("projection", ortho);
         defaultShader.setUniformAlt("color", white);
         guiMesh.bind();

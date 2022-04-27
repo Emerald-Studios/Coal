@@ -32,6 +32,8 @@ public class GLFWWindow {
     private int width, height;
     private final boolean vsync = true;
     private boolean minimized = false;
+    @Getter
+    private boolean isDirty;
     private boolean isFullscreen, actuallyFullscreen = false;
     private final int[] posX = new int[1];
     private final int[] posY = new int[1];
@@ -45,6 +47,7 @@ public class GLFWWindow {
         this.clearColor = clearColor;
         this.width = width;
         this.height = height;
+        this.isDirty = true;
         rect.set(0,0,width,height);
     }
 
@@ -80,6 +83,7 @@ public class GLFWWindow {
         log("Setup resize callback");
         // Setup resize callback
         glfwSetFramebufferSizeCallback(id, (window, w, h) -> {
+            isDirty = true;
             if(!actuallyFullscreen) {
                 this.width = w;
                 this.height = h;
@@ -206,6 +210,7 @@ public class GLFWWindow {
 
         // Center the window
         assert vidmode != null;
+        isDirty = true;
         glfwSetWindowPos(
                 id,
                 (vidmode.width() - width) / 2,
@@ -225,5 +230,10 @@ public class GLFWWindow {
      */
     public boolean isMinimized() {
         return minimized;
+    }
+
+    public void endFrame() {
+        if(isDirty) log("Window was dirty");
+        isDirty = false;
     }
 }

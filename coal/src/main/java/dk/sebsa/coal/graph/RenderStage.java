@@ -29,7 +29,7 @@ public abstract class RenderStage {
     }
 
     protected FBO render(FBO prevFBO) {
-        if(!init) init();
+        if(!init || app.window.isDirty()) init();
         fbo.bindFrameBuffer();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
