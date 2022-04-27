@@ -1,6 +1,8 @@
 package dk.sebsa.coal.tasks;
 
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -34,7 +36,15 @@ public class TaskThread extends Thread {
 
             if(!active.get()) break;
             if(currentTask != null) {
-                currentTask.run();
+                try {
+                    currentTask.run();
+                } catch (Exception | Error e) {
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    e.printStackTrace(pw);
+                    log("Task Failed. xD" + sw);
+                }
+
                 taskManager.returnTask(currentTask);
                 currentTask = null;
                 threadManager.returnThread(this);
