@@ -51,9 +51,6 @@ public class RenderPipeline {
 
         // Render the FBO
         FBO.renderFBO(app, prevFBO, RenderStage.r);
-        Render2D.prepare();
-        Render2D.drawTextureWithTextCoords((Texture) AssetManager.getAsset("internal/textures/Chicken.png"), app.window.rect, new Rect(0,0,1,1));
-        Render2D.unprepare();
     }
 
     public static class RenderPipelineBuilder {
