@@ -13,17 +13,26 @@ public class Color {
     public float a;
     private static final FourKeyHashMap<Float, Float, Float, Float, Color> colorPool = new FourKeyHashMap<>();
 
+    private Color(float r, float g, float b) { this(r,g,b,1); }
     private Color(float r, float g, float b, float a) {
-        this.r = Mathf.clamp(r, 0, 1);
-        this.g = Mathf.clamp(g, 0, 1);
-        this.b = Mathf.clamp(b, 0, 1);
-        this.a = Mathf.clamp(a, 0, 1);
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
     }
 
-    private Color(float r, float g, float b) { this(r,g,b,1); }
-    public static Color color(float r, float g, float b, float a) { return colorPool.getPut(r, g, b, a, new Color(r, g, b, a)); }
+    // Pooling
     public static Color color(float r, float g, float b) { return color(r, g, b,1); }
+    public static Color color(float r, float g, float b, float a) {
+        r = Mathf.clamp(r, 0, 1);
+        g = Mathf.clamp(g, 0, 1);
+        b = Mathf.clamp(b, 0, 1);
+        a = Mathf.clamp(a, 0, 1);
+        return colorPool.getPut(a, r, g, b, new Color(r, g, b, a));
+    }
+    // Pooling
 
+    // Defaults
     public static Color black = color(0, 0, 0);
     public static Color white = color(1, 1, 1);
     public static Color red =  color(1, 0, 0);
@@ -39,13 +48,14 @@ public class Color {
     public static Color cyan =  color(0, 1, 1);
     public static Color magenta =  color(1, 0, 1);
     public static Color transparent =  color(0, 0, 0, 0);
+    // Defaults
 
     public String toString() {
         return "("+r+", "+g+", "+b+", "+a+")";
     }
 
     public boolean compare(Color c) {
-        return c.r == r && c.g == g && c.b == b && c.a == a;
+        return this == c; // Due to pooling this should work
     }
 
     public static float[] toFloatArray(Color c) {
@@ -57,14 +67,14 @@ public class Color {
     }
 
     public static Color fromFloatArray(float[] c) {
-        return new Color(c[0], c[1], c[2]);
+        return color(c[0], c[1], c[2]);
     }
 
     public static Color parseColor(String name) {
         if(name.startsWith("#")) {
             java.awt.Color c = java.awt.Color.decode(name);
 
-            return new Color(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+            return color(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
         }
 
         return switch (name) {
