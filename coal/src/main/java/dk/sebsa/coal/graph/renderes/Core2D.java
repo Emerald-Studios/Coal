@@ -39,6 +39,7 @@ public class Core2D {
             defaultShader.createUniform("color");
             defaultShader.createUniform("useColor");
         } catch (Exception e) { e.printStackTrace(); }
+        log("Core2D Done");
     }
 
     public static void prepare() {
