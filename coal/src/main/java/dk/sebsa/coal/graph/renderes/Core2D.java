@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Core2D {
     // Constants
-    private static final Color white = Color.white(); // Create once so theres no leak
+    private static final Color white = Color.white; // Create once so theres no leak
     private static final Rect ZERO_RECT = new Rect();
     private static GLFWWindow window;
     private static GLSLShaderProgram defaultShader;

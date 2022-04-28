@@ -1,5 +1,6 @@
 package dk.sebsa.coal.math;
 
+import dk.sebsa.coal.io.util.FourKeyHashMap;
 
 /**
  * @author Sebsa
@@ -10,36 +11,34 @@ public class Color {
     public float g;
     public float b;
     public float a;
+    private static final FourKeyHashMap<Float, Float, Float, Float, Color> colorPool = new FourKeyHashMap<>();
 
-    public Color(float r, float g, float b, float a) {
+    private Color(float r, float g, float b, float a) {
         this.r = Mathf.clamp(r, 0, 1);
         this.g = Mathf.clamp(g, 0, 1);
         this.b = Mathf.clamp(b, 0, 1);
         this.a = Mathf.clamp(a, 0, 1);
     }
 
-    public Color(float r, float g, float b) {
-        this.r = Mathf.clamp(r, 0, 1);
-        this.g = Mathf.clamp(g, 0, 1);
-        this.b = Mathf.clamp(b, 0, 1);
-        this.a = 1;
-    }
+    private Color(float r, float g, float b) { this(r,g,b,1); }
+    public static Color color(float r, float g, float b, float a) { return colorPool.getPut(r, g, b, a, new Color(r, g, b, a)); }
+    public static Color color(float r, float g, float b) { return color(r, g, b,1); }
 
-    public static Color black() { return new Color(0, 0, 0);}
-    public static Color white() { return new Color(1, 1, 1);}
-    public static Color red() { return new Color(1, 0, 0);}
-    public static Color green() { return new Color(0, 1, 0);}
-    public static Color blue() { return new Color(0, 0, 1);}
-    public static Color grey() { return new Color(0.5f, 0.5f, 0.5f);}
-    public static Color dimGrey() { return new Color(0.35f, 0.35f, 0.35f);}
-    public static Color darkGrey() { return new Color(0.3f, 0.3f, 0.3f);}
-    public static Color wine() { return new Color(0.5f, 0, 0);}
-    public static Color forest() { return new Color(0, 0.5f, 0);}
-    public static Color marine() { return new Color(0, 0, 0.5f);}
-    public static Color yellow() { return new Color(1, 1, 0);}
-    public static Color cyan() { return new Color(0, 1, 1);}
-    public static Color magenta() { return new Color(1, 0, 1);}
-    public static Color transparent() { return new Color(0, 0, 0, 0);}
+    public static Color black = color(0, 0, 0);
+    public static Color white = color(1, 1, 1);
+    public static Color red =  color(1, 0, 0);
+    public static Color green =  color(0, 1, 0);
+    public static Color blue =  color(0, 0, 1);
+    public static Color grey =  color(0.5f, 0.5f, 0.5f);
+    public static Color dimGrey =  color(0.35f, 0.35f, 0.35f);
+    public static Color darkGrey =  color(0.3f, 0.3f, 0.3f);
+    public static Color wine =  color(0.5f, 0, 0);
+    public static Color forest =  color(0, 0.5f, 0);
+    public static Color marine =  color(0, 0, 0.5f);
+    public static Color yellow =  color(1, 1, 0);
+    public static Color cyan =  color(0, 1, 1);
+    public static Color magenta =  color(1, 0, 1);
+    public static Color transparent =  color(0, 0, 0, 0);
 
     public String toString() {
         return "("+r+", "+g+", "+b+", "+a+")";
@@ -69,21 +68,21 @@ public class Color {
         }
 
         return switch (name) {
-            case "black" -> black();
-            case "red" -> red();
-            case "green" -> green();
-            case "blue" -> blue();
-            case "grey" -> grey();
-            case "dimGrey" -> dimGrey();
-            case "darkGrey" -> darkGrey();
-            case "wine" -> wine();
-            case "forest" -> forest();
-            case "marine" -> marine();
-            case "yellow" -> yellow();
-            case "cyan" -> cyan();
-            case "magenta" -> magenta();
-            case "transparent" -> transparent();
-            default -> white();
+            case "black" -> black;
+            case "red" -> red;
+            case "green" -> green;
+            case "blue" -> blue;
+            case "grey" -> grey;
+            case "dimGrey" -> dimGrey;
+            case "darkGrey" -> darkGrey;
+            case "wine" -> wine;
+            case "forest" -> forest;
+            case "marine" -> marine;
+            case "yellow" -> yellow;
+            case "cyan" -> cyan;
+            case "magenta" -> magenta;
+            case "transparent" -> transparent;
+            default -> white;
         };
     }
 }

@@ -32,6 +32,6 @@ public class Sandbox extends Application {
 
         renderPipeline = new RenderPipeline.RenderPipelineBuilder().appendStage(new TestStage(this)).build();
 
-        return new GLFWWindow("Sandbox", Color.cyan(), 800, 600);
+        return new GLFWWindow("Sandbox", Color.cyan, 800, 600);
     }
 }
