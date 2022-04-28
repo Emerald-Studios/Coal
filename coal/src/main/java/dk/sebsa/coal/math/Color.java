@@ -7,13 +7,12 @@ import dk.sebsa.coal.io.util.FourKeyHashMap;
  * @since 1.0.0-SNAPSHOT
  */
 public class Color {
-    public float r;
-    public float g;
-    public float b;
-    public float a;
+    public final float r;
+    public final float g;
+    public final float b;
+    public final float a;
     private static final FourKeyHashMap<Float, Float, Float, Float, Color> colorPool = new FourKeyHashMap<>();
 
-    private Color(float r, float g, float b) { this(r,g,b,1); }
     private Color(float r, float g, float b, float a) {
         this.r = r;
         this.g = g;
@@ -54,9 +53,9 @@ public class Color {
         return "("+r+", "+g+", "+b+", "+a+")";
     }
 
-    public boolean compare(Color c) {
+    /*public boolean compare(Color c) {
         return this == c; // Due to pooling this should work
-    }
+    }*/
 
     public static float[] toFloatArray(Color c) {
         float[] colors = new float[3];

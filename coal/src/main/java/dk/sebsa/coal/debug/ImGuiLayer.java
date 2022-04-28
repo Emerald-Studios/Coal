@@ -1,29 +1,25 @@
 package dk.sebsa.coal.debug;
 
 
-import java.text.DecimalFormat;
-
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
-import dk.sebsa.coal.io.ButtonPressedEvent;
-import dk.sebsa.coal.io.ButtonReleasedEvent;
-import dk.sebsa.coal.io.KeyPressedEvent;
-import dk.sebsa.coal.io.KeyReleasedEvent;
-import dk.sebsa.coal.io.MouseMoveEvent;
-import dk.sebsa.coal.io.MouseScrollEvent;
+import dk.sebsa.coal.io.*;
+import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Time;
 import imgui.ImGui;
 import imgui.ImGuiIO;
+
+import java.text.DecimalFormat;
 
 /**
  * @author Sebsa
  * @since 1.0.0-SNAPSHOT
  */
 public abstract class ImGuiLayer extends Layer {
-    private Application app;
+    private final Application app;
     private final boolean selfDestruct;
     protected abstract boolean disableDefaultWindows();
     protected abstract void draw();
@@ -110,7 +106,22 @@ public abstract class ImGuiLayer extends Layer {
         ImGui.text("GRPH: " + Coal.graphicsCard);
         ImGui.end();
 
+        // Console
+        ImGui.begin("Console");
 
+        ImGui.separator();
+
+        ImGui.beginChild("Log");
+
+        for(LogTracker.Log log : LogTracker.logs) {
+            Color textColor;
+            if(log.level() == 2) 		textColor = Color.red;
+            else if(log.level() == 1)   textColor = Color.yellow;
+            else                        textColor = Color.color(0.4078f, 1, 0.2f, 1);
+            ImGui.textColored(textColor.r, textColor.g, textColor.b, 1f, log.s());
+        }
+        ImGui.endChild();
+        ImGui.end();
     }
 
     @Override

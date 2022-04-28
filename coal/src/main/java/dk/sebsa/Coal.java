@@ -6,6 +6,7 @@ import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.AssetManagerInitTask;
 import dk.sebsa.coal.debug.CoalImGUI;
+import dk.sebsa.coal.debug.LogTracker;
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackInitTask;
@@ -13,11 +14,11 @@ import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.FBO;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.renderes.Core2D;
+import dk.sebsa.coal.io.util.InitScreenRenderer;
 import dk.sebsa.coal.math.Time;
 import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
 import dk.sebsa.coal.tasks.ThreadManager;
-import dk.sebsa.coal.io.util.InitScreenRenderer;
 import dk.sebsa.emerald.Logable;
 import dk.sebsa.emerald.Logger;
 import dk.sebsa.emerald.LoggerFactory;
@@ -68,7 +69,7 @@ public class Coal extends Logable {
             LoggerFactory loggerFactory = new LoggerFactory();
             logger = loggerFactory.buildFromFile("/loggers/CoalEngineLogger.xml");
             Emerald.logSystemInfo(logger);
-
+            if(DEBUG) logger.addOutput(new LogTracker());
             new Coal(app);
         }
     }
