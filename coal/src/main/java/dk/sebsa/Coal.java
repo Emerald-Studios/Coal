@@ -44,7 +44,7 @@ public class Coal extends Logable {
     public static boolean TRACE = true;
 
     // Sys Info
-    public static String graphicsCard = "Potato";
+    public static String graphicsCard = "Toaster";
 
     // Runtime stuff
     public static Logger logger;
