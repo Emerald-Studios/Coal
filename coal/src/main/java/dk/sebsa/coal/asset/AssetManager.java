@@ -2,6 +2,7 @@ package dk.sebsa.coal.asset;
 
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.graph.*;
+import dk.sebsa.coal.graph.text.Font;
 import dk.sebsa.coal.util.ConfigAsset;
 import lombok.Getter;
 
@@ -112,6 +113,8 @@ public class AssetManager {
                 else if(location.location().endsWith(".mat")) newAssets.add(new Material(location).name());
                 else if(location.location().endsWith(".spr")) newAssets.add(new Sprite(location).name());
                 else if(location.location().endsWith(".sht")) newAssets.add(new SpriteSheet(location).name());
+
+                else if(location.location().endsWith(".fnt")) newAssets.add(new Font(location).name());
 
                 else errorLog.accept("Unknown asset type, " + location);
             } catch (AssetExitsException e) { warnLog.accept("Asset " + l + ", already exists"); }

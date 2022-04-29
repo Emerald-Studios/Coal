@@ -20,7 +20,7 @@ public class Core2D {
     private static final Color white = Color.white;
     private static final Rect ZERO_RECT = new Rect();
     private static GLFWWindow window;
-    private static GLSLShaderProgram defaultShader;
+    public static GLSLShaderProgram defaultShader;
     private static Mesh2D guiMesh;
     private static Matrix4x4f ortho;
     private static Color currentColor;

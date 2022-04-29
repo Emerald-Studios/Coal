@@ -106,7 +106,7 @@ public class Texture extends Asset {
 
     public void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 
-    protected static class TextureInfo {
+    public static class TextureInfo {
         public int width;
         public int height;
         public int id;
