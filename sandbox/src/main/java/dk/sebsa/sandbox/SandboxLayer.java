@@ -2,7 +2,6 @@ package dk.sebsa.sandbox;
 
 
 import dk.sebsa.coal.Application;
-import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.enums.PolygonMode;
 import dk.sebsa.coal.events.Event;

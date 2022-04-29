@@ -30,7 +30,9 @@ public class Sandbox extends Application {
 
         debugLayer.enabled = false;
 
-        renderPipeline = new RenderPipeline.RenderPipelineBuilder().appendStage(new TestStage(this)).build();
+        renderPipeline = new RenderPipeline.RenderPipelineBuilder()
+                .appendStage(new TestStage(this))
+                .appendStage(new CustomRenderStage(this)).build();
 
         return new GLFWWindow("Sandbox", Color.cyan, 800, 600);
     }

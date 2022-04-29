@@ -1,6 +1,6 @@
 package dk.sebsa.coal.math;
 
-import dk.sebsa.coal.io.util.FourKeyHashMap;
+import dk.sebsa.coal.util.FourKeyHashMap;
 
 /**
  * @author Sebsa

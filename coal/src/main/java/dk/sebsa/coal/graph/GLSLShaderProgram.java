@@ -4,7 +4,7 @@ import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Matrix4x4f;
-import dk.sebsa.coal.io.util.FileUtils;
+import dk.sebsa.coal.util.FileUtils;
 import lombok.SneakyThrows;
 import org.lwjgl.BufferUtils;
 

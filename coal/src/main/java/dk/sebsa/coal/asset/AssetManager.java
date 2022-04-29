@@ -3,10 +3,13 @@ package dk.sebsa.coal.asset;
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.Texture;
-import dk.sebsa.coal.io.util.ConfigAsset;
+import dk.sebsa.coal.util.ConfigAsset;
 import lombok.Getter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;

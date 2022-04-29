@@ -1,10 +1,9 @@
-package dk.sebsa.coal.io.util;
+package dk.sebsa.coal.util;
 
 import dk.sebsa.coal.asset.AssetExitsException;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.enums.AssetLocationType;
-import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.Texture;
 import dk.sebsa.coal.graph.renderes.Core2D;

@@ -1,4 +1,4 @@
-package dk.sebsa.coal.io.util;
+package dk.sebsa.coal.util;
 
 import java.util.HashMap;
 import java.util.Map;
