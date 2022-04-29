@@ -2,7 +2,6 @@ package dk.sebsa.coal.graph;
 
 import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
-
 import lombok.Getter;
 import org.lwjgl.BufferUtils;
 
@@ -14,8 +13,13 @@ import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
-import static org.lwjgl.stb.STBImage.*;
+import static org.lwjgl.stb.STBImage.stbi_image_free;
+import static org.lwjgl.stb.STBImage.stbi_load_from_memory;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Texture extends Asset {
     private int id;
     @Getter

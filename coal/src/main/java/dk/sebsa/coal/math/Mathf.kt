@@ -1,8 +1,8 @@
 package dk.sebsa.coal.math
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 object Mathf {
     @JvmStatic

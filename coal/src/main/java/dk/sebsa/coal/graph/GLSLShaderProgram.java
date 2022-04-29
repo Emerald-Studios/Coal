@@ -15,6 +15,10 @@ import java.util.Map;
 import static org.lwjgl.opengl.GL11.glGetError;
 import static org.lwjgl.opengl.GL20.*;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class GLSLShaderProgram extends Asset {
     private int programId;
     private int vertexShaderId, fragmentShaderId;

@@ -8,6 +8,10 @@ import dk.sebsa.coal.graph.RenderStage;
 import dk.sebsa.coal.graph.Texture;
 import dk.sebsa.coal.graph.renderes.Core2D;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class TestStage extends RenderStage {
     public String getName() { return getClass().getSimpleName(); }
 

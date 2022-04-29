@@ -2,6 +2,10 @@ package dk.sebsa.coal.ecs;
 
 import dk.sebsa.coal.math.Vector3f;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class MasterEntityTransform extends Transform {
     protected MasterEntityTransform(Entity entity) {
         super(entity);

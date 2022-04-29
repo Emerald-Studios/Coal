@@ -12,6 +12,10 @@ import org.lwjgl.opengl.GL30;
 
 import java.nio.FloatBuffer;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Mesh2D extends Asset {
     private int v_id;
     private int u_id;

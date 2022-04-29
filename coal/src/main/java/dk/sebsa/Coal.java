@@ -30,10 +30,10 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * The mother of all Coal programs.
+ * The mother of all Coal programs
  *
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class Coal extends Logable {
     public static Coal instance;

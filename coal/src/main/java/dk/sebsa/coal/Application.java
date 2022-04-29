@@ -6,11 +6,11 @@ import dk.sebsa.coal.graph.RenderPipeline;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.io.GLFWWindow;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public abstract class Application {
     public abstract String getName();

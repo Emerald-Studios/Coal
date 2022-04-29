@@ -8,6 +8,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class FolderAssetProvider extends AssetProvider {
     private final File folder;
 

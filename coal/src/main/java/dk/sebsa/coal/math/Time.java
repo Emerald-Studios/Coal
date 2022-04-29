@@ -1,12 +1,12 @@
 package dk.sebsa.coal.math;
 
-import java.util.concurrent.TimeUnit;
-
 import dk.sebsa.Coal;
 
+import java.util.concurrent.TimeUnit;
+
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class Time {
     // Constants

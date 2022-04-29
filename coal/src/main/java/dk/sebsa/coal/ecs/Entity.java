@@ -4,11 +4,16 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Entity {
     @Getter
-    private List<Entity> children;
+    private final List<Entity> children;
     @Getter
     private List<Component> components;
     @Getter
@@ -66,7 +71,7 @@ public class Entity {
     // Parent And Child Stuff
 
     public String toString() {
-        if(name != "New Entity") return "Entity(" + name + ")";
+        if(!Objects.equals(name, "New Entity")) return "Entity(" + name + ")";
         else return "Entity(" + id + ")";
     }
 

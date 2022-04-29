@@ -6,6 +6,10 @@ import dk.sebsa.coal.util.FileUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public record AssetLocation(AssetLocationType locationType, String location) {
     public static AssetLocation none = new AssetLocation(AssetLocationType.Code, "");
 

@@ -1,21 +1,21 @@
 package dk.sebsa.coal.tasks;
 
 
+import dk.sebsa.Coal;
+import dk.sebsa.coal.math.Time;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import dk.sebsa.Coal;
-import dk.sebsa.coal.math.Time;
-
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class TaskManager {
-    private List<Task> toDo = new ArrayList<>();
-    private List<Task> doing = Collections.synchronizedList(new ArrayList<Task>());
+    private final List<Task> toDo = new ArrayList<>();
+    private final List<Task> doing = Collections.synchronizedList(new ArrayList<Task>());
 
     public void doTask(Task t) {
         toDo.add(t);

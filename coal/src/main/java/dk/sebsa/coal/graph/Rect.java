@@ -2,6 +2,10 @@ package dk.sebsa.coal.graph;
 
 import dk.sebsa.coal.math.Vector2f;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Rect {
     public float x;
     public float y;

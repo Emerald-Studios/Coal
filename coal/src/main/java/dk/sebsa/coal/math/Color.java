@@ -3,8 +3,8 @@ package dk.sebsa.coal.math;
 import dk.sebsa.coal.util.FourKeyHashMap;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class Color {
     public final float r;

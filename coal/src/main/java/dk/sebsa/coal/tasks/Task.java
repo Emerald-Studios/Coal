@@ -1,10 +1,8 @@
 package dk.sebsa.coal.tasks;
 
-import java.util.function.Consumer;
-
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public abstract class Task {
     protected abstract String name();

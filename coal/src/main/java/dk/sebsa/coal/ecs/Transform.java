@@ -3,6 +3,10 @@ package dk.sebsa.coal.ecs;
 import dk.sebsa.coal.math.Vector3f;
 import lombok.Getter;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Transform {
     @Getter
     private boolean isDirty = true;

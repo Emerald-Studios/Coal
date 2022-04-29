@@ -2,6 +2,10 @@ package dk.sebsa.coal.math;
 
 import java.nio.FloatBuffer;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Matrix4x4f {
 	private final float[][] m = new float[4][4];
 	

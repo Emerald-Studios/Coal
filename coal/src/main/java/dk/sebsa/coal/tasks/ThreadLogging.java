@@ -1,16 +1,15 @@
 package dk.sebsa.coal.tasks;
 
+import dk.sebsa.Coal;
+import dk.sebsa.emerald.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import dk.sebsa.Coal;
-import dk.sebsa.emerald.Logger;
-import dk.sebsa.emerald.LogLevel;
-
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class ThreadLogging {
     public static  List<String> toBeLogged = Collections.synchronizedList(new ArrayList<>());

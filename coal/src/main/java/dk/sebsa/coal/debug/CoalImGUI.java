@@ -7,8 +7,8 @@ import imgui.ImGui;
 import imgui.gl3.ImGuiImplGl3;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class CoalImGUI {
     private static ImGuiImplGl3 implGl3;

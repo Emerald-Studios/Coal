@@ -1,20 +1,15 @@
 package dk.sebsa.coal.io;
 
 
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.glfw.GLFWScrollCallback;
-
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.emerald.Logable;
 import dk.sebsa.emerald.Logger;
+import org.lwjgl.glfw.*;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class GLFWInput extends Logable {
     // Input Data

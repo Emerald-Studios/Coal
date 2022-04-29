@@ -3,6 +3,10 @@ package dk.sebsa.coal.util;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class FourKeyHashMap<K1, K2, K3, K4, V> {
     private final Map<K1, Map<K2, Map<K3, Map<K4, V>>>> theBigMotherFuckerMap;
 

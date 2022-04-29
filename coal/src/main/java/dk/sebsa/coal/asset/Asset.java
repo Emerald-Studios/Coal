@@ -2,6 +2,10 @@ package dk.sebsa.coal.asset;
 
 import dk.sebsa.Coal;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public abstract class Asset {
     public final AssetLocation location;
     public String name = "Unnamed";

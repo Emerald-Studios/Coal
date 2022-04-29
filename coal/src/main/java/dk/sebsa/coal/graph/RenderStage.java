@@ -4,6 +4,10 @@ import dk.sebsa.coal.Application;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public abstract class RenderStage {
     public abstract String getName();
     private boolean init = false; // Init is done later, so it has opengl context

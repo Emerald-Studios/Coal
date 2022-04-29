@@ -6,6 +6,10 @@ import lombok.Getter;
 
 import java.io.IOException;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class ConfigAsset extends Asset {
     @Getter
     private String rawConfig;

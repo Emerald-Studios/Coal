@@ -1,14 +1,14 @@
 package dk.sebsa.coal.events;
 
 
+import dk.sebsa.Coal;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.sebsa.Coal;
-
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class LayerStack {
     public final List<Layer> stack = new ArrayList<>();

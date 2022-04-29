@@ -1,23 +1,23 @@
 package dk.sebsa.coal.tasks;
 
 
+import dk.sebsa.emerald.Logable;
+import dk.sebsa.emerald.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import dk.sebsa.emerald.Logable;
-import dk.sebsa.emerald.Logger;
-
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class ThreadManager extends Logable {
     private static ThreadManager instance;
-    private TaskManager taskManager;
+    private final TaskManager taskManager;
 
-    private List<TaskThread> threads = new ArrayList<>();
-    private List<TaskThread> avaibleThreads = Collections.synchronizedList(new ArrayList<>());
+    private final List<TaskThread> threads = new ArrayList<>();
+    private final List<TaskThread> avaibleThreads = Collections.synchronizedList(new ArrayList<>());
 
     public ThreadManager(TaskManager tkm, Logger l) {
         super(l);

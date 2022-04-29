@@ -14,14 +14,15 @@ import imgui.flag.ImGuiNavInput;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFWNativeWin32;
 import org.lwjgl.glfw.GLFWVidMode;
+
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class CoalImGUIGlfwImpl {
     private static final String OS = System.getProperty("os.name", "generic").toLowerCase();

@@ -13,6 +13,10 @@ import org.lwjgl.opengl.GL30;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Core2D {
     // Constants
     private static final Color white = Color.white;
@@ -23,7 +27,6 @@ public class Core2D {
     private static Matrix4x4f ortho;
 
     private static void log(Object o) { Coal.logger.log(o); }
-
 
     public static void init(GLFWWindow w, GLSLShaderProgram s) {
         log("Initializing Core2D");

@@ -15,8 +15,8 @@ import imgui.ImGuiIO;
 import java.text.DecimalFormat;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public abstract class ImGuiLayer extends Layer {
     private final Application app;

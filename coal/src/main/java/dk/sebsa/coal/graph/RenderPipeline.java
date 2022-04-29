@@ -11,6 +11,10 @@ import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class RenderPipeline {
     private final List<RenderStage> stages;
     private boolean hasPrintedDebugMessageYet;

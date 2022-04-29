@@ -1,4 +1,7 @@
 package dk.sebsa.coal.asset;
 
-public class AssetExitsException extends Exception {
-}
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
+public class AssetExitsException extends Exception { }

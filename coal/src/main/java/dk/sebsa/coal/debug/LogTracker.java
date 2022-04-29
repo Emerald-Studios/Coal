@@ -5,6 +5,10 @@ import dk.sebsa.emerald.LogOutput;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class LogTracker extends LogOutput {
     public record Log(String s, int level) { }
     public static List<Log> logs = new ArrayList<>();

@@ -6,8 +6,8 @@ import java.io.StringWriter;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class TaskThread extends Thread {
     public AtomicBoolean active = new AtomicBoolean(false);

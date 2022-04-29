@@ -18,6 +18,10 @@ import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class AssetManager {
     public static List<Asset> loadedAssets = new ArrayList<>();
     public static List<Asset> newAssets = new ArrayList<>();

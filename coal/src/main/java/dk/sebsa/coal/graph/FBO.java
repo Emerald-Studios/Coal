@@ -1,19 +1,6 @@
 package dk.sebsa.coal.graph;
 
 
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameterf;
-
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.graph.renderes.Core2D;
@@ -21,6 +8,16 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.lwjgl.opengl.GL11.*;
+
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class FBO {
     private final int frameBufferID;
     private final int depthBufferID;

@@ -10,6 +10,10 @@ import dk.sebsa.coal.graph.renderes.Core2D;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class InitScreenRenderer {
     private static boolean init = false;
     private static Texture texture;

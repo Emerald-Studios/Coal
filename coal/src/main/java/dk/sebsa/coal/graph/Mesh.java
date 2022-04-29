@@ -11,6 +11,10 @@ import java.nio.IntBuffer;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class Mesh extends Asset {
     private final int posVboId;
     private final int idxVboId;

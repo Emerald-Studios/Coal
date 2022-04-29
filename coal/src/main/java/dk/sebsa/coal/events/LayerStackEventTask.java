@@ -3,11 +3,11 @@ package dk.sebsa.coal.events;
 import dk.sebsa.coal.tasks.Task;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class LayerStackEventTask extends Task {
-    private LayerStack stack;
+    private final LayerStack stack;
 
     public LayerStackEventTask(LayerStack  stack) {
         this.stack = stack;

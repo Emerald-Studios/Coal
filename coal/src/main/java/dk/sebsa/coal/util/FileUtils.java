@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sebs
+ * @since 1.0.0
+ */
 public class FileUtils {
     public static InputStream loadFile(String location) throws IOException {
         try {

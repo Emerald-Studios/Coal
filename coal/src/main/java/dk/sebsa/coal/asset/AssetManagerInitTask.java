@@ -6,11 +6,9 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.lwjgl.opengl.GL11.glGetError;
-
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class AssetManagerInitTask extends Task {
     private final GLCapabilities glCapabilities;

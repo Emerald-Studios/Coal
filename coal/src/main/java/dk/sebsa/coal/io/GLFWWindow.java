@@ -1,7 +1,9 @@
 package dk.sebsa.coal.io;
 
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.graph.Rect;
+import dk.sebsa.coal.math.Color;
 import lombok.Getter;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -9,19 +11,16 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
 
-import dk.sebsa.Coal;
-import dk.sebsa.coal.math.Color;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
-import static org.lwjgl.system.MemoryStack.*;
-
-import java.nio.IntBuffer;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 /**
- * @author Sebsa
- * @since 1.0.0-SNAPSHOT
+ * @author sebs
+ * @since 1.0.0
  */
 public class GLFWWindow {
     private long id;
