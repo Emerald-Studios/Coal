@@ -1,9 +1,7 @@
 package dk.sebsa.coal.asset;
 
 import dk.sebsa.coal.enums.AssetLocationType;
-import dk.sebsa.coal.graph.GLSLShaderProgram;
-import dk.sebsa.coal.graph.Material;
-import dk.sebsa.coal.graph.Texture;
+import dk.sebsa.coal.graph.*;
 import dk.sebsa.coal.util.ConfigAsset;
 import lombok.Getter;
 
@@ -110,7 +108,10 @@ public class AssetManager {
                 if(location.location().endsWith(".coal")) newAssets.add(new ConfigAsset(location).name());
                 else if(location.location().endsWith(".png")) newAssets.add(new Texture(location).name());
                 else if(location.location().endsWith(".glsl")) newAssets.add(new GLSLShaderProgram(location).name());
+
                 else if(location.location().endsWith(".mat")) newAssets.add(new Material(location).name());
+                else if(location.location().endsWith(".spr")) newAssets.add(new Sprite(location).name());
+                else if(location.location().endsWith(".sht")) newAssets.add(new SpriteSheet(location).name());
 
                 else errorLog.accept("Unknown asset type, " + location);
             } catch (AssetExitsException e) { warnLog.accept("Asset " + l + ", already exists"); }

@@ -5,4 +5,5 @@ package dk.sebsa.coal.graph.renderes;
  * @since 1.0.0
  */
 public class SpriteRenderer {
+
 }

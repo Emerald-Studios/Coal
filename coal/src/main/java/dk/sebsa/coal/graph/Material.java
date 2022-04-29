@@ -1,7 +1,6 @@
 package dk.sebsa.coal.graph;
 
 import dk.sebsa.coal.asset.Asset;
-import dk.sebsa.coal.asset.AssetExitsException;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.math.Color;
@@ -19,7 +18,7 @@ public class Material extends Asset {
     @Getter private Texture texture;
     @Getter private Color color;
 
-    public Material(AssetLocation location) throws AssetExitsException {
+    public Material(AssetLocation location) {
         super(location);
     }
 
