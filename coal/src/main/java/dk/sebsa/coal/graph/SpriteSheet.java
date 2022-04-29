@@ -8,13 +8,16 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author sebs
  */
 public class SpriteSheet extends Asset {
     @Getter private final List<Sprite> sprites = new ArrayList<>();
+    private final Map<String, Sprite> spriteMap = new HashMap<>();
     @Getter private Material material;
 
     private Rect offset, padding;
@@ -47,10 +50,14 @@ public class SpriteSheet extends Asset {
 
     private void create() {
         if(offset != null && padding != null && s != null) {
-            sprites.add(new Sprite(name+"/"+s, offset, padding, material));
+            sprites.add(0, new Sprite(name+"/"+s, offset, padding, material));
+            spriteMap.put(s, sprites.get(0));
+
             offset = null;
             s = null;
             padding = null;
         }
     }
+
+    public Sprite getSprite(String s) { return spriteMap.get(s); }
 }

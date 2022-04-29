@@ -4,6 +4,7 @@ import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.graph.*;
 import dk.sebsa.coal.graph.renderes.Core2D;
+import dk.sebsa.coal.graph.renderes.GUI;
 
 public class CustomRenderStage extends RenderStage {
     public String getName() { return getClass().getSimpleName(); }
@@ -23,12 +24,15 @@ public class CustomRenderStage extends RenderStage {
         Material m = (Material) AssetManager.getAsset("sandboxassets/Asuna.mat");
         Sprite s = (Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega");
         Sprite s2 = (Sprite) AssetManager.getAsset("sandboxassets/True.sht/Nintendo");
-
+        SpriteSheet sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
         renderPrevFBO(prevFBO);
         Core2D.prepare();
         Core2D.drawTextureWithTextCoords(m, r, r2);
         Core2D.drawSprite(r3, s);
         Core2D.drawSprite(r4, s2);
-        Core2D.unprepare();
+
+        GUI.prepare(sheet);
+        GUI.box(new Rect(0,200,200,200));
+        GUI.unprepare(); // Will unprepare Core2D
     }
 }

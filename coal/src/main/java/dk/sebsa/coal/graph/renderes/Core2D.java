@@ -5,6 +5,7 @@ import dk.sebsa.coal.graph.*;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Matrix4x4f;
+import lombok.Getter;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
@@ -23,6 +24,7 @@ public class Core2D {
     private static Mesh2D guiMesh;
     private static Matrix4x4f ortho;
     private static Color currentColor;
+    @Getter private static boolean prepared = false;
 
     private static void log(Object o) { Coal.logger.log(o); }
 
@@ -60,6 +62,7 @@ public class Core2D {
         defaultShader.setUniform("projection", ortho);
         changeColor(Color.white);
         guiMesh.bind();
+        prepared = true;
     }
 
     public static void unprepare() {
@@ -68,6 +71,7 @@ public class Core2D {
 
         defaultShader.unbind();
         guiMesh.unbind();
+        prepared = false;
     }
 
     public static void drawTextureWithTextCoords(Texture tex, Rect drawRect) { drawTextureWithTextCoords(tex, drawRect, new Rect(0,0,1,1), guiMesh, defaultShader); }
