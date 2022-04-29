@@ -15,14 +15,15 @@ public class CustomRenderStage extends RenderStage {
         super(app);
     }
 
-    private static final Rect r = new Rect(0,0,600,600);
+    private static Rect r = new Rect(0,0,600,600);
     private static final Rect r2 = new Rect(0,0,1,1);
 
     @Override
     protected void draw(FBO prevFBO) {
+        if(app.window.isDirty()) r.set(0,0,app.window.getWidth(), app.window.getHeight());
         renderPrevFBO(prevFBO);
         Core2D.prepare();
-        Core2D.drawTextureWithTextCoords((Texture) AssetManager.getAsset("internal/textures/Chicken.png"), r, r2);
+        Core2D.drawTextureWithTextCoords((Texture) AssetManager.getAsset("sandboxassets/Creeppe.png"), r, r2);
         Core2D.unprepare();
     }
 }

@@ -17,6 +17,20 @@ public class FileUtils {
             throw new IOException("FileUtils, can't load file: " + location);
         }
     }
+
+    public static List<File> listFilesInFolder(final File folder) {
+        List<File> files = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                files.addAll(listFilesInFolder(fileEntry));
+            } else {
+                files.add(fileEntry);
+            }
+        }
+
+        return files;
+    }
+
     public static List<String> readAllLinesList(InputStream is) throws IOException {
         List<String> list = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));

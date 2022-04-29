@@ -19,6 +19,7 @@ public abstract class Asset {
         // Name Generation
         name = location.location();
         if(name.startsWith("/coal")) name = name.replaceFirst("/coal/", "");
+        name = name.replaceAll("\\\\", "/");
 
         if(Coal.TRACE) log("Creating Asset! " + location + ", Name: " + name);
 

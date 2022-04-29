@@ -80,6 +80,7 @@ public class AssetManager {
             InputStream in = cl.getResourceAsStream(streams.get(0));
             if(in == null) errorLog.accept("When importing assets from jar folder was not found: coal");
 
+            assert in != null;
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String line;
 
@@ -126,5 +127,13 @@ public class AssetManager {
         }
 
         loadedAssets = new ArrayList<>();
+    }
+
+    public static void addAssetProvider(AssetProvider provider) {
+        assetProviders.add(provider);
+    }
+
+    public static void removeAssetProvider(AssetProvider provider) {
+        assetProviders.remove(provider);
     }
 }

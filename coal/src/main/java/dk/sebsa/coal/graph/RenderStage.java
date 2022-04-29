@@ -38,7 +38,7 @@ public abstract class RenderStage {
         return fbo;
     }
 
-    public static final Rect r = new Rect(0, 1, 1, -1);
+    public static final Rect r = new Rect(0, 0, 1, -1);
     protected void renderPrevFBO(FBO prevFBO) {
         FBO.renderFBO(app, prevFBO, r);
         fbo.bindFrameBuffer();
