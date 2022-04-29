@@ -29,6 +29,11 @@ public class Texture extends Asset {
         super(location);
     }
 
+    public Texture(TextureInfo ti) {
+        super(AssetLocation.none);
+        load(ti);
+    }
+
     @Override
     public void load() {
         load(loadTexture());

@@ -2,7 +2,6 @@ package dk.sebsa.coal.graph;
 
 
 import dk.sebsa.coal.Application;
-import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.graph.renderes.Core2D;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -34,7 +33,7 @@ public class FBO {
         depthBufferID = createDepthBufferAttachment();
 
         int textureID = createTextureAttachment();
-        texture = new Texture(AssetLocation.none).load(new Texture.TextureInfo(width, height, textureID));
+        texture = new Texture(new Texture.TextureInfo(width, height, textureID));
         unBind();
 
         fbos.add(this);

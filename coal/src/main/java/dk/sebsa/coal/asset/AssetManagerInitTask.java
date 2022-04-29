@@ -28,8 +28,8 @@ public class AssetManagerInitTask extends Task {
         GL.setCapabilities(glCapabilities);
 
         AssetManager.initGetAllAssets(this::log, this::error);
-        AssetManager.initCreateAllAssets(this::log, this::error);
-        AssetManager.initLoadAllAssets(this::log, this::warn);
+        AssetManager.initCreateAllAssets(this::log, this::warn, this::error);
+        AssetManager.initLoadAllAssets(this::log);
 
         GL.setCapabilities(null);
         GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);

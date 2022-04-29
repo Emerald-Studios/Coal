@@ -2,6 +2,8 @@ package dk.sebsa.coal.asset;
 
 import dk.sebsa.Coal;
 
+import java.util.Objects;
+
 /**
  * @author sebs
  * @since 1.0.0
@@ -17,18 +19,23 @@ public abstract class Asset {
         AssetManager.loadedAssets.add(this);
     }
 
-    public abstract void destroy();
-
-    public Asset loadAsset() throws AssetExitsException {
+    public Asset name() throws AssetExitsException {
         // Name Generation
         name = location.location();
         if(name.startsWith("/coal")) name = name.replaceFirst("/coal/", "");
         name = name.replaceAll("\\\\", "/");
 
-        if(Coal.TRACE) log("Creating Asset! " + location + ", Name: " + name);
-
         if(AssetManager.getAssetNameMap().containsKey(name)) throw new AssetExitsException();
         else AssetManager.getAssetNameMap().put(name, this);
+
+        return this;
+    }
+
+    public abstract void destroy();
+
+    public Asset loadAsset() throws AssetExitsException {
+        if(Coal.TRACE) log("Creating Asset! " + location + ", Name: " + name);
+        if(Objects.equals(name, "Unnamed")) name();
 
         load();
         return this;

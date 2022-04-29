@@ -3,9 +3,9 @@ package dk.sebsa.sandbox;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.graph.FBO;
+import dk.sebsa.coal.graph.Material;
 import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.RenderStage;
-import dk.sebsa.coal.graph.Texture;
 import dk.sebsa.coal.graph.renderes.Core2D;
 
 public class CustomRenderStage extends RenderStage {
@@ -21,9 +21,11 @@ public class CustomRenderStage extends RenderStage {
     @Override
     protected void draw(FBO prevFBO) {
         if(app.window.isDirty()) r.set(0,0,app.window.getWidth(), app.window.getHeight());
+        Material m = (Material) AssetManager.getAsset("sandboxassets/Asuna.mat");
+
         renderPrevFBO(prevFBO);
         Core2D.prepare();
-        Core2D.drawTextureWithTextCoords((Texture) AssetManager.getAsset("sandboxassets/Creeppe.png"), r, r2);
+        Core2D.drawTextureWithTextCoords(m, r, r2);
         Core2D.unprepare();
     }
 }

@@ -1,10 +1,7 @@
 package dk.sebsa.coal.graph.renderes;
 
 import dk.sebsa.Coal;
-import dk.sebsa.coal.graph.GLSLShaderProgram;
-import dk.sebsa.coal.graph.Mesh2D;
-import dk.sebsa.coal.graph.Rect;
-import dk.sebsa.coal.graph.Texture;
+import dk.sebsa.coal.graph.*;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Matrix4x4f;
@@ -25,6 +22,7 @@ public class Core2D {
     private static GLSLShaderProgram defaultShader;
     private static Mesh2D guiMesh;
     private static Matrix4x4f ortho;
+    private static Color currentColor;
 
     private static void log(Object o) { Coal.logger.log(o); }
 
@@ -45,6 +43,12 @@ public class Core2D {
         log("Core2D Done");
     }
 
+    private static void changeColor(Color c) {
+        if(c==currentColor) return;
+        defaultShader.setUniformAlt("color", c);
+        currentColor = c;
+    }
+
     public static void prepare() {
         // Disable 3d
         glDisable(GL_DEPTH_TEST);
@@ -54,7 +58,7 @@ public class Core2D {
         // Render preparation
         defaultShader.bind();
         defaultShader.setUniform("projection", ortho);
-        defaultShader.setUniformAlt("color", white);
+        changeColor(Color.white);
         guiMesh.bind();
     }
 
@@ -66,17 +70,10 @@ public class Core2D {
         guiMesh.unbind();
     }
 
-    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect, GLSLShaderProgram shader) {
-        drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, shader);
-    }
-
-    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect) {
-        drawTextureWithTextCoords(tex, drawRect, new Rect(0,0,1,1), guiMesh, defaultShader);
-    }
-
-    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect) {
-        drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, defaultShader);
-    }
+    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect) { drawTextureWithTextCoords(tex, drawRect, new Rect(0,0,1,1), guiMesh, defaultShader); }
+    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect) { drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, defaultShader); }
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect) { changeColor(mat.getColor()); drawTextureWithTextCoords(mat.getTexture(), drawRect, new Rect(0,0,1,1), guiMesh, defaultShader); }
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect) { changeColor(mat.getColor()); drawTextureWithTextCoords(mat.getTexture(), drawRect, uvRect, guiMesh, defaultShader); }
 
     private static final Rect u = new Rect(0,0,0,0);
     private static final Rect r = new Rect(0,0,0,0);
