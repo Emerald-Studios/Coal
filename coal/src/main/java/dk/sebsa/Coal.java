@@ -207,7 +207,7 @@ public class Coal extends Logable {
             // Render
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             if(application.renderPipeline != null) application.renderPipeline.renderStageAll(application);
-            application.stack.render();                               // Render Layerstack UI
+            application.stack.render();                               // Render LayerStack UI
 
             glfwSwapBuffers(application.window.getID()); // swap the color buffers
 

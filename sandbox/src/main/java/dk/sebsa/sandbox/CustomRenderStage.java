@@ -19,15 +19,34 @@ public class CustomRenderStage extends RenderStage {
     private static final Rect r2 = new Rect(0,0,1,1);
     private static final Rect r3 = new Rect(0,0,200,200);
     private static final Rect r4 = new Rect(200,0,200,200);
+    private static final Rect r5 = new Rect(0,200,200,200);
+    private static final Rect r6 = new Rect(0,400,400,42);
+    private static final Rect r7 = new Rect(0,442,50,42);
+    private boolean init = false;
+
+    private Material m;
+    private Sprite s, s2;
+    private SpriteSheet sheet;
+    private Font font;
+    private Label label;
+
+    private void assets() {
+        if(init) return;
+        init = true;
+
+        m = (Material) AssetManager.getAsset("sandboxassets/Asuna.mat");
+        s = (Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega");
+        s2 = (Sprite) AssetManager.getAsset("sandboxassets/True.sht/Nintendo");
+        sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
+        font = (Font) AssetManager.getAsset("internal/Test.fnt");
+        label = new Label("U wanna...", font);
+
+    }
 
     @Override
     protected void draw(FBO prevFBO) {
         if(app.window.isDirty()) r.set(0,0,app.window.getWidth(), app.window.getHeight());
-        Material m = (Material) AssetManager.getAsset("sandboxassets/Asuna.mat");
-        Sprite s = (Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega");
-        Sprite s2 = (Sprite) AssetManager.getAsset("sandboxassets/True.sht/Nintendo");
-        SpriteSheet sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
-        Font font = (Font) AssetManager.getAsset("internal/Test.fnt");
+        assets();
 
         renderPrevFBO(prevFBO);
         Core2D.prepare();
@@ -36,8 +55,8 @@ public class CustomRenderStage extends RenderStage {
         Core2D.drawSprite(r4, s2);
 
         GUI.prepare(sheet, app);
-        GUI.box(new Rect(0,200,200,200));
-        if(GUI.buttonDown(new Rect(0,400,400,42), new Label("U wanna...", font)))  GUI.label(new Rect(0,442,50,42), new Label("Cum in me", font));
+        GUI.box(r5);
+        if(GUI.buttonDown(r6, label))  GUI.label(r7, new Label("Cum in me", font));
         GUI.unprepare(); // Will unprepare Core2D
     }
 }
