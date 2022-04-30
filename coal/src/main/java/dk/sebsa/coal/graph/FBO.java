@@ -3,6 +3,7 @@ package dk.sebsa.coal.graph;
 
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.graph.renderes.Core2D;
+import lombok.Getter;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
@@ -21,6 +22,7 @@ public class FBO {
     private final int frameBufferID;
     private final int depthBufferID;
     private final Texture texture;
+    @Getter private final Material mat;
     public final int width;
     public final int height;
 
@@ -34,12 +36,11 @@ public class FBO {
 
         int textureID = createTextureAttachment();
         texture = new Texture(new Texture.TextureInfo(width, height, textureID));
+        mat = new Material(texture);
         unBind();
 
         fbos.add(this);
     }
-
-    public final Texture getTexture() { return texture; }
 
     public void bindFrameBuffer() {
         GL11.glBindTexture(GL_TEXTURE_2D, 0);
@@ -95,7 +96,7 @@ public class FBO {
     public static void renderFBO(Application app, FBO fbo, Rect r) {
         if(fbo == null) return;
         Core2D.prepare();
-        Core2D.drawTextureWithTextCoords(fbo.getTexture(), app.window.rect, r);
+        Core2D.drawTextureWithTextCoords(fbo.getMat(), app.window.rect, r);
         Core2D.unprepare();
     }
 }

@@ -52,19 +52,23 @@ public class Sprite extends Asset {
         }
     }
 
+    private final Rect uv = new Rect(0,0,0,0);
     public Rect getUV() {
         if(offset == null) return null;
+        if(material.getTexture() == null) return uv;
 
         float w = material.getTexture().getWidth();
         float h = material.getTexture().getHeight();
-        return new Rect(offset.x / w, offset.y / h, offset.width / w, offset.height / h);
+        return uv.set(offset.x / w, offset.y / h, offset.width / w, offset.height / h);
     }
 
+    private final Rect paddingUV = new Rect(0,0,0,0);
     public Rect getPaddingUV() {
         if(padding == null) return null;
+        if(material.getTexture() == null) return paddingUV;
 
         float w = material.getTexture().getWidth();
         float h = material.getTexture().getHeight();
-        return new Rect(padding.x / w, padding.y / h, padding.width / w, padding.height / h);
+        return paddingUV.set(padding.x / w, padding.y / h, padding.width / w, padding.height / h);
     }
 }

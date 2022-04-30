@@ -7,6 +7,7 @@ import dk.sebsa.coal.graph.renderes.Core2D;
 import dk.sebsa.coal.graph.renderes.GUI;
 import dk.sebsa.coal.graph.text.Font;
 import dk.sebsa.coal.graph.text.Label;
+import dk.sebsa.coal.math.Color;
 
 public class CustomRenderStage extends RenderStage {
     public String getName() { return getClass().getSimpleName(); }
@@ -39,7 +40,7 @@ public class CustomRenderStage extends RenderStage {
         s2 = (Sprite) AssetManager.getAsset("sandboxassets/True.sht/Nintendo");
         sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
         font = (Font) AssetManager.getAsset("internal/Test.fnt");
-        label = new Label("U wanna...", font);
+        label = new Label("U wanna...", font, Color.white);
 
     }
 
@@ -56,7 +57,7 @@ public class CustomRenderStage extends RenderStage {
 
         GUI.prepare(sheet, app);
         GUI.box(r5);
-        if(GUI.buttonDown(r6, label))  GUI.label(r7, new Label("Cum in me", font));
+        if(GUI.buttonDown(r6, label))  GUI.label(r7, new Label("Cum in me", font, Color.red));
         GUI.unprepare(); // Will unprepare Core2D
     }
 }

@@ -1,6 +1,7 @@
 package dk.sebsa.coal.graph.renderes;
 
 import dk.sebsa.Coal;
+import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.graph.*;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
@@ -25,6 +26,7 @@ public class Core2D {
     private static Matrix4x4f ortho;
     private static Color currentColor;
     @Getter private static boolean prepared = false;
+    private static Texture noTexture;
 
     private static void log(Object o) { Coal.logger.log(o); }
 
@@ -62,6 +64,7 @@ public class Core2D {
         defaultShader.setUniform("projection", ortho);
         changeColor(Color.white);
         guiMesh.bind();
+        noTexture = (Texture) AssetManager.getAsset("internal/textures/NoTexture.png");
         prepared = true;
     }
 
@@ -74,16 +77,16 @@ public class Core2D {
         prepared = false;
     }
 
-    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect) { drawTextureWithTextCoords(tex, drawRect, new Rect(0,0,1,1), guiMesh, defaultShader); }
-    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect) { drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, defaultShader); }
-    public static void drawTextureWithTextCoords(Material mat, Rect drawRect) { changeColor(mat.getColor()); drawTextureWithTextCoords(mat.getTexture(), drawRect, new Rect(0,0,1,1), guiMesh, defaultShader); }
-    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect) { changeColor(mat.getColor()); drawTextureWithTextCoords(mat.getTexture(), drawRect, uvRect, guiMesh, defaultShader); }
+    private static final Rect fullUV = new Rect(0,0,1,1);
+
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect) { drawTextureWithTextCoords(mat, drawRect, fullUV, guiMesh, defaultShader); }
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect) { drawTextureWithTextCoords(mat, drawRect, uvRect, guiMesh, defaultShader); }
 
 
     private static final Rect u = new Rect(0,0,0,0);
     private static final Rect r = new Rect(0,0,0,0);
     private static final Rect r2 = new Rect(0,0,0,0);
-    public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect, Mesh2D mesh, GLSLShaderProgram shader) {
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect, Mesh2D mesh, GLSLShaderProgram shader) {
         window.rect.getIntersection(r2.set(drawRect.x, drawRect.y, drawRect.width, drawRect.height), r);
 
         // uvreact
@@ -92,65 +95,76 @@ public class Core2D {
         u.set(x, y, (r.width / drawRect.width) * uvRect.width, (r.height / drawRect.height) * uvRect.height);
 
         // Draw
-        if(tex != null) tex.bind();
-        shader.setUniform("useColor", tex == null ? 1 : 0);
+        changeColor(mat.getColor());
+        if(mat.getTexture() != null) mat.getTexture().bind();
+        else noTexture.bind();
+        shader.setUniform("useColor", mat.isTextured() ? 0 : 1);
         shader.setUniform("offset", u.x, u.y, u.width, u.height);
         shader.setUniform("pixelScale", r.width, r.height);
         shader.setUniform("screenPos", r.x, r.y);
 
         GL20.glDrawArrays(GL30.GL_TRIANGLES, 0, 6);
-        if(tex != null) tex.unbind();
+        if(mat.getTexture() != null) mat.getTexture().bind();
+        else noTexture.bind();
     }
 
+    private static final Rect rect1 = new Rect();   // This one is used for multiple things
+    private static final Rect rect2 = new Rect();   // This one is used for multiple things
+    private static final Rect tr = new Rect();
+    private static final Rect tru = new Rect();
+    private static final Rect ti = new Rect();
+    private static final Rect tu = new Rect();
+    private static final Rect bl = new Rect();
+    private static final Rect blu = new Rect();
+    private static final Rect l = new Rect();
+    private static final Rect lu = new Rect();
     public static void drawSprite(Rect r, Sprite e) {
-        changeColor(e.getMaterial().getColor());
         //Cache a short variable for the texture, just so we only have to type a character anytime we use it
-        Texture t = e.getMaterial().getTexture();
         Rect uv = e.getUV();
 
         //Get the top left corner of the box using corresponding padding values and draw it using a texture drawing method
-        Rect tl = new Rect(r.x, r.y, e.getPadding().x, e.getPadding().y);
-        Rect tlu = new Rect(uv.x, uv.y, e.getPaddingUV().x, e.getPaddingUV().y);
-        drawTextureWithTextCoords(t, tl, tlu);
+        rect1.set(r.x, r.y, e.getPadding().x, e.getPadding().y);   // TL
+        rect2.set(uv.x, uv.y, e.getPaddingUV().x, e.getPaddingUV().y); // TLU
+        drawTextureWithTextCoords(e.getMaterial(), rect1, rect2);
 
         //Get the top right corner of the box using corresponding padding values and draw it using a texture drawing method
-        Rect tr = new Rect((r.x + r.width) - e.getPadding().width, r.y, e.getPadding().width, e.getPadding().y);
-        Rect tru = new Rect((uv.x + uv.width) - e.getPaddingUV().width, uv.y, e.getPaddingUV().width, e.getPaddingUV().y);
-        drawTextureWithTextCoords(t, tr, tru);
+        tr.set((r.x + r.width) - e.getPadding().width, r.y, e.getPadding().width, e.getPadding().y);    // TR
+        tru.set((uv.x + uv.width) - e.getPaddingUV().width, uv.y, e.getPaddingUV().width, e.getPaddingUV().y); // TRU
+        drawTextureWithTextCoords(e.getMaterial(), tr, tru);
 
         //Get the bottom left corner of the box using corresponding padding values and draw it using a texture drawing method
-        Rect bl = new Rect(r.x, (r.y + r.height) - e.getPadding().height, e.getPadding().x, e.getPadding().height);
-        Rect blu = new Rect(uv.x, (uv.y + uv.height) - e.getPaddingUV().height, e.getPaddingUV().x, e.getPaddingUV().height);
-        drawTextureWithTextCoords(t, bl, blu);
+        bl.set(r.x, (r.y + r.height) - e.getPadding().height, e.getPadding().x, e.getPadding().height); // BL
+        blu.set(uv.x, (uv.y + uv.height) - e.getPaddingUV().height, e.getPaddingUV().x, e.getPaddingUV().height); //BLU
+        drawTextureWithTextCoords(e.getMaterial(), bl, blu);
 
         //Get the bottom right corner of the box using corresponding padding values and draw it using a texture drawing method
-        Rect br = new Rect(tr.x, bl.y, e.getPadding().width, e.getPadding().height);
-        Rect bru = new Rect(tru.x, blu.y, e.getPaddingUV().width, e.getPaddingUV().height);
-        drawTextureWithTextCoords(t, br, bru);
+        rect1.set(tr.x, bl.y, e.getPadding().width, e.getPadding().height); // BR
+        rect2.set(tru.x, blu.y, e.getPaddingUV().width, e.getPaddingUV().height); // BRU
+        drawTextureWithTextCoords(e.getMaterial(), rect1, rect2);
 
         //Get the left side of the box using corresponding padding values and draw it using a texture drawing method
-        Rect l = new Rect(r.x, r.y + e.getPadding().y, e.getPadding().x, r.height - (e.getPadding().y + e.getPadding().height));
-        Rect lu = new Rect(uv.x, uv.y + e.getPaddingUV().y, e.getPaddingUV().x, uv.height - (e.getPaddingUV().y + e.getPaddingUV().height));
-        drawTextureWithTextCoords(t, l, lu);
+        l.set(r.x, r.y + e.getPadding().y, e.getPadding().x, r.height - (e.getPadding().y + e.getPadding().height)); // L
+        lu.set(uv.x, uv.y + e.getPaddingUV().y, e.getPaddingUV().x, uv.height - (e.getPaddingUV().y + e.getPaddingUV().height)); //LU
+        drawTextureWithTextCoords(e.getMaterial(), l, lu);
 
         //Get the right side of the box using corresponding padding values and draw it using a texture drawing method
-        Rect ri = new Rect(tr.x, r.y + e.getPadding().y, e.getPadding().width, l.height);
-        Rect ru = new Rect(tru.x, lu.y, e.getPaddingUV().width, lu.height);
-        drawTextureWithTextCoords(t, ri, ru);
+        rect1.set(tr.x, r.y + e.getPadding().y, e.getPadding().width, l.height); // RI
+        rect2.set(tru.x, lu.y, e.getPaddingUV().width, lu.height); // RU
+        drawTextureWithTextCoords(e.getMaterial(), rect1, rect2);
 
         //Get the top of the box using corresponding padding values and draw it using a texture drawing method
-        Rect ti = new Rect(r.x + e.getPadding().x, r.y, r.width - (e.getPadding().x + e.getPadding().width), e.getPadding().y);
-        Rect tu = new Rect(uv.x + e.getPaddingUV().x, uv.y, uv.width - (e.getPaddingUV().x + e.getPaddingUV().width), e.getPaddingUV().y);
-        drawTextureWithTextCoords(t, ti, tu);
+        ti.set(r.x + e.getPadding().x, r.y, r.width - (e.getPadding().x + e.getPadding().width), e.getPadding().y); // TI
+        tu.set(uv.x + e.getPaddingUV().x, uv.y, uv.width - (e.getPaddingUV().x + e.getPaddingUV().width), e.getPaddingUV().y); // TU
+        drawTextureWithTextCoords(e.getMaterial(), ti, tu);
 
         //Get the bottom of the box using corresponding padding values and draw it using a texture drawing method
-        Rect b = new Rect(ti.x, bl.y, ti.width, e.getPadding().height);
-        Rect bu = new Rect(tu.x, blu.y, tu.width, e.getPaddingUV().height);
-        drawTextureWithTextCoords(t, b, bu);
+        rect1.set(ti.x, bl.y, ti.width, e.getPadding().height); // B
+        rect2.set(tu.x, blu.y, tu.width, e.getPaddingUV().height); // BU
+        drawTextureWithTextCoords(e.getMaterial(), rect1, rect2);
 
         //Get the center of the box using corresponding padding values and draw it using a texture drawing method
-        Rect c = new Rect(ti.x, l.y, ti.width, l.height);
-        Rect cu = new Rect(tu.x, lu.y, tu.width, lu.height);
-        drawTextureWithTextCoords(t, c, cu);
+        rect1.set(ti.x, l.y, ti.width, l.height); // C
+        rect2.set(tu.x, lu.y, tu.width, lu.height); // CU
+        drawTextureWithTextCoords(e.getMaterial(), rect1, rect2);
     }
 }

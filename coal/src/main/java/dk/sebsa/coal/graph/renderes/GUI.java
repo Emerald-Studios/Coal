@@ -52,7 +52,7 @@ public class GUI {
         for(int i = 0; i < c.length; i++) {
             Glyph glyph = chars.get(c[i]);
 
-            Core2D.drawTextureWithTextCoords(label.getFont().getTexture(), r1.set(tempX, r.y, glyph.scale().x, glyph.scale().y), r2.set(glyph.position().x, glyph.position().y, glyph.size().x, glyph.size().y));
+            Core2D.drawTextureWithTextCoords(label.getMaterial(), r1.set(tempX, r.y, glyph.scale().x, glyph.scale().y), r2.set(glyph.position().x, glyph.position().y, glyph.size().x, glyph.size().y));
 
             tempX += glyph.scale().x;
         }
