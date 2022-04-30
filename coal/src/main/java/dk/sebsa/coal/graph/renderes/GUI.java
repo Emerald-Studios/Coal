@@ -16,12 +16,14 @@ import java.util.Map;
 public class GUI {
     private static Sprite spriteBox;
     private static Sprite spriteButton;
+    private static Sprite spriteButtonHover;
     private static Application app;
 
     public static void prepare(SpriteSheet sheet, Application application) {
         if(!Core2D.isPrepared()) Core2D.prepare();
         spriteBox = sheet.getSprite("Box");
         spriteButton = sheet.getSprite("Button");
+        spriteButtonHover = sheet.getSprite("ButtonHover");
         app = application;
     }
 
@@ -31,15 +33,27 @@ public class GUI {
     public static void box(Rect rect, Sprite sprite) { Core2D.drawSprite(rect, sprite); }
 
     public static boolean button(Rect r, Label label) {
-        box(r, spriteButton);
+        if(!r.contains(app.input.getMousePos())) {
+            box(r, spriteButton);
+            label(r, label);
+            return false;
+        }
+
+        box(r, spriteButtonHover);
         label(r, label);
-        return app.input.isButtonPressed(0) && r.contains(app.input.getMousePos());
+        return app.input.isButtonPressed(0);
     }
 
     public static boolean buttonDown(Rect r, Label label) {
-        box(r, spriteButton);
+        if(!r.contains(app.input.getMousePos())) {
+            box(r, spriteButton);
+            label(r, label);
+            return false;
+        }
+
+        box(r, spriteButtonHover);
         label(r, label);
-        return app.input.isButtonDown(0) && r.contains(app.input.getMousePos());
+        return app.input.isButtonDown(0);
     }
 
     private static final Rect r1 = new Rect();
