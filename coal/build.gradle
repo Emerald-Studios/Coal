@@ -41,6 +41,7 @@ repositories {
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation 'org.json:json:20220320'
 }
 compileKotlin {
     kotlinOptions {
