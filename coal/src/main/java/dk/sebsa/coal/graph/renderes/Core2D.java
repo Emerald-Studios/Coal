@@ -96,7 +96,7 @@ public class Core2D {
         // Draw
         changeColor(mat.getColor());
         if(mat.getTexture() != null) mat.getTexture().bind();
-        else noTexture.bind();
+        else { noTexture.bind(); u.set(0,0,1,1); }
         shader.setUniform("useColor", mat.isTextured() ? 0 : 1);
         shader.setUniform("offset", u.x, u.y, u.width, u.height);
         shader.setUniform("pixelScale", r.width, r.height);
