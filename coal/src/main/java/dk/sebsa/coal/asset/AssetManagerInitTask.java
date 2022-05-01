@@ -1,5 +1,7 @@
 package dk.sebsa.coal.asset;
 
+import dk.sebsa.Coal;
+import dk.sebsa.coal.events.LayerStackInitTask;
 import dk.sebsa.coal.tasks.Task;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -33,5 +35,7 @@ public class AssetManagerInitTask extends Task {
 
         GL.setCapabilities(null);
         GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
+
+        Coal.instance.getTaskManager().doTask(new LayerStackInitTask(Coal.instance.getApplication().stack));
     }
 }

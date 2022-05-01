@@ -13,6 +13,7 @@ import dk.sebsa.coal.graph.SpriteSheet;
 import dk.sebsa.coal.graph.renderes.GUI;
 import dk.sebsa.coal.graph.text.Font;
 import dk.sebsa.coal.graph.text.Label;
+import dk.sebsa.coal.graph.text.Language;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.math.Color;
 import org.lwjgl.glfw.GLFW;
@@ -25,6 +26,7 @@ public class SandboxLayer extends Layer {
     private final Application application;
     private SpriteSheet sheet;
     private Label label, cum;
+    public static LangStatic lang;
     private static final Rect r1 = new Rect(0,200,200,200);
     private static final Rect r2 = new Rect(0,400,400,42);
     private static final Rect r3 = new Rect(0,442,50,42);
@@ -44,15 +46,13 @@ public class SandboxLayer extends Layer {
 
     @Override
     protected void init() {
-
-    }
-
-    private void enit() {
         sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
+        lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/en_us.lang"));
+        //lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/da_dk.lang"));
 
         Font font = (Font) AssetManager.getAsset("sandboxassets/Test.fnt");
-        label = new Label("U wanna...", font, Color.white);
-        cum = new Label("Cum in me", font, Color.color(1,1,1,0.025f));
+        label = new Label(lang.sandboxTest1, font, Color.white);
+        cum = new Label(lang.sandboxTest2, font, Color.color(1,1,1,0.025f));
     }
 
     @Override
@@ -66,7 +66,6 @@ public class SandboxLayer extends Layer {
 
     @Override
     protected void render() {
-        if(sheet == null) enit();
         GUI.prepare(sheet, application);
         GUI.box(r1);
         if(GUI.buttonDown(r2, label))  GUI.label(r3, cum);

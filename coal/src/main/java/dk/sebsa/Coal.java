@@ -9,7 +9,6 @@ import dk.sebsa.coal.debug.CoalImGUI;
 import dk.sebsa.coal.debug.LogTracker;
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
-import dk.sebsa.coal.events.LayerStackInitTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.FBO;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
@@ -23,6 +22,7 @@ import dk.sebsa.emerald.Logable;
 import dk.sebsa.emerald.Logger;
 import dk.sebsa.emerald.LoggerFactory;
 import dk.sebsa.emerald.outputs.FileOutput;
+import lombok.Getter;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
@@ -48,8 +48,8 @@ public class Coal extends Logable {
 
     // Runtime stuff
     public static Logger logger;
-    private Application application;
-    private TaskManager taskManager;
+    @Getter private Application application;
+    @Getter private TaskManager taskManager;
     private ThreadManager threadManager;
 
     /**
@@ -131,7 +131,7 @@ public class Coal extends Logable {
         // Add init tasks
         log("Adding init tasks to multi threaded worker system");
         taskManager.doTask(new AssetManagerInitTask(application.window.getID(), application.window.getGlCapabilities()));
-        taskManager.doTask(new LayerStackInitTask(application.stack));
+        // This is now done after the AssetManger - taskManager.doTask(new LayerStackInitTask(application.stack));
 
         // Core2D init
         log("Render Screen...");
