@@ -20,6 +20,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  * @author sebs
  */
 public class AudioManager {
+    private static void log(Object o) { if(Coal.TRACE) Coal.logger.log(0, "AudioManager"); }
+    private static void trace(Object o) { if(Coal.TRACE) log(o); }
     private record SoundRequest(Sound sound, int gain) { }
     private static final List<AudioSource> sources = new ArrayList<>();
     private static final List<AudioSource> loanedSources = new ArrayList<>();
@@ -36,7 +38,7 @@ public class AudioManager {
     }
 
     private static void expandList(int a) {
-        Coal.logger.log("Expanding AudioSource pool by " + a, "AudioManager");
+        log("Expanding AudioSource pool by " + a);
         for(int i = 0; i < a; i++) {
             AudioSource e = new AudioSource();
             sources.add(e);
@@ -45,12 +47,14 @@ public class AudioManager {
     }
 
     public static void init() {
-        Coal.logger.log("AudioManager init", "AudioManager");
+        log("Init");
+        trace("ALC Open Device");
         device = alcOpenDevice((ByteBuffer) null);
         if (device == NULL) {
             throw new IllegalStateException("Failed to open the default OpenAL device.");
         }
 
+        trace("ALC Context & Capabilities");
         deviceCaps = ALC.createCapabilities(device);
         alcMakeContextCurrent(context);
 
@@ -58,15 +62,14 @@ public class AudioManager {
         if (context == NULL) {
             throw new IllegalStateException("Failed to create OpenAL context.");
         } alcMakeContextCurrent(context);
+        trace("AL Capabilites");
         capabilities = AL.createCapabilities(deviceCaps);
-        Coal.logger.log("AL Caps error: " + capabilities.alGetError);
         AL.setCurrentProcess(capabilities);
     }
 
     public static void update() {
         for(int i = 0; i < loanedSources.size(); i++) {
             if(!loanedSources.get(i).isPlaying()) {
-                if(Coal.TRACE) Coal.logger.log("Return AudioSource", "AudioManager");
                 sources.add(loanedSources.get(i));
                 loanedSources.remove(i);
                 i--;
@@ -87,10 +90,11 @@ public class AudioManager {
     }
 
     public static void cleanup() {
-        Coal.logger.log("Cleanup AudioManager", "AudioManager");
+        log("Cleanup");
         for(AudioSource s : allSources) {
             s.destroy();
         }
+        trace("Destroy ALC");
         ALC.destroy();
     }
 

@@ -1,5 +1,6 @@
 package dk.sebsa.coal.graph.text;
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.graph.Texture;
@@ -35,6 +36,7 @@ public class Font extends Asset {
     public Font(AssetLocation assetLocation) {
         super(assetLocation);
     }
+    private void trace(Object o) { if(Coal.TRACE) log(o); }
 
     @Override @SneakyThrows
     protected void load() {
@@ -43,11 +45,12 @@ public class Font extends Asset {
             if(line.startsWith("f")) awtFontName = line.split(":")[1];
             else if(line.startsWith("t")) awtFontType = Integer.parseInt(line.split(":")[1]);
             else if(line.startsWith("s")) awtFontSize = Integer.parseInt(line.split(":")[1]);
-        }
+        } trace("Font read done. GenFont Begin");
         generateFont(new java.awt.Font(awtFontName, awtFontType, awtFontSize));
     }
 
     private void generateFont(java.awt.Font baseFont) {
+        trace("Graph2D bufferimage gen");
         GraphicsConfiguration graphCon = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
         Graphics2D graphics = graphCon.createCompatibleImage(1, 1, Transparency.TRANSLUCENT).createGraphics();
         graphics.setFont(baseFont);
@@ -57,6 +60,7 @@ public class Font extends Asset {
         imageSize = new Vector2f(2048, 2048);
         bufferedImage = graphics.getDeviceConfiguration().createCompatibleImage((int) imageSize.x, (int) imageSize.y, Transparency.TRANSLUCENT);
 
+        trace("Texture Gen");
         int fontID = glGenTextures();
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, fontID);

@@ -1,5 +1,6 @@
 package dk.sebsa.coal.audio;
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Sound extends Asset {
     public void destroy() {
         alDeleteBuffers(bufferID);
     }
+    private void trace(Object o) { if(Coal.TRACE) log(o); }
 
     @Override
     protected void load() {
@@ -44,6 +46,7 @@ public class Sound extends Asset {
     }
 
     private ShortBuffer readVorbis(int bufferSize, STBVorbisInfo info) {
+        trace("ReadVorbis");
         try (MemoryStack stack = MemoryStack.stackPush()) {
             vorbis = location.asBuffer(bufferSize);
             IntBuffer error = stack.mallocInt(1);
@@ -51,6 +54,7 @@ public class Sound extends Asset {
             if (decoder == NULL) {
                 throw new RuntimeException("Failed to open Ogg Vorbis file. Error: " + error.get(0));
             }
+            trace("Decoder Not NULL");
 
             stb_vorbis_get_info(decoder, info);
 

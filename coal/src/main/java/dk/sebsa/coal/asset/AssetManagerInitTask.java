@@ -24,18 +24,24 @@ public class AssetManagerInitTask extends Task {
     @Override
     protected String name() { return getClass().getSimpleName(); }
 
+    private void trace(Object o) { if(Coal.TRACE) log(o); }
+
     @Override
     public void run() {
+        trace("Steal Context, GLFW");
         GLFW.glfwMakeContextCurrent(windowId);
+        trace("Steal Context, GL");
         GL.setCapabilities(glCapabilities);
 
         AssetManager.initGetAllAssets(this::log, this::error);
         AssetManager.initCreateAllAssets(this::log, this::warn, this::error);
         AssetManager.initLoadAllAssets(this::log);
 
+        trace("Return Contexts");
         GL.setCapabilities(null);
         GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
 
+        trace("Add LayerStackInitTask");
         Coal.instance.getTaskManager().doTask(new LayerStackInitTask(Coal.instance.getApplication().stack));
     }
 }

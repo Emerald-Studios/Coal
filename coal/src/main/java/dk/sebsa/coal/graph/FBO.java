@@ -1,6 +1,7 @@
 package dk.sebsa.coal.graph;
 
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.graph.renderes.Core2D;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class FBO {
     public final int height;
 
     private static final List<FBO> fbos = new ArrayList<>();
+    private void trace(Object o) { if(Coal.TRACE) Coal.logger.log(o);}
 
     public FBO(int width, int height) {
         this.width = width;
@@ -54,6 +56,7 @@ public class FBO {
     }
 
     private int createTextureAttachment() {
+        trace("Gen Texture Attachment");
         int texture = GL11.glGenTextures();
 
         GL11.glBindTexture(GL_TEXTURE_2D, texture);
@@ -66,6 +69,7 @@ public class FBO {
     }
 
     private int createDepthBufferAttachment() {
+        trace("Gen DepthBufferAttchment");
         int buffer = GL30.glGenRenderbuffers();
         GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, buffer);
         GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL11.GL_DEPTH_COMPONENT, width, height);
@@ -74,6 +78,7 @@ public class FBO {
     }
 
     private int createFrameBuffer() {
+        trace("Creating FrameBuffer");
         int buffer = GL30.glGenFramebuffers();
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer);
         GL11.glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0);
