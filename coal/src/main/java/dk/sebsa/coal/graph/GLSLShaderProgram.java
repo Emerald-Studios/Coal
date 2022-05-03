@@ -110,7 +110,7 @@ public class GLSLShaderProgram extends Asset {
     }
 
     public void setUniform(String name, Matrix4x4f value) {
-        int location = glGetUniformLocation(programId, name);
+        int location = uniforms.get(name);
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
         value.getBuffer(buffer);
