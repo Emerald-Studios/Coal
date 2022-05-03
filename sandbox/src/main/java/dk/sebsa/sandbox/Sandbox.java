@@ -1,6 +1,7 @@
 package dk.sebsa.sandbox;
 
 import dk.sebsa.Coal;
+import dk.sebsa.CoalCapabilities;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.FolderAssetProvider;
@@ -17,7 +18,13 @@ public class Sandbox extends Application {
     public String getAuthor() { return "Emerald Studios"; }
     public String getVersion() { return "1.0"; }
 
-    public static void main(String[] args) { Coal.fireUp(new Sandbox(), true); }
+    public static void main(String[] args) {
+        Coal.fireUp(new Sandbox(),
+            CoalCapabilities.builder()
+                    .coalTrace(true)
+                    .coalAudio(true)
+                    .build());
+    }
 
     @Override
     public GLFWWindow initApp() {

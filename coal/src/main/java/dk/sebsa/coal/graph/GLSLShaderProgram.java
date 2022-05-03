@@ -1,5 +1,6 @@
 package dk.sebsa.coal.graph;
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.math.Color;
@@ -85,7 +86,7 @@ public class GLSLShaderProgram extends Asset {
     }
 
     public void createUniform(String uniformName) throws Exception {
-        log(name + " - Creating uniform named - " + uniformName);
+        if(Coal.TRACE) log(name + " - Creating uniform named - " + uniformName);
         if(uniforms.containsKey(uniformName)) return;
         int uniformLocation = glGetUniformLocation(programId,
                 uniformName);

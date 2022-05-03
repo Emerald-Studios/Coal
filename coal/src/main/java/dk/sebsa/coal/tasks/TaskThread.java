@@ -1,6 +1,7 @@
 package dk.sebsa.coal.tasks;
 
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.audio.AudioManager;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
@@ -62,7 +63,7 @@ public class TaskThread extends Thread {
         log("Stopping...");
     }
 
-    private boolean al = false;
+    private boolean al = !Coal.getCapabilities().coalAudio;
     public void checkAl() {
         if(al) return;
         log("Set OpenAL capabilities");

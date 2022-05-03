@@ -30,12 +30,15 @@ public class Sound extends Asset {
 
     @Override
     public void destroy() {
+        if(!Coal.getCapabilities().coalAudio) return;
         alDeleteBuffers(bufferID);
     }
     private void trace(Object o) { if(Coal.TRACE) log(o); }
 
     @Override
     protected void load() {
+        if(!Coal.getCapabilities().coalAudio) return;
+
         this.bufferID = alGenBuffers();
         try (STBVorbisInfo info = STBVorbisInfo.malloc()) {
             ShortBuffer pcm = readVorbis(32 * 1024, info);

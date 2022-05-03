@@ -232,7 +232,7 @@ public class GLFWWindow {
     }
 
     public void endFrame() {
-        if(isDirty) log("Window was dirty");
+        if(isDirty && Coal.TRACE) log("Window was dirty");
         isDirty = false;
     }
 }

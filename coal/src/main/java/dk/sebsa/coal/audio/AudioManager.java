@@ -20,7 +20,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  * @author sebs
  */
 public class AudioManager {
-    private static void log(Object o) { if(Coal.TRACE) Coal.logger.log(0, "AudioManager"); }
+    private static void log(Object o) { if(Coal.TRACE) Coal.logger.log(o, "AudioManager"); }
     private static void trace(Object o) { if(Coal.TRACE) log(o); }
     private record SoundRequest(Sound sound, int gain) { }
     private static final List<AudioSource> sources = new ArrayList<>();
@@ -34,6 +34,7 @@ public class AudioManager {
     @Getter private static long context;
 
     public static void playSound(Sound sound, int gain) {
+        if(!Coal.getCapabilities().coalAudio) { Coal.logger.error("playSound is not possbile! Coal is NOT capable"); Coal.shutdownDueToError(); }
         toPlay.add(new SoundRequest(sound, gain));  // The sound are played on another thread
     }
 
@@ -47,6 +48,7 @@ public class AudioManager {
     }
 
     public static void init() {
+        if(!Coal.getCapabilities().coalAudio) return;
         log("Init");
         trace("ALC Open Device");
         device = alcOpenDevice((ByteBuffer) null);
@@ -90,6 +92,7 @@ public class AudioManager {
     }
 
     public static void cleanup() {
+        if(!Coal.getCapabilities().coalAudio) return;
         log("Cleanup");
         for(AudioSource s : allSources) {
             s.destroy();

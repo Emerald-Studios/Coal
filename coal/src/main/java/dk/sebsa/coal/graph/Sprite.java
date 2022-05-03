@@ -1,5 +1,6 @@
 package dk.sebsa.coal.graph;
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
@@ -28,7 +29,7 @@ public class Sprite extends Asset {
         this.padding = padding;
         this.material = material;
 
-        log(" * Creating sprite " + name);
+        if(Coal.TRACE) log(" * Creating sprite " + name);
         AssetManager.getAssetNameMap().put(name, this);
     }
 

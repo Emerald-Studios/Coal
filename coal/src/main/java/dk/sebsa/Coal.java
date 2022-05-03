@@ -42,8 +42,8 @@ public class Coal extends Logable {
 
     // Coal Settings & Info
     public static final String COAL_VERSION = "1.0.0-SNAPSHOT";
-    public static boolean DEBUG = true;
-    public static boolean TRACE = true;
+    public static boolean DEBUG;
+    public static boolean TRACE;
 
     // Sys Info
     public static String graphicsCard = "Toaster";
@@ -53,19 +53,22 @@ public class Coal extends Logable {
     @Getter private Application application;
     @Getter private TaskManager taskManager;
     private ThreadManager threadManager;
+    @Getter private static CoalCapabilities capabilities;
 
     /**
      * Adds and application to the Coal runtime. (Currently coal doesn't support more than 1 running app)
      * If no coal instance exist, this will create it.
      *
      * @param app A new Coal application
-     * @param debug Enables or Disables debug features
      */
-    public static void fireUp(Application app, boolean debug) {
+    public static void fireUp(Application app, CoalCapabilities caps) {
         if(instance != null) instance.addApplication(app);
         else {
-            Coal.DEBUG = debug;
-            Emerald.VERBOSE_LOAD = debug;
+            capabilities = caps;
+
+            Coal.DEBUG = caps.coalDebug;
+            Coal.TRACE = caps.coalTrace;
+            Emerald.VERBOSE_LOAD = caps.coalTrace;
 
             // Logging
             LoggerFactory loggerFactory = new LoggerFactory();
@@ -138,19 +141,21 @@ public class Coal extends Logable {
         // This is now done after the AssetManger - taskManager.doTask(new LayerStackInitTask(application.stack));
 
         // Core2D init
-        log("Render Screen...");
         GLSLShaderProgram shader2d;
         try { shader2d = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/Coal2dDefault.glsl")).loadAsset(); }
         catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
         Core2D.init(application.window, shader2d);
 
-        // Render Init Screen, this is done once pr color buffer
-        Core2D.prepare();
-        InitScreenRenderer.render(application.window.rect);
-        glfwSwapBuffers(application.window.getID());
-        InitScreenRenderer.render(application.window.rect);
-        Core2D.unprepare();
-        log("Render Screen Done!");
+        if(capabilities.loadScreen) {
+            log("Render Screen...");
+            // Render Init Screen, this is done once pr color buffer
+            Core2D.prepare();
+            InitScreenRenderer.render(application.window.rect);
+            glfwSwapBuffers(application.window.getID());
+            InitScreenRenderer.render(application.window.rect);
+            Core2D.unprepare();
+            log("Render Screen Done!");
+        }
 
         // Remove capabilities cause AssetManagerInit uses them
         GL.setCapabilities(null);
@@ -159,8 +164,10 @@ public class Coal extends Logable {
         // Pre-Main Loop
         log("Entering pre-main loop");
         while(taskManager.stuffToDo()) {
-            glfwSwapBuffers(application.window.getID()); // swap the color buffers
-            glfwPollEvents(); // Poll for window events.
+            if(capabilities.loadScreen) {
+                glfwSwapBuffers(application.window.getID()); // swap the color buffers
+                glfwPollEvents(); // Poll for window events.
+            }
 
             // Make Stuff Happen
             ThreadLogging.logAll(logger);
@@ -178,6 +185,7 @@ public class Coal extends Logable {
 
     public static void shutdownDueToError() {
         logger.log("A shutdown request had been created");
+        if(capabilities.ignoreErrorShutdown) return;
         instance.application.forceClose();
     }
 
@@ -185,7 +193,7 @@ public class Coal extends Logable {
         log("Entering Main Loop");
 
         while(!application.shouldClose()) {
-            FileOutput.flush();
+            if(!capabilities.disableContinuousLogFlush) FileOutput.flush();
             // Poll For Events
             glfwPollEvents();
 
@@ -200,7 +208,7 @@ public class Coal extends Logable {
 
             taskManager.doTask(new LayerStackUpdateTask(application.stack)); // Handle event task
             taskManager.doTask(new LayerStackEventTask(application.stack)); // Handle event task
-            taskManager.doTask(new AudioUpdateTask()); // Handle event task
+            if(capabilities.coalAudio) taskManager.doTask(new AudioUpdateTask()); // Handle event task
 
             while(taskManager.stuffToDo()) {
                 taskManager.frame(threadManager);
