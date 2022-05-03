@@ -54,8 +54,8 @@ public class SandboxLayer extends Layer {
     @Override
     protected void init() {
         sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
-        lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/en_us.lang"));
-        //lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/da_dk.lang"));
+        //lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/en_us.lang"));
+        lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/da_dk.lang"));
         susan = (Sound) AssetManager.getAsset("sandboxassets/Susan.ogg");
         ender = (Sound) AssetManager.getAsset("sandboxassets/Ender.ogg");
         anglerfish = (Sound) AssetManager.getAsset("sandboxassets/AnglerFish.ogg");

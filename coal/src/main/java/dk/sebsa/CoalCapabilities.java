@@ -15,4 +15,5 @@ public class CoalCapabilities {
     @Builder.Default public final boolean disableContinuousLogFlush = false;
     // THREAD
     // MULTIPLE APPS
+    // ASSET
 }
