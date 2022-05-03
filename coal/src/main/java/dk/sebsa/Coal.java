@@ -5,6 +5,8 @@ import dk.sebsa.coal.asset.AssetExitsException;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.AssetManagerInitTask;
+import dk.sebsa.coal.audio.AudioManager;
+import dk.sebsa.coal.audio.AudioUpdateTask;
 import dk.sebsa.coal.debug.CoalImGUI;
 import dk.sebsa.coal.debug.LogTracker;
 import dk.sebsa.coal.enums.AssetLocationType;
@@ -103,6 +105,7 @@ public class Coal extends Logable {
         application.cleanup();
         AssetManager.cleanup();
         FBO.cleanup();
+        try { AudioManager.cleanup(); } catch(Exception | Error e) { log("AudioManager cleanup failed"); }
         threadManager.stop();
         ThreadLogging.logAll(logger);
         log("I thinks this is it, my time has come. Bye!");
@@ -127,6 +130,7 @@ public class Coal extends Logable {
         threadManager = new ThreadManager(taskManager, logger);
 
         threadManager.init();
+        AudioManager.init();
 
         // Add init tasks
         log("Adding init tasks to multi threaded worker system");
@@ -196,6 +200,7 @@ public class Coal extends Logable {
 
             taskManager.doTask(new LayerStackUpdateTask(application.stack)); // Handle event task
             taskManager.doTask(new LayerStackEventTask(application.stack)); // Handle event task
+            taskManager.doTask(new AudioUpdateTask()); // Handle event task
 
             while(taskManager.stuffToDo()) {
                 taskManager.frame(threadManager);

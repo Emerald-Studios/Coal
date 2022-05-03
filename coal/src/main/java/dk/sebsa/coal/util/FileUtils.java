@@ -1,8 +1,13 @@
 package dk.sebsa.coal.util;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.lwjgl.BufferUtils.createByteBuffer;
 
 /**
  * @author sebs
@@ -53,5 +58,30 @@ public class FileUtils {
         }
 
         return e.toString();
+    }
+
+    public static ByteBuffer isToBB(InputStream is, int bufferSize) throws IOException {
+        ReadableByteChannel rbc = Channels.newChannel(is);
+        ByteBuffer buffer = createByteBuffer(bufferSize);
+
+        while (true) {
+            int bytes = rbc.read(buffer);
+            if (bytes == -1) {
+                break;
+            }
+            if (buffer.remaining() == 0) {
+                buffer = resizeBuffer(buffer, buffer.capacity() * 2);
+            }
+        }
+        buffer.flip();
+
+        return buffer;
+    }
+
+    private static ByteBuffer resizeBuffer(ByteBuffer buffer, int newCapacity) {
+        ByteBuffer newBuffer = createByteBuffer(newCapacity);
+        buffer.flip();
+        newBuffer.put(buffer);
+        return newBuffer;
     }
 }

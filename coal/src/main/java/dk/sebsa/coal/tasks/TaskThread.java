@@ -1,9 +1,15 @@
 package dk.sebsa.coal.tasks;
 
 
+import dk.sebsa.coal.audio.AudioManager;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
 
 /**
  * @author sebs
@@ -20,7 +26,7 @@ public class TaskThread extends Thread {
         this.threadManager = threadManager;
     }
 
-    protected void log(String s) { ThreadLogging.log(s, "TaskThread"); }
+    protected void log(Object s) { ThreadLogging.log(s.toString(), "TaskThread"); }
 
     @Override
     public void run() {
@@ -36,7 +42,9 @@ public class TaskThread extends Thread {
 
             if(!active.get()) break;
             if(currentTask != null) {
+                checkAl();
                 try {
+                    currentTask.thread = this;
                     currentTask.run();
                 } catch (Exception | Error e) {
                     StringWriter sw = new StringWriter();
@@ -52,5 +60,17 @@ public class TaskThread extends Thread {
         }
 
         log("Stopping...");
+    }
+
+    private boolean al = false;
+    public void checkAl() {
+        if(al) return;
+        log("Set OpenAL capabilities");
+
+        ALC.setCapabilities(AudioManager.getDeviceCaps());
+        alcMakeContextCurrent(AudioManager.getContext());
+        AL.setCurrentThread(AudioManager.getCapabilities());
+        AL.setCurrentProcess(AudioManager.getCapabilities());
+        al = true;
     }
 }

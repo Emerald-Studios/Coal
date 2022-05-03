@@ -5,6 +5,7 @@ import dk.sebsa.coal.util.FileUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 /**
  * @author sebs
@@ -22,5 +23,13 @@ public record AssetLocation(AssetLocationType locationType, String location) {
             }
         }
         return null;
+    }
+
+    public ByteBuffer asBuffer(int bufferSize) {
+        try {
+            return FileUtils.isToBB(asStream(), bufferSize);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

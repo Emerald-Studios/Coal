@@ -1,5 +1,6 @@
 package dk.sebsa.coal.asset;
 
+import dk.sebsa.coal.audio.Sound;
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.graph.*;
 import dk.sebsa.coal.graph.text.Font;
@@ -117,6 +118,7 @@ public class AssetManager {
 
                 else if(location.location().endsWith(".fnt")) newAssets.add(new Font(location).name());
                 else if(location.location().endsWith(".lang")) newAssets.add(new Language(location).name());
+                else if(location.location().endsWith(".ogg")) newAssets.add(new Sound(location).name());
 
                 else errorLog.accept("Unknown asset type, " + location);
             } catch (AssetExitsException e) { warnLog.accept("Asset " + l + ", already exists"); }

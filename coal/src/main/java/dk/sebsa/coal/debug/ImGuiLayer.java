@@ -3,6 +3,7 @@ package dk.sebsa.coal.debug;
 
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
+import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
@@ -121,6 +122,10 @@ public abstract class ImGuiLayer extends Layer {
             ImGui.textColored(textColor.r, textColor.g, textColor.b, 1f, log.s());
         }
         ImGui.endChild();
+        ImGui.end();
+
+        ImGui.begin("Audio");
+        ImGui.text("Sources: " + AudioManager.statusUsed() + "/" + AudioManager.statusAll());
         ImGui.end();
     }
 

@@ -10,6 +10,7 @@ public class LangStatic {
 
     public final String sandboxTest1 = lang.get("sandbox.test.1");
     public final String sandboxTest2 = lang.get("sandbox.test.2");
+    public final String sandboxTest3 = lang.get("sandbox.test.3");
 
     public static LangStatic genStatic(Language language) {
         lang = language;
