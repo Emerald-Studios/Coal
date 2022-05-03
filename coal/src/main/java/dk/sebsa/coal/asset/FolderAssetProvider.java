@@ -26,8 +26,11 @@ public class FolderAssetProvider extends AssetProvider {
     @Override
     protected List<AssetLocation> getAssets() {
         List<AssetLocation> locations = new ArrayList<>();
-        for(File f : FileUtils.listFilesInFolder(folder)) {
-            locations.add(new AssetLocation(AssetLocationType.LocalFile, f.getPath()));
-        } return locations;
+        try {
+            for(File f : FileUtils.listFilesInFolder(folder)) {
+                locations.add(new AssetLocation(AssetLocationType.LocalFile, f.getPath()));
+            }
+        } catch (NullPointerException e) { Coal.logger.error("FolderAssetLocation load failed for dir" + folder.getPath()); Coal.shutdownDueToError(); }
+        return locations;
     }
 }
