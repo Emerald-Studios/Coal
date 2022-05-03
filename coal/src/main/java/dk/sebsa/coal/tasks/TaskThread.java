@@ -17,10 +17,10 @@ import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
  * @since 1.0.0
  */
 public class TaskThread extends Thread {
-    public AtomicBoolean active = new AtomicBoolean(false);
+    public final AtomicBoolean active = new AtomicBoolean(false);
     public Task currentTask;
-    private TaskManager taskManager;
-    private ThreadManager threadManager;
+    private final TaskManager taskManager;
+    private final ThreadManager threadManager;
 
     public TaskThread(TaskManager taskManager, ThreadManager threadManager) {
         this.taskManager = taskManager;

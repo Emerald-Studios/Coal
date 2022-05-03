@@ -1,6 +1,7 @@
 package dk.sebsa.coal.math;
 
 import dk.sebsa.coal.util.FourKeyHashMap;
+import org.jetbrains.annotations.Contract;
 
 /**
  * @author sebs
@@ -21,7 +22,9 @@ public class Color {
     }
 
     // Pooling
+    @Contract(value = "_, _, _ -> !null", pure = true)
     public static Color color(float r, float g, float b) { return color(r, g, b,1); }
+    @Contract(value = "_, _, _,_ -> !null", pure = true)
     public static Color color(float r, float g, float b, float a) {
         r = Mathf.clamp(r, 0, 1);
         g = Mathf.clamp(g, 0, 1);
@@ -32,31 +35,28 @@ public class Color {
     // Pooling
 
     // Defaults
-    public static Color black = color(0, 0, 0);
-    public static Color white = color(1, 1, 1);
-    public static Color red =  color(1, 0, 0);
-    public static Color green =  color(0, 1, 0);
-    public static Color blue =  color(0, 0, 1);
-    public static Color grey =  color(0.5f, 0.5f, 0.5f);
-    public static Color dimGrey =  color(0.35f, 0.35f, 0.35f);
-    public static Color darkGrey =  color(0.3f, 0.3f, 0.3f);
-    public static Color wine =  color(0.5f, 0, 0);
-    public static Color forest =  color(0, 0.5f, 0);
-    public static Color marine =  color(0, 0, 0.5f);
-    public static Color yellow =  color(1, 1, 0);
-    public static Color cyan =  color(0, 1, 1);
-    public static Color magenta =  color(1, 0, 1);
-    public static Color transparent =  color(0, 0, 0, 0);
+    public static final Color black = color(0, 0, 0);
+    public static final Color white = color(1, 1, 1);
+    public static final Color red =  color(1, 0, 0);
+    public static final Color green =  color(0, 1, 0);
+    public static final Color blue =  color(0, 0, 1);
+    public static final Color grey =  color(0.5f, 0.5f, 0.5f);
+    public static final Color dimGrey =  color(0.35f, 0.35f, 0.35f);
+    public static final Color darkGrey =  color(0.3f, 0.3f, 0.3f);
+    public static final Color wine =  color(0.5f, 0, 0);
+    public static final Color forest =  color(0, 0.5f, 0);
+    public static final Color marine =  color(0, 0, 0.5f);
+    public static final Color yellow =  color(1, 1, 0);
+    public static final Color cyan =  color(0, 1, 1);
+    public static final Color magenta =  color(1, 0, 1);
+    public static final Color transparent =  color(0, 0, 0, 0);
     // Defaults
 
     public String toString() {
         return "("+r+", "+g+", "+b+", "+a+")";
     }
 
-    /*public boolean compare(Color c) {
-        return this == c; // Due to pooling this should work
-    }*/
-
+    @Contract(value = "_ -> !null", pure = true)
     public static float[] toFloatArray(Color c) {
         float[] colors = new float[3];
         colors[0] = c.r;
@@ -65,10 +65,12 @@ public class Color {
         return colors;
     }
 
+    @Contract(value = "_ -> !null", pure = true)
     public static Color fromFloatArray(float[] c) {
         return color(c[0], c[1], c[2]);
     }
 
+    @Contract(value = "_ -> !null", pure = true)
     public static Color parseColor(String name) {
         if(name.startsWith("#")) {
             java.awt.Color c = java.awt.Color.decode(name);

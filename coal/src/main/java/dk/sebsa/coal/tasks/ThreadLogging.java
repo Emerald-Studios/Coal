@@ -12,7 +12,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class ThreadLogging {
-    public static  List<String> toBeLogged = Collections.synchronizedList(new ArrayList<>());
+    public static final List<String> toBeLogged = Collections.synchronizedList(new ArrayList<>());
     public static void log(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className, Coal.logger.getFormat())); }
     public static void warn(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className, Coal.logger.getWarnFormat())); }
     public static void error(String s, String className) { toBeLogged.add(Coal.logger.formatString(s, className, Coal.logger.getErrorFormat())); }

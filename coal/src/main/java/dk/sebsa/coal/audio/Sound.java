@@ -21,8 +21,6 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  */
 public class Sound extends Asset {
     @Getter private int bufferID;
-    private ShortBuffer pcm = null;
-    private ByteBuffer vorbis = null;
 
     public Sound(AssetLocation location) {
         super(location);
@@ -51,7 +49,7 @@ public class Sound extends Asset {
     private ShortBuffer readVorbis(int bufferSize, STBVorbisInfo info) {
         trace("ReadVorbis");
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            vorbis = location.asBuffer(bufferSize);
+            ByteBuffer vorbis = location.asBuffer(bufferSize);
             IntBuffer error = stack.mallocInt(1);
             long decoder = stb_vorbis_open_memory(vorbis, error, null);
             if (decoder == NULL) {
@@ -65,7 +63,7 @@ public class Sound extends Asset {
 
             int lengthSamples = stb_vorbis_stream_length_in_samples(decoder);
 
-            pcm = MemoryUtil.memAllocShort(lengthSamples);
+            ShortBuffer pcm = MemoryUtil.memAllocShort(lengthSamples);
 
             pcm.limit(stb_vorbis_get_samples_short_interleaved(decoder, channels, pcm) * channels);
             stb_vorbis_close(decoder);

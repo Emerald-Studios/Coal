@@ -107,9 +107,9 @@ public class Texture extends Asset {
     public void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 
     public static class TextureInfo {
-        public int width;
-        public int height;
-        public int id;
+        public final int width;
+        public final int height;
+        public final int id;
 
         public TextureInfo(int w, int h, int i) {
             this.width = w;

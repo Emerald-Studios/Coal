@@ -35,7 +35,7 @@ publishing {
     }
 }
 
-// IDE GENERETED KOTLIN SUPPORT
+// IDE GENERATED KOTLIN SUPPORT
 repositories {
     mavenCentral()
 }

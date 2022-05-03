@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class LogTracker extends LogOutput {
     public record Log(String s, int level) { }
-    public static List<Log> logs = new ArrayList<>();
+    public static final List<Log> logs = new ArrayList<>();
 
     @Override
     public void print(String s) {

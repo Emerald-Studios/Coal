@@ -26,7 +26,7 @@ import java.util.jar.JarFile;
  */
 public class AssetManager {
     public static List<Asset> loadedAssets = new ArrayList<>();
-    public static List<Asset> newAssets = new ArrayList<>();
+    public static final List<Asset> newAssets = new ArrayList<>();
     private static final Class<AssetManager> clazz = AssetManager.class;
     private static final ClassLoader cl = clazz.getClassLoader();
     private static final List<AssetProvider> assetProviders = new ArrayList<>();
@@ -130,8 +130,7 @@ public class AssetManager {
         try {
             Asset a;
             while (!newAssets.isEmpty()) {
-                a = newAssets.get(0).loadAsset();
-
+                newAssets.get(0).loadAsset();
                 newAssets.remove(0);
             }
         } catch (AssetExitsException e) { /* This won't happen since they have already been named */ }

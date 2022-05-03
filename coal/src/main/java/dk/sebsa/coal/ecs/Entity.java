@@ -19,7 +19,7 @@ public class Entity {
     @Getter
     private Entity parent;
     public final Transform transform;
-    public static Entity master = new Entity(0);
+    public static final Entity master = new Entity(0);
     @Getter
     public String name = "New Entity";
     @Getter

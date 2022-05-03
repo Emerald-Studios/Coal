@@ -26,7 +26,7 @@ public class Transform {
     public Vector3f getPosition() { return localPosition; }
     public void setPosition(Vector3f pos) {this.localPosition.set(pos); isDirty = true; recalculateGlobalTransformations(); }
     public void setPosition(float x, float y, float z) { this.localPosition.set(x, y, x); isDirty = true; recalculateGlobalTransformations(); }
-    public void setPosition(float x) { this.localPosition.set(x, x, x); isDirty = true; recalculateGlobalTransformations(); }
+    public void setPosition(float v) { this.localPosition.set(v, v, v); isDirty = true; recalculateGlobalTransformations(); }
 
     protected void recalculateLocalTransformation() {
         parent = entity.getParent().transform;

@@ -28,7 +28,7 @@ public class Core2D {
     private static Texture noTexture;
 
     private static void log(Object o) { Coal.logger.log(o); }
-    private static void trace(Object o) { if(Coal.TRACE) Coal.logger.log(o); }
+    private static void trace() { if(Coal.TRACE) Coal.logger.log("Shader Uniforms"); }
 
     public static void init(GLFWWindow w, GLSLShaderProgram s) {
         log("Initializing Core2D");
@@ -36,7 +36,7 @@ public class Core2D {
         defaultShader = s;
 
         guiMesh = Mesh2D.getQuad();
-        trace("Shader Uniforms");
+        trace();
         try {
             defaultShader.createUniform("projection");
             defaultShader.createUniform("offset");

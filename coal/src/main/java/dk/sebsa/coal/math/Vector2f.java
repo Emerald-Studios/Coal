@@ -1,5 +1,7 @@
 package dk.sebsa.coal.math;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * @author sebs
  * @since 1.0.0
@@ -23,17 +25,20 @@ public class Vector2f {
         this.x = (float) x;
         this.y = (float) y;
     }
+
     public void zero() {
         this.x = 0;
         this.y = 0;
     }
 
+    @Contract("_ -> this")
     public Vector2f set(Vector2f v) {
         this.x = v.x;
         this.y = v.y;
         return this;
     }
 
+    @Contract("_, _ -> this")
     public Vector2f set(float x, float y) {
         this.x = x;
         this.y = y;

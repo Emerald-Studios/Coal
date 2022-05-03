@@ -26,15 +26,14 @@ public class AudioManager {
     private static final List<AudioSource> sources = new ArrayList<>();
     private static final List<AudioSource> loanedSources = new ArrayList<>();
     private static final List<AudioSource> allSources = new ArrayList<>();
-    private static final List<SoundRequest> toPlay = Collections.synchronizedList(new ArrayList<SoundRequest>());
+    private static final List<SoundRequest> toPlay = Collections.synchronizedList(new ArrayList<>());
 
-    private static long device;
     @Getter private static ALCCapabilities deviceCaps;
     @Getter private static ALCapabilities capabilities;
     @Getter private static long context;
 
     public static void playSound(Sound sound, int gain) {
-        if(!Coal.getCapabilities().coalAudio) { Coal.logger.error("playSound is not possbile! Coal is NOT capable"); Coal.shutdownDueToError(); }
+        if(!Coal.getCapabilities().coalAudio) { Coal.logger.error("playSound is not possible! Coal is NOT capable"); Coal.shutdownDueToError(); }
         toPlay.add(new SoundRequest(sound, gain));  // The sound are played on another thread
     }
 
@@ -51,7 +50,7 @@ public class AudioManager {
         if(!Coal.getCapabilities().coalAudio) return;
         log("Init");
         trace("ALC Open Device");
-        device = alcOpenDevice((ByteBuffer) null);
+        long device = alcOpenDevice((ByteBuffer) null);
         if (device == NULL) {
             throw new IllegalStateException("Failed to open the default OpenAL device.");
         }
@@ -64,7 +63,7 @@ public class AudioManager {
         if (context == NULL) {
             throw new IllegalStateException("Failed to create OpenAL context.");
         } alcMakeContextCurrent(context);
-        trace("AL Capabilites");
+        trace("AL Capabilities");
         capabilities = AL.createCapabilities(deviceCaps);
         AL.setCurrentProcess(capabilities);
     }

@@ -13,15 +13,12 @@ public class Time {
     public static final long SECOND = 1000000000L;
 
     // Settings
-    public static float timeScale = 1;
+    public static final float timeScale = 1;
 
     // Time Values
     private static long startTime; // The moment we began time keeping
-    private static long rawTime; // Time value that keeps going up (May be negative)
-    private static long frameStartTime; // When this frame started
+    private static long rawTime; // Time value that keeps going up (It may be negative)
     private static long lastFrameTime; // When the last frame started
-    private static long framePassedTime; // How long the last frame was
-    private static long time;
 
     private static long fpsCountTime; // Time instant when FPS was last counted
     private static int frames; // Frames since last FPS count
@@ -31,7 +28,6 @@ public class Time {
 
     private static float deltaTime;
     private static float unscaledDelta;
-    private static double rawDelta;
 
     // Methods
     public static void init() {
@@ -41,16 +37,18 @@ public class Time {
 
     public static void procsess() {
         rawTime = System.nanoTime();
-        time = (TimeUnit.MILLISECONDS.convert(rawTime - startTime, TimeUnit.NANOSECONDS));
+        long time = (TimeUnit.MILLISECONDS.convert(rawTime - startTime, TimeUnit.NANOSECONDS));
 
         // Calculate frame time
-        frameStartTime = rawTime;
-        framePassedTime = frameStartTime - lastFrameTime;
+        // When this frame started
+        long frameStartTime = rawTime;
+        // How long the last frame was
+        long framePassedTime = frameStartTime - lastFrameTime;
         lastFrameTime = frameStartTime;
         frameTimeThisSecond = frameTimeThisSecond + framePassedTime;
 
         // Calculate Delta time
-        rawDelta = framePassedTime / (double) SECOND;
+        double rawDelta = framePassedTime / (double) SECOND;
         if(rawDelta > 0.01f) {
             deltaTime = (float) (0.01 * timeScale);
             unscaledDelta = 0.01f;

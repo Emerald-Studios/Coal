@@ -63,8 +63,8 @@ public class GUI {
         char[] c = label.getCharArray();
         float tempX = r.x;
 
-        for(int i = 0; i < c.length; i++) {
-            Glyph glyph = chars.get(c[i]);
+        for (char value : c) {
+            Glyph glyph = chars.get(value);
 
             Core2D.drawTextureWithTextCoords(label.getMaterial(), r1.set(tempX, r.y, glyph.scale().x, glyph.scale().y), r2.set(glyph.position().x, glyph.position().y, glyph.size().x, glyph.size().y));
 

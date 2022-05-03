@@ -13,8 +13,8 @@ import dk.sebsa.coal.events.Event;
 public class MouseMoveEvent extends Event {
 	public EventTypes eventType() { return EventTypes.MouseMove; }
 	
-	public int[] mousePosX = new int[1];
-	public int[] mousePosY = new int[1];
-	public int[] offsetMousePosX = new int[1];
-	public int[] offsetMousePosY = new int[1];
+	public final int[] mousePosX = new int[1];
+	public final int[] mousePosY = new int[1];
+	public final int[] offsetMousePosX = new int[1];
+	public final int[] offsetMousePosY = new int[1];
 }

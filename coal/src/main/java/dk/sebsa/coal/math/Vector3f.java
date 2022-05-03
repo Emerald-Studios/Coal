@@ -1,5 +1,7 @@
 package dk.sebsa.coal.math;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * @author sebs
  * @since 1.0.0
@@ -33,6 +35,7 @@ public class Vector3f {
         this.z = 0;
     }
 
+    @Contract("_ -> this")
     public Vector3f set(Vector3f v) {
         this.x = v.x;
         this.y = v.y;
@@ -40,6 +43,7 @@ public class Vector3f {
         return this;
     }
 
+    @Contract("_, _, _ -> this")
     public Vector3f set(float x, float y, float z) {
         this.x = x;
         this.y = y;

@@ -24,6 +24,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * @author sebs
  * @since 1.0.0
  */
+@SuppressWarnings("ALL")
 public class CoalImGUIGlfwImpl {
     private static final String OS = System.getProperty("os.name", "generic").toLowerCase();
     protected static final boolean IS_WINDOWS = OS.contains("win");

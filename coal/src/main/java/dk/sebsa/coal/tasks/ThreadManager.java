@@ -28,7 +28,7 @@ public class ThreadManager extends Logable {
         this.taskManager = tkm;
     }
 
-    public ThreadManager init() {
+    public void init() {
         log("Starting ThreadManager");
 
         // Cores Amount
@@ -55,7 +55,6 @@ public class ThreadManager extends Logable {
         }
 
         log("Created worker threads");
-        return this;
     }
 
     public void assignTask(Task task) {
@@ -63,15 +62,13 @@ public class ThreadManager extends Logable {
         t.currentTask = task;
         t.interrupt();
         avaibleThreads.remove(0);
-        return;
     }
 
     public void returnThread(TaskThread thread) { avaibleThreads.add(thread); }
     public boolean threadAvaible() { return !avaibleThreads.isEmpty(); }
     public void stop() {
         log("Stopping worker threads");
-        for(int i = 0; i < threads.size(); i++) {
-            var thread = threads.get(i);
+        for (TaskThread thread : threads) {
             thread.active.set(false);
 //			thread.setDaemon(true);
             thread.interrupt();

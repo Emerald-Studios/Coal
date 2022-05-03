@@ -53,7 +53,7 @@ public class GLFWWindow {
     public void init() {
         log("Init GLFW");
 
-        // Setup an error callback. The default implementation
+        // Set up an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
 

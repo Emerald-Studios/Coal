@@ -13,7 +13,8 @@ import java.util.List;
 public class LayerStack {
     public final List<Layer> stack = new ArrayList<>();
     private final List<Event> queue = new ArrayList<>();
-    private int i, j = 0;
+    private int i;
+
     public void event(Event e) { queue.add(e); }
 
     public void init() {
@@ -31,6 +32,7 @@ public class LayerStack {
     }
 
     public void update() {
+        int j = 0;
         for(j = 0; j < stack.size(); j++) {
             if(stack.get(j).enabled) stack.get(j).update();
         }

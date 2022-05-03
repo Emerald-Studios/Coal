@@ -18,7 +18,7 @@ public class CoalImGUI {
     public static void init(Application app) {
         log("ImGUI init");
 
-        // Creaete Context
+        // Create Context
         ImGui.createContext();
 
         // Create OpenGL and GLFW implementations

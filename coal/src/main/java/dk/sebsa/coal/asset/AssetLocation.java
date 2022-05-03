@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
  * @since 1.0.0
  */
 public record AssetLocation(AssetLocationType locationType, String location) {
-    public static AssetLocation none = new AssetLocation(AssetLocationType.Code, "");
+    public static final AssetLocation none = new AssetLocation(AssetLocationType.Code, "");
 
     public InputStream asStream() {
         if (locationType.equals(AssetLocationType.LocalFile) || locationType.equals(AssetLocationType.Jar)) {

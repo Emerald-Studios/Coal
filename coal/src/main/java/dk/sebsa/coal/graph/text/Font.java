@@ -7,6 +7,7 @@ import dk.sebsa.coal.graph.Texture;
 import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.coal.util.FileUtils;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.Contract;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -77,7 +78,7 @@ public class Font extends Asset {
         graphics2d.setFont(baseFont);
         graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        drawCharaters(graphics2d);
+        drawCharters(graphics2d);
         return createBuffer();
     }
 
@@ -92,7 +93,7 @@ public class Font extends Asset {
         for(i = 0; i < pixels.length; i++) {
             byteBuffer.put((byte) ((pixels[i] >> 16) & 0xFF)); 	// Red
             byteBuffer.put((byte) ((pixels[i] >> 8) & 0xFF)); 	// Green
-            byteBuffer.put((byte) (pixels[i] >> 0xFF)); 		// Blue
+            byteBuffer.put((byte) (pixels[i] >> 31)); 		// Blue
             byteBuffer.put((byte) ((pixels[i] >> 24) & 0xFF)); 	// Alpha
         }
         byteBuffer.flip();
@@ -117,6 +118,7 @@ public class Font extends Asset {
             0x2320, 0x2321, 0x00F7, 0x2248, 0x00B0, 0x2219, 0x00B7, 0x221A,
             0x207F, 0x00B2, 0x25A0, 0x00A0 };
 
+    @Contract(pure = true)
     public static char getAscii(int code) {
         if (code >= 0x80 && code <= 0xFF) {
             return EXTENDED[code - 0x7F];
@@ -124,7 +126,7 @@ public class Font extends Asset {
         return (char) code;
     }
 
-    private void drawCharaters(Graphics2D graphics2d) {
+    private void drawCharters(Graphics2D graphics2d) {
         int tempX = 0;
         int tempY = 0;
 

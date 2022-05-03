@@ -21,16 +21,16 @@ public class GLFWInput extends Logable {
     private byte[] buttonsReleased;
     private double scrollX, scrollY = 0;
     private double mouseX, mouseY;
-    private Vector2f mousePos = new Vector2f(0, 0);
+    private final Vector2f mousePos = new Vector2f(0, 0);
 
     // Input Class Stuff
-    private GLFWWindow window;
+    private final GLFWWindow window;
 
     // Callbacks
-    private GLFWMouseButtonCallback mouseButtonCallback;
-    private GLFWKeyCallback keyCallback;
-    private GLFWCursorPosCallback cursorCallback;
-    private GLFWScrollCallback scrollCallback;
+    private final GLFWMouseButtonCallback mouseButtonCallback;
+    private final GLFWKeyCallback keyCallback;
+    private final GLFWCursorPosCallback cursorCallback;
+    private final GLFWScrollCallback scrollCallback;
 
     // Main Class
     public GLFWInput(Application app, Logger logger) {

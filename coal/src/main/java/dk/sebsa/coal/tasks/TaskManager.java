@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TaskManager {
     private final List<Task> toDo = new ArrayList<>();
-    private final List<Task> doing = Collections.synchronizedList(new ArrayList<Task>());
+    private final List<Task> doing = Collections.synchronizedList(new ArrayList<>());
 
     public void doTask(Task t) {
         toDo.add(t);
@@ -47,10 +47,9 @@ public class TaskManager {
         // Check if tasks take to long
         if(!Coal.DEBUG) return;
         try {
-            for(int i = 0; i < doing.size(); i++) {
-                var t = doing.get(i);
+            for (Task t : doing) {
                 var tt = TimeUnit.SECONDS.convert(Time.getTime() - t.startTime, TimeUnit.MILLISECONDS);
-                if(tt > 8) {
+                if (tt > 8) {
                     t.startTime = Time.getTime();
                     Coal.logger.log("Task " + t + ", has taken more then 8 seconds to run!");
                 }
