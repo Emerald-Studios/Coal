@@ -124,9 +124,11 @@ public abstract class ImGuiLayer extends Layer {
         ImGui.endChild();
         ImGui.end();
 
-        ImGui.begin("Audio");
-        ImGui.text("Sources: " + AudioManager.statusUsed() + "/" + AudioManager.statusAll());
-        ImGui.end();
+        if(Coal.getCapabilities().coalAudio) {
+            ImGui.begin("Audio");
+            ImGui.text("Sources: " + AudioManager.statusUsed() + "/" + AudioManager.statusAll());
+            ImGui.end();
+        }
     }
 
     @Override

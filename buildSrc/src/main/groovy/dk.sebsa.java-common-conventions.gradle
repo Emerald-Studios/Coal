@@ -38,6 +38,12 @@ repositories {
     }
 }
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 dependencies {
     constraints {
         // Define dependency versions as constraints
