@@ -1,5 +1,7 @@
 package dk.sebsa.coal.ecs;
 
+import dk.sebsa.coal.math.Matrix4x4f;
+import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.coal.math.Vector3f;
 import lombok.Getter;
 
@@ -11,6 +13,7 @@ public class Transform {
     @Getter
     private boolean isDirty = true;
     protected final Entity entity;
+    private final Matrix4x4f matrix = new Matrix4x4f();
     private Transform parent;
 
     protected Transform(Entity entity) {
@@ -45,4 +48,11 @@ public class Transform {
     }
 
     public static void recalculate() {for(int i = 0; i < Entity.master.getChildren().size(); i++) Entity.master.getChildren().get(i).transform.recalculateGlobalTransformations();}
+
+    private final Vector2f pos2D = new Vector2f();
+    public Matrix4x4f getMatrix2D() {
+        if(isDirty) matrix.setTransformation(pos2D.set(position.x, position.y), 0, Vector2f.VECTOR2F_ONE);
+        isDirty = false;
+        return matrix;
+    }
 }

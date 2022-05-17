@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Contract;
 public class Vector2f {
     public float x;
     public float y;
+    public static final Vector2f VECTOR2F_ONE = new Vector2f(1,1);
 
     public Vector2f(Vector2f v) { x = v.x; y = v.y; }
     public Vector2f(float x, float y) {

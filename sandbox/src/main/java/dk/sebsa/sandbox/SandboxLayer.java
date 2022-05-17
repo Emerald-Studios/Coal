@@ -5,14 +5,17 @@ import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.audio.Sound;
+import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.enums.PolygonMode;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
 import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.RenderPipeline;
+import dk.sebsa.coal.graph.Sprite;
 import dk.sebsa.coal.graph.SpriteSheet;
 import dk.sebsa.coal.graph.renderes.GUI;
+import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.graph.text.Font;
 import dk.sebsa.coal.graph.text.Label;
 import dk.sebsa.coal.graph.text.Language;
@@ -36,7 +39,7 @@ public class SandboxLayer extends Layer {
     private static final Rect r2 = new Rect(0,400,400,42);
     private static final Rect r3 = new Rect(0,442,50,42);
     private static final Rect r4 = new Rect(0,484,400,42);
-
+    private Entity ee;
 
     public SandboxLayer(Application app) {
         this.application = app;
@@ -53,6 +56,7 @@ public class SandboxLayer extends Layer {
 
     @Override
     protected void init() {
+        log("Huston fuck me");
         sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
         //lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/en_us.lang"));
         lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/da_dk.lang"));
@@ -64,6 +68,10 @@ public class SandboxLayer extends Layer {
         label = new Label(lang.sandboxTest1, font, Color.white);
         soundsLabel = new Label(lang.sandboxTest3, font, Color.white);
         cum = new Label(lang.sandboxTest2, font, Color.color(1,1,1,0.025f));
+
+        ee = new Entity();
+        ee.addComponent(new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega")));
+        ee.addComponent(new Test2DMovement());
     }
 
     @Override

@@ -26,9 +26,10 @@ public class Core2D {
     private static Color currentColor;
     @Getter private static boolean prepared = false;
     private static Texture noTexture;
+    private static GLSLShaderProgram currentShader;
 
     private static void log(Object o) { Coal.logger.log(o); }
-    private static void trace() { if(Coal.TRACE) Coal.logger.log("Shader Uniforms"); }
+    private static void trace(Object o) { if(Coal.TRACE) Coal.logger.log(o); }
 
     public static void init(GLFWWindow w, GLSLShaderProgram s) {
         log("Initializing Core2D");
@@ -36,33 +37,42 @@ public class Core2D {
         defaultShader = s;
 
         guiMesh = Mesh2D.getQuad();
-        trace();
-        try {
-            defaultShader.createUniform("projection");
-            defaultShader.createUniform("offset");
-            defaultShader.createUniform("pixelScale");
-            defaultShader.createUniform("screenPos");
-            defaultShader.createUniform("color");
-            defaultShader.createUniform("useColor");
-        } catch (Exception e) { e.printStackTrace(); }
+        prepareShader(defaultShader);
         log("Core2D Done");
+    }
+
+    public static void prepareShader(GLSLShaderProgram shaderProgram) {
+        trace("Prepare shader for 2D rendering " + shaderProgram.name);
+        try {
+            shaderProgram.createUniform("projection");
+            shaderProgram.createUniform("offset");
+            shaderProgram.createUniform("pixelScale");
+            shaderProgram.createUniform("screenPos");
+            shaderProgram.createUniform("color");
+            shaderProgram.createUniform("useColor");
+        } catch (Exception e) { e.printStackTrace(); }
+        shaderProgram.initFor2D = true;
     }
 
     private static void changeColor(Color c) {
         if(c==currentColor) return;
-        defaultShader.setUniformAlt("color", c);
+        currentShader.setUniformAlt("color", c);
         currentColor = c;
     }
 
-    public static void prepare() {
+    public static void prepare() { prepare(defaultShader); }
+    public static void prepare(GLSLShaderProgram shader) {
+        if(!shader.initFor2D) prepareShader(shader);
+
+        currentShader = shader;
         // Disable 3d
         glDisable(GL_DEPTH_TEST);
 
         if(window.isDirty()) ortho = Matrix4x4f.ortho(0, window.getWidth(), window.getHeight(), 0, -1, 1);
 
         // Render preparation
-        defaultShader.bind();
-        defaultShader.setUniform("projection", ortho);
+        currentShader.bind();
+        currentShader.setUniform("projection", ortho);
         changeColor(Color.white);
         guiMesh.bind();
         noTexture = (Texture) AssetManager.getAsset("internal/textures/NoTexture.png");
@@ -73,21 +83,21 @@ public class Core2D {
         // Enable 3d
         glEnable(GL_DEPTH_TEST);
 
-        defaultShader.unbind();
+        currentShader.unbind();
         guiMesh.unbind();
         prepared = false;
     }
 
     private static final Rect fullUV = new Rect(0,0,1,1);
 
-    public static void drawTextureWithTextCoords(Material mat, Rect drawRect) { drawTextureWithTextCoords(mat, drawRect, fullUV, guiMesh, defaultShader); }
-    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect) { drawTextureWithTextCoords(mat, drawRect, uvRect, guiMesh, defaultShader); }
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect) { drawTextureWithTextCoords(mat, drawRect, fullUV, guiMesh); }
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect) { drawTextureWithTextCoords(mat, drawRect, uvRect, guiMesh); }
 
 
     private static final Rect u = new Rect(0,0,0,0);
     private static final Rect r = new Rect(0,0,0,0);
     private static final Rect r2 = new Rect(0,0,0,0);
-    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect, Mesh2D mesh, GLSLShaderProgram shader) {
+    public static void drawTextureWithTextCoords(Material mat, Rect drawRect, Rect uvRect, Mesh2D mesh) {
         window.rect.getIntersection(r2.set(drawRect.x, drawRect.y, drawRect.width, drawRect.height), r);
 
         // uvreact
@@ -99,10 +109,10 @@ public class Core2D {
         changeColor(mat.getColor());
         if(mat.getTexture() != null) mat.getTexture().bind();
         else { noTexture.bind(); u.set(0,0,1,1); }
-        shader.setUniform("useColor", mat.isTextured() ? 0 : 1);
-        shader.setUniform("offset", u.x, u.y, u.width, u.height);
-        shader.setUniform("pixelScale", r.width, r.height);
-        shader.setUniform("screenPos", r.x, r.y);
+        currentShader.setUniform("useColor", mat.isTextured() ? 0 : 1);
+        currentShader.setUniform("offset", u.x, u.y, u.width, u.height);
+        currentShader.setUniform("pixelScale", r.width, r.height);
+        currentShader.setUniform("screenPos", r.x, r.y);
 
         GL20.glDrawArrays(GL30.GL_TRIANGLES, 0, 6);
         if(mat.getTexture() != null) mat.getTexture().bind();

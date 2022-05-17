@@ -9,12 +9,15 @@ import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.audio.AudioUpdateTask;
 import dk.sebsa.coal.debug.CoalImGUI;
 import dk.sebsa.coal.debug.LogTracker;
+import dk.sebsa.coal.ecs.ECSUpdateTask;
+import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.FBO;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.renderes.Core2D;
+import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.math.Time;
 import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
@@ -156,6 +159,7 @@ public class Coal extends Logable {
             Core2D.unprepare();
             log("Render Screen Done!");
         }
+        if(capabilities.coalSprite2D) SpriteRenderer.initDefaultShader();
 
         // Remove capabilities cause AssetManagerInit uses them
         GL.setCapabilities(null);
@@ -208,6 +212,7 @@ public class Coal extends Logable {
 
             taskManager.doTask(new LayerStackUpdateTask(application.stack)); // Handle event task
             taskManager.doTask(new LayerStackEventTask(application.stack)); // Handle event task
+            taskManager.doTask(new ECSUpdateTask(Entity.master, application));
             if(capabilities.coalAudio) taskManager.doTask(new AudioUpdateTask()); // Handle event task
 
             while(taskManager.stuffToDo()) {

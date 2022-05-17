@@ -6,6 +6,7 @@ import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.FolderAssetProvider;
 import dk.sebsa.coal.graph.RenderPipeline;
+import dk.sebsa.coal.graph.stages.RenderSprites;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
 
@@ -23,6 +24,7 @@ public class Sandbox extends Application {
             CoalCapabilities.builder()
                     .coalTrace(true)
                     .coalAudio(true)
+                    .coalSprite2D(true)
                     .build());
     }
 
@@ -33,15 +35,15 @@ public class Sandbox extends Application {
         debugLayer = new DebugLayer(this);
         sandboxLayer = new SandboxLayer(this);
 
-        stack.stack.add(debugLayer);
         stack.stack.add(sandboxLayer);
+        stack.stack.add(debugLayer);
 
         debugLayer.enabled = false;
 
         AssetManager.addAssetProvider(new FolderAssetProvider("sandboxassets/"));
 
         renderPipeline = new RenderPipeline.RenderPipelineBuilder()
-                .appendStage(new CustomRenderStage(this)).build();
+                .appendStage(new RenderSprites(this)).build();
 
         return new GLFWWindow("Sandbox", Color.cyan, 800, 600);
     }

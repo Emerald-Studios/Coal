@@ -28,11 +28,21 @@ public class Mesh2D extends Asset {
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1
     };
+    private static final float[] uv = new float[] {
+            0, 0, 1, 0, 1, 1,
+            1, 1, 0, 1, 0, 0
+    };
 
     public static Mesh2D getQuad() {
         try {
             return (Mesh2D) new Mesh2D("coal/internal/Quad2D", square, square).loadAsset();
         } catch (AssetExitsException e) { return (Mesh2D) AssetManager.getAsset("coal/internal/Quad2D"); }
+    }
+
+    public static Mesh2D getRenderMesh() {
+        try {
+            return (Mesh2D) new Mesh2D("coal/internal/RenderMesh2D", square, uv).loadAsset();
+        } catch (AssetExitsException e) { return (Mesh2D) AssetManager.getAsset("coal/internal/RenderMesh2D"); }
     }
 
     // Main class

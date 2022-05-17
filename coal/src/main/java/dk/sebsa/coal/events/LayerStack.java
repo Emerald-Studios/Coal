@@ -18,7 +18,7 @@ public class LayerStack {
     public void event(Event e) { queue.add(e); }
 
     public void init() {
-        Coal.logger.log("Layerstack Init", "LayerStack");
+        Coal.logger.log("Layerstack Init " + stack.size(), "LayerStack");
         for(i = 0; i < stack.size(); i++) {
             stack.get(i).init();
         }

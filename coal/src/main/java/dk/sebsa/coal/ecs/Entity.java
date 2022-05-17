@@ -13,31 +13,35 @@ import java.util.UUID;
  */
 public class Entity {
     @Getter
-    private final List<Entity> children;
+    private final List<Entity> children = new ArrayList<>();
     @Getter
-    private List<Component> components;
+    private final List<Component> components = new ArrayList<>();
     @Getter
     private Entity parent;
     public final Transform transform;
     public static final Entity master = new Entity(0);
-    @Getter
     public String name = "New Entity";
     @Getter
     private final String id = UUID.randomUUID().toString();
 
-    private Entity(int i) { children = new ArrayList<>(); transform = new MasterEntityTransform(this); name = "COAL-INTERNAL-MASTER"; }
+    private Entity(int i) { transform = new MasterEntityTransform(this); name = "COAL-INTERNAL-MASTER"; }
 
     public Entity() {
         this.parent = master;
-        children = new ArrayList<>();
-        components = new ArrayList<>();
+        master.children.add(this);
+        transform = new Transform(this);
+    }
+
+    public Entity(String name) {
+        this.parent = master;
+        this.name = name;
+        master.children.add(this);
         transform = new Transform(this);
     }
 
     public Entity(Entity parent) {
         this.parent = parent;
-        children = new ArrayList<>();
-        components = new ArrayList<>();
+        this.parent.children.add(this);
         transform = new Transform(this);
     }
 

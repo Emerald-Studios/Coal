@@ -5,6 +5,7 @@ import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
 import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Matrix4x4f;
+import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.coal.util.FileUtils;
 import lombok.SneakyThrows;
 import org.lwjgl.BufferUtils;
@@ -23,6 +24,7 @@ public class GLSLShaderProgram extends Asset {
     private int programId;
     private int vertexShaderId, fragmentShaderId;
     private final Map<String, Integer> uniforms = new HashMap<>();
+    public boolean initFor2D = false;
 
     public GLSLShaderProgram(AssetLocation location) {
         super(location);
@@ -133,5 +135,9 @@ public class GLSLShaderProgram extends Asset {
 
     public void setUniform(String uniformName, int value) {
         glUniform1i(uniforms.get(uniformName), value);
+    }
+
+    public void setUniform(String uniformName, Vector2f value) {
+        setUniform(uniformName, value.x, value.y);
     }
 }
