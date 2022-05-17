@@ -22,6 +22,15 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class AudioManager {
     private static void log(Object o) { if(Coal.TRACE) Coal.logger.log(o, "AudioManager"); }
     private static void trace(Object o) { if(Coal.TRACE) log(o); }
+
+    public static void forceClean() {
+        for(AudioSource source : sources) {
+            source.destroy();
+            allSources.remove(source);
+        }
+        sources.clear();
+    }
+
     private record SoundRequest(Sound sound, int gain) { }
     private static final List<AudioSource> sources = new ArrayList<>();
     private static final List<AudioSource> loanedSources = new ArrayList<>();

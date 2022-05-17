@@ -49,14 +49,14 @@ public class Time {
 
         // Calculate Delta time
         double rawDelta = framePassedTime / (double) SECOND;
-        if(rawDelta > 0.01f) {
+        /*if(rawDelta > 0.01f) {
             deltaTime = (float) (0.01 * timeScale);
             unscaledDelta = 0.01f;
         }
-        else {
+        else {*/
             deltaTime = (float) (rawDelta * timeScale);
             unscaledDelta = (float) rawDelta;
-        }
+        //}
 
         // FPS Count
         if(time - fpsCountTime >= 1000) {

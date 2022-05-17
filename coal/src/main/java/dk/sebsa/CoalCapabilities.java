@@ -13,6 +13,7 @@ public class CoalCapabilities {
     @Builder.Default public final boolean loadScreen = true;
     @Builder.Default public final boolean ignoreErrorShutdown = false;
     @Builder.Default public final boolean disableContinuousLogFlush = false;
+    @Builder.Default public final boolean coalSprite2D = false;
     // THREAD
     // MULTIPLE APPS
     // ASSET
