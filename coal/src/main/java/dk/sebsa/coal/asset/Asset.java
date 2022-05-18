@@ -1,6 +1,7 @@
 package dk.sebsa.coal.asset;
 
 import dk.sebsa.Coal;
+import dk.sebsa.coal.trash.Trash;
 
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
  * @author sebs
  * @since 1.0.0
  */
-public abstract class Asset {
+public abstract class Asset extends Trash {
     public final AssetLocation location;
     public String name = "Unnamed";
 
@@ -30,8 +31,6 @@ public abstract class Asset {
 
         return this;
     }
-
-    public abstract void destroy();
 
     public Asset loadAsset() throws AssetExitsException {
         if(Coal.TRACE) log("Creating Asset! " + location + ", Name: " + name);

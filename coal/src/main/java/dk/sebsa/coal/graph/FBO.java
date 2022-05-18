@@ -4,6 +4,8 @@ package dk.sebsa.coal.graph;
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.graph.renderes.Core2D;
+import dk.sebsa.coal.trash.Trash;
+import dk.sebsa.coal.trash.TrashCollector;
 import lombok.Getter;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -19,7 +21,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @author sebs
  * @since 1.0.0
  */
-public class FBO {
+public class FBO extends Trash {
     private final int frameBufferID;
     private final int depthBufferID;
     private final Texture texture;
@@ -55,6 +57,10 @@ public class FBO {
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
     }
 
+    public void dispose() { // Will schedule the TC to destroy this
+        if(Coal.getCapabilities().tcFBOClean) TrashCollector.trash(this);
+    }
+
     private int createTextureAttachment() {
         trace("Gen Texture Attachment");
         int texture = GL11.glGenTextures();
@@ -85,12 +91,7 @@ public class FBO {
         return buffer;
     }
 
-    public static void cleanup() {
-        while(!fbos.isEmpty()) {
-            fbos.get(0).destroy();
-        }
-    }
-
+    @Override
     public void destroy() {
         GL30.glDeleteFramebuffers(frameBufferID);
         texture.destroy();

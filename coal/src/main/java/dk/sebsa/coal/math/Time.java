@@ -1,6 +1,7 @@
 package dk.sebsa.coal.math;
 
 import dk.sebsa.Coal;
+import org.jetbrains.annotations.Contract;
 
 import java.util.concurrent.TimeUnit;
 
@@ -71,19 +72,23 @@ public class Time {
         frames++;
     }
 
+    @Contract(pure = true)
     public static long getTime() {
         rawTime = System.nanoTime();
         return (TimeUnit.MILLISECONDS.convert(rawTime - startTime, TimeUnit.NANOSECONDS));
     }
 
+    @Contract(pure = true)
     public static float getDeltaTime() {
         return deltaTime;
     }
 
+    @Contract(pure = true)
     public static float getUnscaledDelta() {
         return unscaledDelta;
     }
 
+    @Contract(pure = true)
     public static int getFPS() {
         return framesPerSecond;
     }
@@ -91,6 +96,7 @@ public class Time {
     /**
      * @return the averageFrameLength
      */
+    @Contract(pure = true)
     public static double getAFL() {
         return averageFrameLength;
     }

@@ -62,8 +62,10 @@ public class Vector2f {
     public Vector2f mul(Vector2f v) { return new Vector2f(x * v.x, y * v.y); }
     public Vector2f mul(float x, float y) { return new Vector2f(x * this.x, y * this.y); }
 
-    public float min() {return java.lang.Math.min(x, y);}
-    public float max() {return java.lang.Math.max(x, y);}
+    @Contract(pure = true)
+    public float min() { return java.lang.Math.min(x, y); }
+    @Contract(pure = true)
+    public float max() { return java.lang.Math.max(x, y); }
 
     public String toString() {
         return x+", "+y;

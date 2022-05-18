@@ -1,6 +1,7 @@
 package dk.sebsa.coal.math;
 
 import dk.sebsa.coal.util.FourKeyHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 
 /**
@@ -12,6 +13,7 @@ public class Color {
     public final float g;
     public final float b;
     public final float a;
+    @Getter
     private static final FourKeyHashMap<Float, Float, Float, Float, Color> colorPool = new FourKeyHashMap<>();
 
     private Color(float r, float g, float b, float a) {

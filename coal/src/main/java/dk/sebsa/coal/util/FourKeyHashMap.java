@@ -32,4 +32,8 @@ public class FourKeyHashMap<K1, K2, K3, K4, V> {
         var map3 = map2.computeIfAbsent(key3, k -> new HashMap<>());
         map3.put(key4, v);
     }
+
+    public void prune() {
+        theBigMotherFuckerMap.clear();
+    }
 }

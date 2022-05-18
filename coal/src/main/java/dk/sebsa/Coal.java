@@ -14,7 +14,6 @@ import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
-import dk.sebsa.coal.graph.FBO;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.renderes.Core2D;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
@@ -22,6 +21,8 @@ import dk.sebsa.coal.math.Time;
 import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
 import dk.sebsa.coal.tasks.ThreadManager;
+import dk.sebsa.coal.trash.TCFrameTask;
+import dk.sebsa.coal.trash.TrashCollector;
 import dk.sebsa.coal.util.InitScreenRenderer;
 import dk.sebsa.emerald.Logable;
 import dk.sebsa.emerald.Logger;
@@ -109,8 +110,7 @@ public class Coal extends Logable {
         log("Entering Cleanup");
         if(DEBUG) CoalImGUI.cleanup();
         application.cleanup();
-        AssetManager.cleanup();
-        FBO.cleanup();
+        TrashCollector.deepForceClean();
         try { AudioManager.cleanup(); } catch(Exception | Error e) { log("AudioManager cleanup failed"); }
         threadManager.stop();
         ThreadLogging.logAll(logger);
@@ -149,7 +149,7 @@ public class Coal extends Logable {
         catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
         Core2D.init(application.window, shader2d);
 
-        if(capabilities.loadScreen) {
+        if(capabilities.coalLoadScreen) {
             log("Render Screen...");
             // Render Init Screen, this is done once pr color buffer
             Core2D.prepare();
@@ -168,7 +168,7 @@ public class Coal extends Logable {
         // Pre-Main Loop
         log("Entering pre-main loop");
         while(taskManager.stuffToDo()) {
-            if(capabilities.loadScreen) {
+            if(capabilities.coalLoadScreen) {
                 glfwSwapBuffers(application.window.getID()); // swap the color buffers
                 glfwPollEvents(); // Poll for window events.
             }
@@ -214,6 +214,7 @@ public class Coal extends Logable {
             taskManager.doTask(new LayerStackEventTask(application.stack)); // Handle event task
             taskManager.doTask(new ECSUpdateTask(Entity.master, application));
             if(capabilities.coalAudio) taskManager.doTask(new AudioUpdateTask()); // Handle event task
+            if(capabilities.tcAudioClean) taskManager.doTask(new TCFrameTask()); // Handle event task
 
             while(taskManager.stuffToDo()) {
                 taskManager.frame(threadManager);
@@ -232,6 +233,13 @@ public class Coal extends Logable {
             // Late Updates
             application.window.endFrame();
             application.input.endFrame();
+
+            // Empty Garbage Can
+            while(!TrashCollector.literalTrash.isEmpty()) {
+                TrashCollector.literalTrash.get(0).destroy();
+                TrashCollector.trash.remove(TrashCollector.literalTrash.get(0));
+                TrashCollector.literalTrash.remove(0);
+            }
         }
     }
 }

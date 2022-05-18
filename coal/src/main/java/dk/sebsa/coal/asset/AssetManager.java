@@ -136,11 +136,7 @@ public class AssetManager {
         } catch (AssetExitsException e) { /* This won't happen since they have already been named */ }
     }
 
-    public static void cleanup() {
-        for (Asset a: loadedAssets) {
-            a.destroy();
-        }
-
+    public static void reset() {
         loadedAssets = new ArrayList<>();
     }
 
