@@ -50,4 +50,9 @@ public class Vector3f {
         this.z = z;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
 }

@@ -1,6 +1,7 @@
 package dk.sebsa.coal.graph;
 
 import dk.sebsa.coal.Application;
+import lombok.Getter;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -21,6 +22,7 @@ public abstract class RenderStage {
     public void init() {
         updateFBO();
         init = true;
+        checkEnabled();
     }
 
     private void updateFBO() {
@@ -33,6 +35,8 @@ public abstract class RenderStage {
 
     protected FBO render(FBO prevFBO) {
         if(!init || app.window.isDirty()) init();
+        checkEnabled();
+        if(!enabled) return prevFBO;
         fbo.bindFrameBuffer();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -42,12 +46,24 @@ public abstract class RenderStage {
         return fbo;
     }
 
-    public static final Rect r = new Rect(0, 0, 1, 1);
+    public static final Rect r = new Rect(0, 1, 1, -1);
     //public static final Rect r = new Rect(0, 0, 1, -1);
     protected void renderPrevFBO(FBO prevFBO) {
+        if(prevFBO == null) return;
         FBO.renderFBO(app, prevFBO, r);
         fbo.bindFrameBuffer();
     }
 
     protected abstract void draw(FBO prevFBO);
+
+    @Getter private boolean enabled = true;
+    private boolean upToDate = false; // Enabling should be done on rendering thread not update thread
+    public void setEnabled(boolean e) { enabled = e; upToDate = false; }
+    private void checkEnabled() {
+        if(upToDate) return;
+        if(enabled) onEnable(); else onDisable();
+        upToDate = true;
+    }
+    protected abstract void onEnable();
+    protected abstract void onDisable();
 }

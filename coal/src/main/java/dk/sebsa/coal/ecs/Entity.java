@@ -1,5 +1,6 @@
 package dk.sebsa.coal.ecs;
 
+import dk.sebsa.coal.trash.TrashCollector;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -81,6 +82,8 @@ public class Entity {
 
     public void removeComponent(Component c) {
         components.remove(c);
+        TrashCollector.trash(c);
+        c.entity = null;
     }
 
     public Component addComponent(Component c) {

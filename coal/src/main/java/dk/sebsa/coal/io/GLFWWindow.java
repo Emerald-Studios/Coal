@@ -29,7 +29,7 @@ public class GLFWWindow {
     private Color clearColor;
     @Getter
     private int width, height;
-    private final boolean vsync = true;
+    private final boolean vsync = false;
     private boolean minimized = false;
     @Getter
     private boolean isDirty;

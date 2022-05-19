@@ -3,12 +3,13 @@ package dk.sebsa.coal.ecs;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.coal.math.Vector3f;
+import dk.sebsa.coal.trash.Trash;
 
 /**
  * @author sebs
  * @since 1.0.0
  */
-public abstract class Component {
+public abstract class Component extends Trash {
     protected Entity entity;
     protected Transform transform;
 
@@ -27,5 +28,10 @@ public abstract class Component {
     protected void move3D(Vector3f v) { move3D(v.x, v.y, v.z); }
     protected void move3D(float x, float y, float z) {
         transform.setPosition(transform.getPosition().x+x, transform.getPosition().y+y, transform.getPosition().z+z);
+    }
+
+    @Override
+    public void destroy() {
+        // DO NOTHING!!
     }
 }

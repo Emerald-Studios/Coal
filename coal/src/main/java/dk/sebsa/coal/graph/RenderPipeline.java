@@ -52,7 +52,7 @@ public class RenderPipeline {
         }
 
         // Render the FBO
-        FBO.renderFBO(app, prevFBO, RenderStage.r);
+        FBO.renderFBO(app, prevFBO, new Rect(0, 0, 1, 1));
     }
 
     public static class RenderPipelineBuilder {

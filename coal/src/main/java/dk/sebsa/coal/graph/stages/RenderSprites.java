@@ -21,4 +21,14 @@ public class RenderSprites extends RenderStage {
         renderPrevFBO(prevFBO);
         CoreSprite.render(app);
     }
+
+    @Override
+    protected void onEnable() {
+
+    }
+
+    @Override
+    protected void onDisable() {
+
+    }
 }
