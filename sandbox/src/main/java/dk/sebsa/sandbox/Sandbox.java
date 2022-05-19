@@ -6,6 +6,8 @@ import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.FolderAssetProvider;
 import dk.sebsa.coal.graph.RenderPipeline;
+import dk.sebsa.coal.graph.RenderStage;
+import dk.sebsa.coal.graph.stages.RenderColliders;
 import dk.sebsa.coal.graph.stages.RenderSprites;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
@@ -14,6 +16,7 @@ public class Sandbox extends Application {
     protected DebugLayer debugLayer;
     protected SandboxLayer sandboxLayer;
     protected static Sandbox instance;
+    protected RenderStage debugRenderStage;
 
     public String getName() { return "Coal Sandbox"; }
     public String getAuthor() { return "Emerald Studios"; }
@@ -23,6 +26,7 @@ public class Sandbox extends Application {
         Coal.fireUp(new Sandbox(),
             CoalCapabilities.builder()
                     .coalTrace(true)
+                    //.coalDebug(false)
                     .coalAudio(true)
                     .coalSprite2D(true)
                     .build());
@@ -42,8 +46,15 @@ public class Sandbox extends Application {
 
         AssetManager.addAssetProvider(new FolderAssetProvider("sandboxassets/"));
 
-        renderPipeline = new RenderPipeline.RenderPipelineBuilder()
-                .appendStage(new RenderSprites(this)).build();
+        if(Coal.DEBUG) {
+            debugRenderStage = new RenderColliders(this);
+            debugRenderStage.setEnabled(false);
+            renderPipeline = new RenderPipeline.RenderPipelineBuilder()
+                    .appendStage(new RenderSprites(this))
+                    .appendStage(debugRenderStage).build();
+        } else  renderPipeline = new RenderPipeline.RenderPipelineBuilder()
+                .appendStage(new RenderSprites(this)) .build();
+
 
         return new GLFWWindow("Sandbox", Color.cyan, 800, 600);
     }

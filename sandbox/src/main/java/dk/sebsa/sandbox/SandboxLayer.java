@@ -6,6 +6,7 @@ import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.audio.Sound;
 import dk.sebsa.coal.ecs.Entity;
+import dk.sebsa.coal.ecs.collision.BoxCollider2D;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.enums.PolygonMode;
 import dk.sebsa.coal.events.Event;
@@ -50,6 +51,11 @@ public class SandboxLayer extends Layer {
         if(e.eventType().equals(EventTypes.KeyPressed)) {
             KeyPressedEvent e2 = (KeyPressedEvent) e;
             if(e2.key == GLFW.GLFW_KEY_F11) application.window.setFullscreen(!application.window.isFullscreen());
+            else if(e2.key == GLFW.GLFW_KEY_F3) Sandbox.instance.debugLayer.enabled = !Sandbox.instance.debugLayer.enabled;
+            else if(e2.key == GLFW.GLFW_KEY_F4) {
+                RenderPipeline rp = application.renderPipeline;
+                rp.polygonMode = (rp.polygonMode == PolygonMode.Fill) ? PolygonMode.Line : PolygonMode.Fill;
+            } else if(e2.key == GLFW.GLFW_KEY_F2) Sandbox.instance.debugRenderStage.setEnabled(!Sandbox.instance.debugRenderStage.isEnabled());
         }
         return false;
     }
@@ -70,17 +76,15 @@ public class SandboxLayer extends Layer {
         cum = new Label(lang.sandboxTest2, font, Color.color(1,1,1,0.025f));
 
         ee = new Entity();
-        ee.addComponent(new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega")));
+        SpriteRenderer sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega"));
+        ee.addComponent(sr);
         ee.addComponent(new Test2DMovement());
+        ee.addComponent(new BoxCollider2D(sr));
     }
 
     @Override
     protected void update() {
-        if(application.input.isKeyPressed(GLFW.GLFW_KEY_F4)) {
-            RenderPipeline rp = application.renderPipeline;
-            rp.polygonMode = (rp.polygonMode == PolygonMode.Fill) ? PolygonMode.Line : PolygonMode.Fill;
-        }
-        if(application.input.isKeyPressed(GLFW.GLFW_KEY_F3)) Sandbox.instance.debugLayer.enabled = !Sandbox.instance.debugLayer.enabled;
+
     }
 
     @Override
