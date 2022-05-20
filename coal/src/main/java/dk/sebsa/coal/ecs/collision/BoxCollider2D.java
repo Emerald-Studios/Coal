@@ -1,5 +1,6 @@
 package dk.sebsa.coal.ecs.collision;
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.io.GLFWInput;
@@ -28,7 +29,9 @@ public class BoxCollider2D extends Collider2D {
     }
 
     @Override
-    protected void load() {}
+    protected void load() {
+        if(!Coal.getCapabilities().coalPhysics2D) entity.removeComponent(this);
+    }
 
     private BoxCollider2D calcGlobalPos() {
         float halfW = size.x * anchor.x;

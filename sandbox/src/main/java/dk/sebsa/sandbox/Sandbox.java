@@ -26,9 +26,9 @@ public class Sandbox extends Application {
         Coal.fireUp(new Sandbox(),
             CoalCapabilities.builder()
                     .coalTrace(true)
-                    //.coalDebug(false)
                     .coalAudio(true)
                     .coalSprite2D(true)
+                    .coalPhysics2D(true)
                     .build());
     }
 

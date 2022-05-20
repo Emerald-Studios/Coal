@@ -21,7 +21,7 @@ public class TaskManager {
         toDo.add(t);
     }
 
-    public boolean taskAvaible() { return !toDo.isEmpty(); }
+    //public boolean taskAvaible() { return !toDo.isEmpty(); }
     public Task getTask() {
         var r = toDo.get(0);
         doing.add(r);
@@ -55,6 +55,8 @@ public class TaskManager {
                     Coal.shutdownDueToError();
                     doing.clear();
                     Coal.instance.getThreadManager().demonizeThreads();
+                } else if (tt == 1) {
+                    Coal.logger.error("Task " + t + ", has taken 1 second to run!");
                 }
             }
         } catch (Exception e) { }
