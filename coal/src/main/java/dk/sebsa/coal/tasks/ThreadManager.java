@@ -74,4 +74,10 @@ public class ThreadManager extends Logable {
             thread.interrupt();
         }
     }
+
+    public void demonizeThreads() {
+        for (TaskThread thread : threads) {
+			thread.setDaemon(true);
+        }
+    }
 }

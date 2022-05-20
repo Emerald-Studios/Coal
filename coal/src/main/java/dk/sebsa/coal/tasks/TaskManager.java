@@ -49,9 +49,12 @@ public class TaskManager {
         try {
             for (Task t : doing) {
                 var tt = TimeUnit.SECONDS.convert(Time.getTime() - t.startTime, TimeUnit.MILLISECONDS);
-                if (tt > 8) {
+                if (tt > 12) {
                     t.startTime = Time.getTime();
-                    Coal.logger.log("Task " + t + ", has taken more then 8 seconds to run!");
+                    Coal.logger.error("Task " + t + ", has taken more then 12 seconds to run!");
+                    Coal.shutdownDueToError();
+                    doing.clear();
+                    Coal.instance.getThreadManager().demonizeThreads();
                 }
             }
         } catch (Exception e) { }
