@@ -1,6 +1,7 @@
 package dk.sebsa.sandbox;
 
 import dk.sebsa.coal.ecs.Component;
+import dk.sebsa.coal.graph.renderes.Collision;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Time;
 import org.lwjgl.glfw.GLFW;
@@ -27,5 +28,10 @@ public class Test2DMovement extends Component {
     @Override
     protected void lateUpdate(GLFWInput input) {
 
+    }
+
+    @Override
+    public void onCollision2D(Collision collision) {
+        setEnabled(false);
     }
 }

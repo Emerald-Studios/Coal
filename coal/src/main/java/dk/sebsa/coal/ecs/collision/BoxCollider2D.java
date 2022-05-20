@@ -54,10 +54,10 @@ public class BoxCollider2D extends Collider2D {
         return worldPositionRect;
     }
 
+    private final Vector2f calcVec = new Vector2f();
     @Override
     public boolean collides(@NotNull BoxCollider2D collider2D) {
         calcGlobalPos();
-
-        return collider2D.calcGlobalPos().worldPositionRect.intersects(worldPositionRect);
+        return collider2D.calcGlobalPos().worldPositionRect.overlap(worldPositionRect);
     }
 }

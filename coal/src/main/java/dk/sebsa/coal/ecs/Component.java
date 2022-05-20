@@ -1,17 +1,20 @@
 package dk.sebsa.coal.ecs;
 
+import dk.sebsa.coal.graph.renderes.Collision;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.coal.math.Vector3f;
 import dk.sebsa.coal.trash.Trash;
+import lombok.Getter;
 
 /**
  * @author sebs
  * @since 1.0.0
  */
 public abstract class Component extends Trash {
-    protected Entity entity;
+    @Getter protected Entity entity;
     protected Transform transform;
+    @Getter private boolean enabled = true;
 
     protected abstract void load();
     protected abstract void update(GLFWInput input);
@@ -30,8 +33,15 @@ public abstract class Component extends Trash {
         transform.setPosition(transform.getPosition().x+x, transform.getPosition().y+y, transform.getPosition().z+z);
     }
 
-    @Override
     public void destroy() {
         // DO NOTHING!!
+    }
+
+    public void onCollision2D(Collision collision) {
+        // DO NOTHING!!
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

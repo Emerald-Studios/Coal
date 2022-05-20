@@ -1,6 +1,9 @@
 package dk.sebsa.coal.ecs;
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
+import dk.sebsa.coal.graph.renderes.ColliderCalculationTask2D;
+import dk.sebsa.coal.graph.renderes.Collision;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.tasks.Task;
 
@@ -25,7 +28,11 @@ public class ECSUpdateTask extends Task {
 
     public void recurseAddComponent(Entity e) {
         for(Entity e2 : e.getChildren()) {
-            components.addAll(e2.getComponents());
+            for(Component component : e2.getComponents()) {
+                if(component.isEnabled())
+                    components.add(component);
+            }
+
             recurseAddComponent(e2);
         }
     }
@@ -36,6 +43,20 @@ public class ECSUpdateTask extends Task {
 
         for(Component c : components) {
             c.update(input);
+        }
+
+        if(Coal.getCapabilities().coalPhysics2D) {
+            try {
+                ColliderCalculationTask2D.latch.await();
+            } catch (InterruptedException e) { /* DO NOTHING */ }
+
+            synchronized (ColliderCalculationTask2D.getCollision()) {
+                for(Collision collision : ColliderCalculationTask2D.getCollision()) {
+                    for(Component c : collision.main().entity.getComponents()) {
+                        c.onCollision2D(collision);
+                    }
+                }
+            }
         }
 
         for(Component c : components) {

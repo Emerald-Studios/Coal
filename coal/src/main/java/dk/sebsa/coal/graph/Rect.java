@@ -2,6 +2,7 @@ package dk.sebsa.coal.graph;
 
 import dk.sebsa.coal.math.Vector2f;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author sebs
@@ -100,7 +101,15 @@ public class Rect {
 
     @Contract(pure = true)
     public boolean contains(Vector2f v) {return v.x > x && v.x < x + width && v.y > y && v.y < y + height;}
+    @Contract(pure = true)
     public Vector2f getSize() {return new Vector2f(width, height);}
+
+    @Contract(pure = true)
+    public boolean overlap(@NotNull Rect r) { // Assuming (x, y) is top left corner and (x+w, y-h) is bottom right
+        if (y < r.y-r.height || y-height > r.y) return false;
+        if(x+width < r.x || x > r.x + r.width) return false;
+        return true;
+    }
 
     @Override
     public String toString() {

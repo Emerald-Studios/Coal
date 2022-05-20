@@ -15,6 +15,7 @@ import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
+import dk.sebsa.coal.graph.renderes.ColliderCalculationTask2D;
 import dk.sebsa.coal.graph.renderes.Core2D;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.math.Time;
@@ -56,7 +57,7 @@ public class Coal extends Logable {
     public static Logger logger;
     @Getter private Application application;
     @Getter private TaskManager taskManager;
-    private ThreadManager threadManager;
+    @Getter private ThreadManager threadManager;
     @Getter private static CoalCapabilities capabilities;
 
     /**
@@ -213,6 +214,7 @@ public class Coal extends Logable {
             taskManager.doTask(new LayerStackUpdateTask(application.stack)); // Handle event task
             taskManager.doTask(new LayerStackEventTask(application.stack)); // Handle event task
             taskManager.doTask(new ECSUpdateTask(Entity.master, application));
+            if(capabilities.coalPhysics2D) taskManager.doTask(new ColliderCalculationTask2D());
             if(capabilities.coalAudio) taskManager.doTask(new AudioUpdateTask()); // Handle event task
             if(capabilities.tcAudioClean) taskManager.doTask(new TCFrameTask()); // Handle event task
 

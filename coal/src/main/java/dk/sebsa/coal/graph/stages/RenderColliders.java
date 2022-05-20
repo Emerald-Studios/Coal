@@ -102,7 +102,7 @@ public class RenderColliders extends RenderStage {
         try {
             shader.createUniform("projection");
             shader.createUniform("mode");
-            shader.createUniform("pixelScale");
+            //shader.createUniform("pixelScale");
         } catch (Exception e) { Coal.logger.log("onEnable failed to create uniforms", getName()); }
     }
 
