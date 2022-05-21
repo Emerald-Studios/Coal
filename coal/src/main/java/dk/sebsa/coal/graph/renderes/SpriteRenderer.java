@@ -19,6 +19,7 @@ public class SpriteRenderer extends Component {
     public GLSLShaderProgram shader;
     public Sprite sprite;
     public Vector2f anchor = new Vector2f(0.5f, 0.5f);
+    public float scale = 1.0f;
     private static GLSLShaderProgram defaultShader;
 
     public SpriteRenderer(Sprite sprite) {
@@ -58,7 +59,7 @@ public class SpriteRenderer extends Component {
         //shader.setUniform("screenPos",entity.transform.getPosition().x, entity.transform.getPosition().y);
 
         shader.setUniform("pixelScale", sprite.getOffset().width, sprite.getOffset().height);
-        shader.setUniform("objectScale", 1,1);
+        shader.setUniform("objectScale", scale, scale);
 
         Rect uvRect = sprite.getUV();
         shader.setUniform("offset", uvRect.x, uvRect.y, uvRect.width, uvRect.height);

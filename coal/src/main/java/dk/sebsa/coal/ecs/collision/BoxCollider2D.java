@@ -24,7 +24,7 @@ public class BoxCollider2D extends Collider2D {
     }
 
     public BoxCollider2D(SpriteRenderer renderer) {
-        size = renderer.sprite.getOffset().getSize();
+        size = renderer.sprite.getOffset().getSize().mul(renderer.scale);
         anchor = new Vector2f(0.5f, 0.5f);
     }
 

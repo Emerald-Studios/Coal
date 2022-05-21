@@ -21,7 +21,6 @@ public class TaskManager {
         toDo.add(t);
     }
 
-    //public boolean taskAvaible() { return !toDo.isEmpty(); }
     public Task getTask() {
         var r = toDo.get(0);
         doing.add(r);

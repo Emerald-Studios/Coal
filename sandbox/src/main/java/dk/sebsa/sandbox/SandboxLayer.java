@@ -84,23 +84,6 @@ public class SandboxLayer extends Layer {
         Entity colliderEntity = new Entity("Not");
         colliderEntity.transform.setPosition(160,160,0);
         colliderEntity.addComponent(new BoxCollider2D());
-
-        // Entity stress test
-        /*
-        List<Entity> es = new ArrayList<>();
-        Random random = new Random();
-        es.add(Entity.master);
-        for(int i = 0; i < 9999; i++) {
-            Entity a = new Entity(es.get(random.nextInt(es.size())));
-            a.addComponent(new Test2DMovement());
-            a.addComponent(new Test2DMovement());
-            a.addComponent(new Test2DMovement());
-            a.addComponent(new Test2DMovement());
-            a.addComponent(new Test2DMovement());
-            a.addComponent(new Test2DMovement());
-            a.addComponent(new Test2DMovement());
-            a.addComponent(new Test2DMovement());
-        }*/
     }
 
     @Override
