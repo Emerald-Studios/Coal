@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author sebs
@@ -32,7 +31,7 @@ public class CoreSprite {
 
     public static void render(Application app) {
         if(mainMesh == null) mainMesh = Mesh2D.getRenderMesh();
-        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);
         float w = app.window.getWidth();
         float h = app.window.getHeight();
         float halfW = w * 0.5f;
@@ -62,5 +61,6 @@ public class CoreSprite {
 
         mainMesh.unbind();
         renderMap.clear();
+        glEnable(GL_DEPTH_TEST);
     }
 }
