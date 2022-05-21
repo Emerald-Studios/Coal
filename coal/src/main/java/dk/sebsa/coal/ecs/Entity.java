@@ -25,6 +25,11 @@ public class Entity {
     @Getter
     private final String id = UUID.randomUUID().toString();
 
+    /**
+     * The general tag used to easily identify groups of entities
+     */
+    public String tag = "Untagged";
+
     private Entity(int i) { transform = new MasterEntityTransform(this); name = "COAL-INTERNAL-MASTER"; }
 
     public Entity() {
@@ -58,7 +63,7 @@ public class Entity {
         transform.recalculateLocalTransformation();
     }
 
-    public void removeChild(Entity e) {
+    private void removeChild(Entity e) {
         int i;
         for(i = 0; i < children.size(); i++) {
             if(children.get(i)==e) {
@@ -68,7 +73,7 @@ public class Entity {
         }
     }
 
-    public void removeChild(int v) {
+    private void removeChild(int v) {
         if(v >= children.size()) return;
 
         children.remove(v);
@@ -90,5 +95,26 @@ public class Entity {
         components.add(c);
         c.init(this);
         return c;
+    }
+
+    public void destroy() {
+        parent = null;
+
+        while(!children.isEmpty()) {
+            children.get(0).destroy();
+            children.remove(0);
+        }
+
+        while(!components.isEmpty()) {
+            components.get(0).destroy();
+            components.remove(0);
+        }
+    }
+
+    public static void destroyAll() {
+        while(!master.children.isEmpty()) {
+
+            master.children.remove(0);
+        }
     }
 }

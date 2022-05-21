@@ -10,3 +10,5 @@
 
 rootProject.name = 'Coal'
 include('sandbox', 'coal')
+include 'Arcade'
+

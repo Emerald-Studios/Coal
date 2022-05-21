@@ -10,6 +10,7 @@
         </processorPath>
         <module name="Coal.coal.main" />
         <module name="Coal.sandbox.main" />
+        <module name="Coal.Arcade.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="16" />

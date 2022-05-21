@@ -1,0 +1,24 @@
+plugins {
+    id 'dk.sebsa.java-application-conventions'
+}
+
+group 'dk.sebsa.arcade'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.commons:commons-text'
+    implementation project(':coal')
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'dk.sebsa.Arcade'
+}
+
+test {
+    useJUnitPlatform()
+}
