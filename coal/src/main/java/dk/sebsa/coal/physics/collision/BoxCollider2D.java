@@ -1,4 +1,4 @@
-package dk.sebsa.coal.ecs.collision;
+package dk.sebsa.coal.physics.collision;
 
 import dk.sebsa.Coal;
 import dk.sebsa.coal.graph.Rect;
@@ -12,20 +12,18 @@ import org.jetbrains.annotations.NotNull;
  * @author sebs
  */
 public class BoxCollider2D extends Collider2D {
-    @Getter private final Vector2f anchor;
-    @Getter private final Vector2f size;
+    @Getter private Vector2f anchor = new Vector2f(0.5f, 0.5f);
+    @Getter private Vector2f size = new Vector2f(100, 100);
 
     private final Rect worldPositionRect = new Rect();
     private SpriteRenderer renderer;
 
     public BoxCollider2D() {
-        size = new Vector2f(100, 100);
-        anchor = new Vector2f(0.5f, 0.5f);
+
     }
 
     public BoxCollider2D(SpriteRenderer renderer) {
         size = renderer.sprite.getOffset().getSize().mul(renderer.scale);
-        anchor = new Vector2f(0.5f, 0.5f);
     }
 
     @Override

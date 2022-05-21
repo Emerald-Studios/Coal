@@ -1,4 +1,4 @@
-package dk.sebsa.coal.ecs.collision;
+package dk.sebsa.coal.physics.collision;
 
 import dk.sebsa.coal.ecs.Component;
 import lombok.Getter;

@@ -1,12 +1,15 @@
 package dk.sebsa.arcade.layers;
 
+import dk.sebsa.Arcade;
 import dk.sebsa.arcade.layers.game1.Enemy;
 import dk.sebsa.arcade.layers.game1.PlayerController;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.ecs.Entity;
-import dk.sebsa.coal.ecs.collision.BoxCollider2D;
 import dk.sebsa.coal.graph.Sprite;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
+import dk.sebsa.coal.math.Time;
+import dk.sebsa.coal.physics.collision.BoxCollider2D;
+import dk.sebsa.coal.util.Random;
 
 /**
  * @author sebs
@@ -14,7 +17,8 @@ import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 public class GameCreateUtil {
     private static Sprite enemySprite, playerSprite;
     private static boolean init = false;
-
+    public static boolean alive = false;
+    
     private static void init() {
         if(init) return; init = true;
         playerSprite = (Sprite) AssetManager.getAsset("arcadeassets/game1/player.spr");
@@ -22,7 +26,7 @@ public class GameCreateUtil {
     }
 
     public static void createSpaceInvaders() {
-        init();
+        init(); alive = true;
         Entity.destroyAll();
 
         SpriteRenderer sr = new SpriteRenderer(playerSprite);
@@ -33,23 +37,45 @@ public class GameCreateUtil {
         player.transform.setPosition(0,-350,0);
 
         for(int i = 0; i < 4; i++) {
-            spawnEnemy(i);
+            spawnEnemy();
         }
     }
 
-    private static void spawnEnemy(int i) {
+    private static float count = 7;
+    public static float doomTimer = 56;
+    public static float semiDoomTimer = 8;
+    public static float doom = 0.67f;
+
+    public static void frameSpaceInvaders() {
+        if(count <= 0) {
+            if(doom >= 4) count = 4;
+            else count = Random.getFloat((int) (4-doom),9);
+            Arcade.log("DOOOM " + doom);
+
+            for(int i = 0; i < Random.getInt((int) (1*doom), (int) (5*doom)); i++) {
+                spawnEnemy();
+            }
+        } else if(semiDoomTimer <= 0) {
+            semiDoomTimer = 8;
+            doom *= 1.26f;
+        }
+
+
+        count -= Time.getDeltaTime();
+        semiDoomTimer -= Time.getDeltaTime();
+    }
+
+    private static void spawnEnemy() {
         init();
 
         SpriteRenderer sr = new SpriteRenderer(enemySprite);
-        sr.scale = 0.4f;
+        sr.scale = 0.35f;
 
         Entity zote = new Entity(); zote.tag = "Enemy";
         zote.addComponent(sr);
         zote.addComponent(new BoxCollider2D(sr));
         zote.addComponent(new Enemy());
-        if(i == 0) zote.transform.setPosition(-150,0,0);
-        else if(i == 1) zote.transform.setPosition(-50,0,0);
-        else if(i == 2) zote.transform.setPosition(50,0,0);
-        else if(i == 3) zote.transform.setPosition(150,0,0);
+        if(doom >= 3.5f) zote.transform.setPosition(Random.getInt(-600,500),-doom*17,0);
+        else zote.transform.setPosition(Random.getInt(-600,500),0,0);
     }
 }

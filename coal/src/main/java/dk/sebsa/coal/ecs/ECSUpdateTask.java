@@ -47,13 +47,14 @@ public class ECSUpdateTask extends Task {
 
         if(Coal.getCapabilities().coalPhysics2D) {
             try {
-                ColliderCalculationTask2D.latch.await();
+                if(ColliderCalculationTask2D.latch.getCount() > 0)
+                    ColliderCalculationTask2D.latch.await();
             } catch (InterruptedException e) { /* DO NOTHING */ }
 
             synchronized (ColliderCalculationTask2D.getCollision()) {
                 for(Collision collision : ColliderCalculationTask2D.getCollision()) {
-                    for(Component c : collision.main().entity.getComponents()) {
-                        c.onCollision2D(collision);
+                    for(int i = 0; i < collision.main().entity.getComponents().size(); i++ ) { // use this kind to due to conccurrent modification
+                        collision.main().entity.getComponents().get(i).onCollision2D(collision);
                     }
                 }
             }

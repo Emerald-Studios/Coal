@@ -51,11 +51,12 @@ public class TaskManager {
                 if (tt > 12) {
                     t.startTime = Time.getTime();
                     Coal.logger.error("Task " + t + ", has taken more then 12 seconds to run!");
+                    Coal.instance.getThreadManager().demonizeThreads();
                     Coal.shutdownDueToError();
                     doing.clear();
-                    Coal.instance.getThreadManager().demonizeThreads();
                 } else if (tt == 1) {
-                    Coal.logger.error("Task " + t + ", has taken 1 second to run!");
+                    t.thread.interrupt();
+                    Coal.logger.error("Task " + t + ", has taken 1 second to run! Interrupting");
                 }
             }
         } catch (Exception e) { }

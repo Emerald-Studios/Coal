@@ -1,6 +1,6 @@
 package dk.sebsa.coal.graph.renderes;
 
-import dk.sebsa.coal.ecs.collision.Collider2D;
+import dk.sebsa.coal.physics.collision.Collider2D;
 
 /**
  * @author sebs

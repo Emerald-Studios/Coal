@@ -1,7 +1,7 @@
 package dk.sebsa.coal.graph.renderes;
 
-import dk.sebsa.coal.ecs.collision.BoxCollider2D;
-import dk.sebsa.coal.ecs.collision.Collider2D;
+import dk.sebsa.coal.physics.collision.BoxCollider2D;
+import dk.sebsa.coal.physics.collision.Collider2D;
 import dk.sebsa.coal.tasks.Task;
 import lombok.Getter;
 
@@ -19,7 +19,7 @@ public class ColliderCalculationTask2D extends Task {
 
     private final static List<Collider2D> collider2D = new ArrayList<>();
     @Getter private final static List<Collision> collision = Collections.synchronizedList(new ArrayList<>());
-    public static volatile CountDownLatch latch = new CountDownLatch(2);
+    public static volatile CountDownLatch latch = new CountDownLatch(1);
 
     @Override
     public void run() {

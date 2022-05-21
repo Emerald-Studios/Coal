@@ -6,7 +6,6 @@ import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.audio.Sound;
 import dk.sebsa.coal.ecs.Entity;
-import dk.sebsa.coal.ecs.collision.BoxCollider2D;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.enums.PolygonMode;
 import dk.sebsa.coal.events.Event;
@@ -22,6 +21,7 @@ import dk.sebsa.coal.graph.text.Label;
 import dk.sebsa.coal.graph.text.Language;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.math.Color;
+import dk.sebsa.coal.physics.collision.BoxCollider2D;
 import org.lwjgl.glfw.GLFW;
 
 /**

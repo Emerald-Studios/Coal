@@ -1,13 +1,15 @@
 package dk.sebsa.arcade.layers.game1;
 
 import dk.sebsa.coal.asset.AssetManager;
+import dk.sebsa.coal.audio.AudioManager;
+import dk.sebsa.coal.audio.Sound;
 import dk.sebsa.coal.ecs.Component;
 import dk.sebsa.coal.ecs.Entity;
-import dk.sebsa.coal.ecs.collision.BoxCollider2D;
 import dk.sebsa.coal.graph.Sprite;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Time;
+import dk.sebsa.coal.physics.collision.BoxCollider2D;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -20,10 +22,13 @@ public class PlayerController extends Component {
     private float timer = 0.4f;
 
     private Sprite bulletSprite;
+    public static Sound attack, hit;
 
     @Override
     protected void load() {
         bulletSprite = (Sprite) AssetManager.getAsset("arcadeassets/game1/bullet.spr");
+        attack = (Sound) AssetManager.getAsset("arcadeassets/game1/Explosion1.ogg");
+        hit = (Sound) AssetManager.getAsset("arcadeassets/game1/Explosion2.ogg");
     }
 
     @Override
@@ -42,6 +47,7 @@ public class PlayerController extends Component {
                 explosion.addComponent(new Bullet());
                 explosion.addComponent(sr);
                 explosion.addComponent(new BoxCollider2D(sr));
+                AudioManager.playSound(attack, 1);
             }
         }
     }

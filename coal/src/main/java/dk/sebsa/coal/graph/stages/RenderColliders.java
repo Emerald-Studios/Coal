@@ -3,10 +3,10 @@ package dk.sebsa.coal.graph.stages;
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
-import dk.sebsa.coal.ecs.collision.BoxCollider2D;
-import dk.sebsa.coal.ecs.collision.Collider2D;
 import dk.sebsa.coal.graph.*;
 import dk.sebsa.coal.math.Matrix4x4f;
+import dk.sebsa.coal.physics.collision.BoxCollider2D;
+import dk.sebsa.coal.physics.collision.Collider2D;
 
 import java.util.ArrayList;
 import java.util.List;

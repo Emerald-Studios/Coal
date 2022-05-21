@@ -7,7 +7,6 @@ import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.FolderAssetProvider;
 import dk.sebsa.coal.events.Layer;
 import dk.sebsa.coal.graph.RenderPipeline;
-import dk.sebsa.coal.graph.stages.RenderColliders;
 import dk.sebsa.coal.graph.stages.RenderSprites;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
@@ -16,18 +15,20 @@ import dk.sebsa.coal.math.Color;
  * @author sebs
  */
 public class Arcade extends Application {
-    public Layer mainLogicLayer, debugLayer;
+    public Layer debugLayer;
+    public MainLogicLayer mainLogicLayer;
     public static Arcade instance;
 
     public String getName() { return "Coal Arcade Demo"; }
     public String getAuthor() { return "Sebsa"; }
-    public String getVersion() { return "1.0.0-SNAPSHOT"; }
+    public String getVersion() { return "2.0.0-SNAPSHOT"; }
 
     public static void main(String[] args) {
         Coal.fireUp(new Arcade(), CoalCapabilities.builder()
                         .coalSprite2D(true)
                         .coalPhysics2D(true)
                         .coalDebug(true)
+                        .coalAudio(true)
                         .build());
     }
 
@@ -36,7 +37,7 @@ public class Arcade extends Application {
         instance = this;
         AssetManager.addAssetProvider(new FolderAssetProvider("arcadeassets/"));
 
-        mainLogicLayer = new MainLogicLayer();
+        mainLogicLayer = new MainLogicLayer(this);
         debugLayer = new DebugLayer(this);
         debugLayer.enabled = false;
 
@@ -45,9 +46,17 @@ public class Arcade extends Application {
 
         renderPipeline = new RenderPipeline.RenderPipelineBuilder()
                 .appendStage(new RenderSprites(this))
-                .appendStage(new RenderColliders(this))
+                //.appendStage(new RenderColliders(this))
                 .build();
 
         return new GLFWWindow("Coal Arcade", Color.black, 1200, 900);
+    }
+
+    private void llog(Object o) {
+        mainLogicLayer.llog(o);
+    }
+
+    public static void log(Object o) {
+        instance.llog(o);
     }
 }
