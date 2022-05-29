@@ -52,6 +52,7 @@ public class RenderPipeline {
         }
 
         // Render the FBO
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
         FBO.renderFBO(app, prevFBO, new Rect(0, 0, 1, 1));
     }
 

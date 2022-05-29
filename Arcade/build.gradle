@@ -18,7 +18,3 @@ application {
     // Define the main class for the application.
     mainClass = 'dk.sebsa.Arcade'
 }
-
-test {
-    useJUnitPlatform()
-}
