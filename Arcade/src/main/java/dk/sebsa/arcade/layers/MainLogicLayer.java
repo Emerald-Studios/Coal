@@ -1,19 +1,13 @@
 package dk.sebsa.arcade.layers;
 
 import dk.sebsa.Arcade;
+import dk.sebsa.arcade.Game;
+import dk.sebsa.arcade.gameA.GameA;
 import dk.sebsa.coal.Application;
-import dk.sebsa.coal.asset.AssetManager;
-import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
-import dk.sebsa.coal.graph.Rect;
-import dk.sebsa.coal.graph.SpriteSheet;
-import dk.sebsa.coal.graph.renderes.GUI;
-import dk.sebsa.coal.graph.text.Font;
-import dk.sebsa.coal.graph.text.Label;
 import dk.sebsa.coal.io.KeyPressedEvent;
-import dk.sebsa.coal.math.Color;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -21,12 +15,11 @@ import org.lwjgl.glfw.GLFW;
  */
 public class MainLogicLayer extends Layer {
     private final Application application;
-    private SpriteSheet sheet;
-    private Font font;
-    private Label label;
+    private Game currentGame;
 
     public MainLogicLayer(Application application) {
         this.application = application;
+        currentGame = new GameA();
     }
 
     public void llog(Object o) {
@@ -44,36 +37,21 @@ public class MainLogicLayer extends Layer {
 
     @Override
     protected void init() {
-        sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
-        font = (Font) AssetManager.getAsset("arcadeassets/Doom.fnt");
-        GameCreateUtil.createSpaceInvaders();
+        currentGame.init(application);
     }
 
     @Override
     protected void update() {
-        if(GameCreateUtil.doom < 14) {
-            GameCreateUtil.frameSpaceInvaders();
-        } else if(GameCreateUtil.alive) {
-            GameCreateUtil.alive = false;
-            Entity.destroyAll();
-        }
+        currentGame.frame();
     }
 
-    private static final Rect r = new Rect(0,0,400,400);
     @Override
     protected void render() {
-        if(GameCreateUtil.doom > 3.5f) label = new Label("DOOM", font, Color.red);
-        else label = new Label("Doom: " + GameCreateUtil.doom, font, Color.white);
-
-        GUI.prepare(sheet, application);
-
-        GUI.label(r, label);
-
-        GUI.unprepare();
+        currentGame.renderUI();
     }
 
     @Override
     protected void cleanup() {
-
+        currentGame.cleanup();
     }
 }

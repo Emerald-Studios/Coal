@@ -1,4 +1,4 @@
-package dk.sebsa.arcade.layers.game1;
+package dk.sebsa.arcade.gameA;
 
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.audio.AudioManager;

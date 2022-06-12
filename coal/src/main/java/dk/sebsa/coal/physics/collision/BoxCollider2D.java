@@ -32,6 +32,7 @@ public class BoxCollider2D extends Collider2D {
     }
 
     private BoxCollider2D calcGlobalPos() {
+        if(transform == null) return this; // This can happen in edge cases
         float halfW = size.x * anchor.x;
         float halfH = size.y * anchor.y;
         worldPositionRect.set(transform.getGlobalPosition().x - halfW, transform.getGlobalPosition().y + halfH, size.x, size.y);

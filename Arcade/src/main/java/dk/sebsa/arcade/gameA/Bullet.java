@@ -1,4 +1,4 @@
-package dk.sebsa.arcade.layers.game1;
+package dk.sebsa.arcade.gameA;
 
 import dk.sebsa.coal.ecs.Component;
 import dk.sebsa.coal.io.GLFWInput;

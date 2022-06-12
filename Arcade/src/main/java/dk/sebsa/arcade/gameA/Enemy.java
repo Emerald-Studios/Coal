@@ -1,6 +1,5 @@
-package dk.sebsa.arcade.layers.game1;
+package dk.sebsa.arcade.gameA;
 
-import dk.sebsa.arcade.layers.GameCreateUtil;
 import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.ecs.Component;
 import dk.sebsa.coal.graph.renderes.Collision;
@@ -14,6 +13,12 @@ import dk.sebsa.coal.util.Random;
 public class Enemy extends Component {
     private static final float speed = 90;
     private int direction;
+    private float collisionTimer = 0;
+    private final GameA gameA;
+
+    public Enemy(GameA gameA) {
+        this.gameA = gameA;
+    }
 
     @Override
     protected void load() {
@@ -23,9 +28,10 @@ public class Enemy extends Component {
 
     @Override
     protected void update(GLFWInput input) {
-        move2D(speed * direction * Time.getDeltaTime() * GameCreateUtil.doom, 0);
+        move2D(speed * direction * Time.getDeltaTime() * gameA.doom, 0);
         if(transform.getPosition().x < -600) direction = 1;
         else if(transform.getPosition().x > 600) direction = -1;
+        collisionTimer -= Time.getDeltaTime();
     }
 
     @Override
@@ -37,6 +43,9 @@ public class Enemy extends Component {
     public void onCollision2D(Collision collision) {
         if(collision.collider().getEntity().tag.equals("Bullet")) { entity.destroy(); collision.collider().getEntity().destroy();
             AudioManager.playSound(PlayerController.hit, 1);
+        } else if(collision.collider().getEntity().tag.equals("Enemy") && collisionTimer <= 0) {
+            direction = direction * -1;
+            collisionTimer = 1;
         }
     }
 }
