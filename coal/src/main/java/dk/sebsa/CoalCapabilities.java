@@ -20,7 +20,7 @@ public class CoalCapabilities {
 
     @Builder.Default public final boolean tcAudioClean = true;
     @Builder.Default public final boolean tcFBOClean = true;
-    @Builder.Default public final boolean tcColorPrune = false;
+    @Builder.Default @Deprecated public final boolean tcColorPrune = false;
     // THREAD
     // MULTIPLE APPS
     // ASSET
