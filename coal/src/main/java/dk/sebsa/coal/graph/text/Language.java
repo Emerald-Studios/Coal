@@ -24,7 +24,7 @@ public class Language extends Asset {
 
     }
 
-    public String get(String key) { return (String) map.get(key); }
+    public String get(String key) { return (String) map.getOrDefault(key, key); }
 
     @Override
     protected void load() {
