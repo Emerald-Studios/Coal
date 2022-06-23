@@ -19,7 +19,7 @@ public class TCFrameTask extends Task {
     @Override
     public void run() {
         // tcAudioClean
-        if(Coal.getCapabilities().tcAudioClean && (AudioManager.statusAll() - AudioManager.statusUsed()) > AudioManager.statusAll() * 0.5f) {
+        if(Coal.getCapabilities().tcAudioClean && (AudioManager.statusAll() - AudioManager.statusUsed()) > AudioManager.statusAll() * 0.5f && AudioManager.statusAll() > 1) {
             audioCleanTimer -= Time.getUnscaledDelta();
 
             if(audioCleanTimer <= 0) {

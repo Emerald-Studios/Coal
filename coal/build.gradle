@@ -11,8 +11,8 @@ plugins {
 }
 
 group = 'dk.sebsa'
-version = '1.0.0-RC1'
-description = 'Emerald Logging Lib'
+version = '1.0.0-RC2'
+description = 'Java Game Library'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 publishing {

@@ -24,11 +24,13 @@ public class AudioManager {
     private static void trace(Object o) { if(Coal.TRACE) log(o); }
 
     public static void forceClean() {
-        for(AudioSource source : sources) {
-            source.destroy();
-            allSources.remove(source);
+        while(!sources.isEmpty()) {
+            if(sources.size() == 1) break;
+            sources.get(0).destroy();
+            allSources.remove(0);
+            sources.remove(0);
+
         }
-        sources.clear();
     }
 
     private record SoundRequest(Sound sound, int gain) { }
