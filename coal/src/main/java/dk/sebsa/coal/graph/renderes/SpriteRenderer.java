@@ -20,6 +20,12 @@ public class SpriteRenderer extends Component {
     public Sprite sprite;
     public Vector2f anchor = new Vector2f(0.5f, 0.5f);
     public float scale = 1.0f;
+
+    /**
+     * The depth wich the entity is rendered in, lower depth means it will be more in the foreground
+     */
+    public float depth = 0.0f;
+
     private static GLSLShaderProgram defaultShader;
 
     public SpriteRenderer(Sprite sprite) {
@@ -44,6 +50,7 @@ public class SpriteRenderer extends Component {
                 defaultShader.createUniform("anchor");
                 defaultShader.createUniform("offset");
                 defaultShader.createUniform("projection");
+                defaultShader.createUniform("depth");
                 defaultShader.createUniform("matColor");
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -63,6 +70,7 @@ public class SpriteRenderer extends Component {
 
         Rect uvRect = sprite.getUV();
         shader.setUniform("offset", uvRect.x, uvRect.y, uvRect.width, uvRect.height);
+        shader.setUniform("depth", depth);
     }
 
     @Override
