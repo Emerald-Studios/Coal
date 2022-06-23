@@ -76,7 +76,9 @@ public class SandboxLayer extends Layer {
         cum = new Label(lang.sandboxTest2, font, Color.color(1,1,1,0.025f));
 
         ee = new Entity("Player");
-        SpriteRenderer sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega"));
+        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/player.spr"));
+        sr.scale = 0.45f;
+        sr.depth = -1;
         ee.addComponent(sr);
         ee.addComponent(new Test2DMovement());
         ee.addComponent(new BoxCollider2D(sr));
