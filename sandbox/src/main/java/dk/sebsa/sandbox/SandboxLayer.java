@@ -75,10 +75,25 @@ public class SandboxLayer extends Layer {
         soundsLabel = new Label(lang.sandboxTest3, font, Color.white);
         cum = new Label(lang.sandboxTest2, font, Color.color(1,1,1,0.025f));
 
+        ee = new Entity("Object");
+        SpriteRenderer sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/Asuna.spr"));
+        sr.scale = 0.35f;
+        sr.layer = 2;
+        ee.transform.setPosition(480, 0, 0);
+        ee.addComponent(sr);
+
+
+        ee = new Entity("Object 2");
+        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega"));
+        sr.scale = 0.8f;
+        sr.layer = 0;
+        ee.addComponent(sr);
+
+
         ee = new Entity("Player");
         sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/player.spr"));
         sr.scale = 0.45f;
-        sr.depth = -1;
+        sr.layer = 1;
         ee.addComponent(sr);
         ee.addComponent(new Test2DMovement());
         ee.addComponent(new BoxCollider2D(sr));

@@ -24,9 +24,9 @@ public class SpriteRenderer extends Component {
     /**
      * The depth wich the entity is rendered in, lower depth means it will be more in the foreground
      */
-    public float depth = 0.0f;
 
     private static GLSLShaderProgram defaultShader;
+    public int layer;
 
     public SpriteRenderer(Sprite sprite) {
         if(defaultShader == null) throw new RuntimeException("SpriteRenderer not properly inited");
@@ -50,7 +50,6 @@ public class SpriteRenderer extends Component {
                 defaultShader.createUniform("anchor");
                 defaultShader.createUniform("offset");
                 defaultShader.createUniform("projection");
-                defaultShader.createUniform("depth");
                 defaultShader.createUniform("matColor");
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -70,7 +69,6 @@ public class SpriteRenderer extends Component {
 
         Rect uvRect = sprite.getUV();
         shader.setUniform("offset", uvRect.x, uvRect.y, uvRect.width, uvRect.height);
-        shader.setUniform("depth", depth);
     }
 
     @Override

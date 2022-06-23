@@ -18,6 +18,8 @@ public class CoalCapabilities {
     @Builder.Default public final boolean ignoreErrorShutdown = false;
     @Builder.Default public final boolean disableContinuousLogFlush = false;
 
+    @Builder.Default public final int maxLayer = 3;
+
     @Builder.Default public final boolean tcAudioClean = true;
     @Builder.Default public final boolean tcFBOClean = true;
     @Builder.Default @Deprecated public final boolean tcColorPrune = false;

@@ -1,5 +1,6 @@
 package dk.sebsa.coal.graph.renderes;
 
+import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
 import dk.sebsa.coal.graph.Mesh2D;
@@ -20,10 +21,17 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class CoreSprite {
     private static final List<SpriteRenderer> rendererList = new ArrayList<>();
-    private static final Map<GLSLShaderProgram, Map<Sprite, List<SpriteRenderer>>> renderMap = new HashMap<>();
+    private static List<Map<GLSLShaderProgram, Map<Sprite, List<SpriteRenderer>>>> renderMapList;
     private static Mesh2D mainMesh;
 
     public static void renderME(SpriteRenderer e) {
+        if(renderMapList == null) {
+            renderMapList = new ArrayList<>(Coal.getCapabilities().maxLayer);
+            for(int i = 0; i < Coal.getCapabilities().maxLayer; i++) {
+                renderMapList.add(i, new HashMap<>());
+            }
+        } Map<GLSLShaderProgram, Map<Sprite, List<SpriteRenderer>>> renderMap = renderMapList.get(e.layer);
+
         if(!renderMap.containsKey(e.shader)) renderMap.put(e.shader, new HashMap<>());
         if(!renderMap.get(e.shader).containsKey(e.sprite)) renderMap.get(e.shader).put(e.sprite, new ArrayList<>());
         renderMap.get(e.shader).get(e.sprite).add(e);
@@ -40,27 +48,30 @@ public class CoreSprite {
         Matrix4x4f projection = Matrix4x4f.ortho(-halfW, halfW, halfH, -halfH, -1, 1);
         mainMesh.bind();
 
-        for(GLSLShaderProgram shader : renderMap.keySet()) {
-            Map<Sprite, List<SpriteRenderer>> shaderMap = renderMap.get(shader);
-            shader.bind();
-            shader.setUniform("projection", projection);
+        for(Map<GLSLShaderProgram, Map<Sprite, List<SpriteRenderer>>> renderMap : renderMapList) {
+            for(GLSLShaderProgram shader : renderMap.keySet()) {
+                Map<Sprite, List<SpriteRenderer>> shaderMap = renderMap.get(shader);
+                shader.bind();
+                shader.setUniform("projection", projection);
 
-            for(Sprite sprite : shaderMap.keySet()) {
-                shader.setUniformAlt("matColor", sprite.getMaterial().getColor());
-                sprite.getMaterial().getTexture().bind();
+                for(Sprite sprite : shaderMap.keySet()) {
+                    shader.setUniformAlt("matColor", sprite.getMaterial().getColor());
+                    sprite.getMaterial().getTexture().bind();
 
-                for(SpriteRenderer renderer : shaderMap.get(sprite)) {
-                    renderer.setUniforms();
-                    GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, 6);
+                    for(SpriteRenderer renderer : shaderMap.get(sprite)) {
+                        renderer.setUniforms();
+                        GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, 6);
+                    }
+
+                    sprite.getMaterial().getTexture().unbind();
                 }
-
-                sprite.getMaterial().getTexture().unbind();
+                shader.unbind();
             }
-            shader.unbind();
+
+            renderMap.clear();
         }
 
         mainMesh.unbind();
-        renderMap.clear();
         glEnable(GL_DEPTH_TEST);
     }
 }
