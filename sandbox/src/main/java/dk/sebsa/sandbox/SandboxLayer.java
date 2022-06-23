@@ -100,7 +100,7 @@ public class SandboxLayer extends Layer {
 
         Entity colliderEntity = new Entity("Not");
         colliderEntity.transform.setPosition(160,160,0);
-        colliderEntity.addComponent(new BoxCollider2D());
+        colliderEntity.addComponent(new BoxCollider2D(true));
     }
 
     @Override

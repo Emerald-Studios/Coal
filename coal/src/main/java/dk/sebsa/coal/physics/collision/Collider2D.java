@@ -13,6 +13,7 @@ public abstract class Collider2D extends Component {
     @Getter
     private static final List<Collider2D> COLLIDERS = new ArrayList<>();
     public abstract boolean collides(BoxCollider2D collider2D);
+    public boolean isTrigger = false; // Trigger don't get notification to their components.
 
     public Collider2D() {
         COLLIDERS.add(this);

@@ -53,8 +53,9 @@ public class ECSUpdateTask extends Task {
 
             synchronized (ColliderCalculationTask2D.getCollision()) {
                 for(Collision collision : ColliderCalculationTask2D.getCollision()) {
-                    for(int i = 0; i < collision.main().entity.getComponents().size(); i++ ) { // use this kind to due to conccurrent modification
-                        collision.main().entity.getComponents().get(i).onCollision2D(collision);
+                    for(int i = 0; i < collision.main().entity.getComponents().size(); i++ ) { // use this kind to due to conccurrent modification (FOR SOME FUCKING REASON)
+                        if(collision.collider().isTrigger) collision.main().entity.getComponents().get(i).onTrigger2D(collision);
+                        else collision.main().entity.getComponents().get(i).onCollision2D(collision);
                     }
                 }
             }

@@ -22,6 +22,10 @@ public class BoxCollider2D extends Collider2D {
 
     }
 
+    public BoxCollider2D(boolean isTrigger) {
+        this.isTrigger = isTrigger;
+    }
+
     public BoxCollider2D(SpriteRenderer renderer) {
         size = renderer.sprite.getOffset().getSize().mul(renderer.scale);
     }

@@ -41,6 +41,10 @@ public abstract class Component extends Trash {
         // DO NOTHING!!
     }
 
+    public void onTrigger2D(Collision collision) {
+        // DO NOTHING!!
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }

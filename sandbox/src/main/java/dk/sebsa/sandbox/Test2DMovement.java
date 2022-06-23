@@ -31,7 +31,7 @@ public class Test2DMovement extends Component {
     }
 
     @Override
-    public void onCollision2D(Collision collision) {
+    public void onTrigger2D(Collision collision) {
         setEnabled(false);
     }
 }

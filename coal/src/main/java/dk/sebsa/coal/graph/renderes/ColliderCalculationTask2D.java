@@ -35,11 +35,11 @@ public class ColliderCalculationTask2D extends Task {
             for(int i = 1; i < collider2D.size(); i++) {
                 Collider2D collider = collider2D.get(i);
 
-                // Boc Collider
+                // Box Collider
                 if(collider instanceof BoxCollider2D)
                     if(base.collides((BoxCollider2D) collider)) {
-                        collision.add(new Collision(base, collider));
-                        collision.add(new Collision(collider, base));
+                        if(!base.isTrigger) collision.add(new Collision(base, collider));
+                        if(!collider.isTrigger) collision.add(new Collision(collider, base));
                     }
             }
             collider2D.remove(0);
