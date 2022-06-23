@@ -137,6 +137,10 @@ public class GLSLShaderProgram extends Asset {
         glUniform1i(uniforms.get(uniformName), value);
     }
 
+    public void setUniform(String uniformName, float value) {
+        glUniform1f(uniforms.get(uniformName), value);
+    }
+
     public void setUniform(String uniformName, Vector2f value) {
         setUniform(uniformName, value.x, value.y);
     }
