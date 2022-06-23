@@ -75,7 +75,7 @@ public class FBO extends Trash {
     }
 
     private int createDepthBufferAttachment() {
-        trace("Gen DepthBufferAttchment");
+        trace("Gen DepthBuffer Attachment");
         int buffer = GL30.glGenRenderbuffers();
         GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, buffer);
         GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL11.GL_DEPTH_COMPONENT, width, height);
