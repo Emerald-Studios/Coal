@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'dk.sebsa'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0-RC1'
 description = 'Emerald Logging Lib'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
