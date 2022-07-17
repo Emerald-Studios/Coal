@@ -1,5 +1,6 @@
 package dk.sebsa.coal.ecs;
 
+import dk.sebsa.coal.physm.M2D.MCollider2D;
 import dk.sebsa.coal.trash.TrashCollector;
 import lombok.Getter;
 
@@ -122,9 +123,9 @@ public class Entity {
      * Happens on collision if the collider IS an Trigger
      * Calls all the components of this entitys onTrigger method
      */
-    public void callTriggerCallback() {
+    public void callTriggerCallback(MCollider2D collider) {
         for (Component component : components) {
-            component.onTrigger2D();
+            component.onTrigger2D(collider);
         }
     }
 
@@ -132,9 +133,9 @@ public class Entity {
      * Happens on collision if the collider is NOT an Trigger
      * Calls all the components of this entitys onCollsion method
      */
-    public void callCollisionCallback() {
+    public void callCollisionCallback(MCollider2D collider) {
         for (Component component : components) {
-            component.onCollision2D();
+            component.onCollision2D(collider);
         }
     }
 }

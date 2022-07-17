@@ -9,7 +9,7 @@ import dk.sebsa.coal.graph.Sprite;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Time;
-import dk.sebsa.coal.physics.collision.BoxCollider2D;
+import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -46,7 +46,7 @@ public class PlayerController extends Component {
                 explosion.transform.setPosition(transform.getPosition().x-50, transform.getPosition().y, 0);
                 explosion.addComponent(new Bullet());
                 explosion.addComponent(sr);
-                explosion.addComponent(new BoxCollider2D(sr));
+                explosion.addComponent(new MAABBCollider2D(sr).setTrigger(true));
                 AudioManager.playSound(attack, 1);
             }
         }

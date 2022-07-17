@@ -3,6 +3,7 @@ package dk.sebsa.coal.ecs;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.coal.math.Vector3f;
+import dk.sebsa.coal.physm.M2D.MCollider2D;
 import dk.sebsa.coal.trash.Trash;
 import lombok.Getter;
 
@@ -36,11 +37,11 @@ public abstract class Component extends Trash {
         // DO NOTHING!!
     }
 
-    public void onCollision2D() {
+    public void onCollision2D(MCollider2D collider) {
         // DO NOTHING!!
     }
 
-    public void onTrigger2D() {
+    public void onTrigger2D(MCollider2D collider) {
         // DO NOTHING!!
     }
 

@@ -14,7 +14,7 @@ import dk.sebsa.coal.graph.text.Font;
 import dk.sebsa.coal.graph.text.Label;
 import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Time;
-import dk.sebsa.coal.physics.collision.BoxCollider2D;
+import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
 import dk.sebsa.coal.util.Random;
 
 /**
@@ -124,7 +124,7 @@ public class GameA extends Game {
 
         Entity zote = new Entity(); zote.tag = "Enemy";
         zote.addComponent(sr);
-        zote.addComponent(new BoxCollider2D(sr));
+        zote.addComponent(new MAABBCollider2D(sr));
         zote.addComponent(new Enemy(this));
         if(doom >= 3.5f) zote.transform.setPosition(Random.getInt(-600,500),-doom*17,0);
         else zote.transform.setPosition(Random.getInt(-600,500),0,0);

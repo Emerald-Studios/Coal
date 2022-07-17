@@ -26,6 +26,8 @@ public class MAABBCollider2D extends MCollider2D {
         size = renderer.sprite.getOffset().getSize().mul(renderer.scale);
     }
 
+    public MAABBCollider2D setTrigger(boolean trigger) { isTrigger = trigger; return this; }
+
     public List<Vector3f> getCorners() {
         List<Vector3f> corners = new ArrayList<>();
         Vector3f anchorPos = transform.getGlobalPosition().add(anchor);

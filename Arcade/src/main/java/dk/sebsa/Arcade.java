@@ -21,12 +21,12 @@ public class Arcade extends Application {
 
     public String getName() { return "Coal Arcade Demo"; }
     public String getAuthor() { return "Sebsa"; }
-    public String getVersion() { return "2.0.0-SNAPSHOT"; }
+    public String getVersion() { return "2.0.0"; }
 
     public static void main(String[] args) {
         Coal.fireUp(new Arcade(), CoalCapabilities.builder()
                         .coalSprite2D(true)
-                        .coalPhysics2D(true)
+                        .coalModernPhysics2D(true)
                         .coalDebug(true)
                         .coalAudio(true)
                         .build());

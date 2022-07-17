@@ -83,7 +83,7 @@ public class SandboxLayer extends Layer {
         ee.addComponent(sr);
         ee.addComponent(new MAABBCollider2D(sr));
 
-        ee = new Entity("Not");
+        ee = new Entity("Object 2");
         sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega"));
         sr.scale = 0.8f;
         ee.transform.setPosition(160,160,0);
@@ -96,6 +96,14 @@ public class SandboxLayer extends Layer {
         ee.addComponent(sr);
         ee.addComponent(new Test2DMovement());
         ee.addComponent(new MAABBCollider2D(sr));
+
+        ee = new Entity("Object 3 (Trigger)");
+        ee.tag = "Door";
+        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/Door.spr"));
+        sr.scale = 6f;
+        ee.transform.setPosition(0,-190,0);
+        ee.addComponent(new MAABBCollider2D(sr).setTrigger(true));
+        ee.addComponent(sr);
     }
 
     @Override

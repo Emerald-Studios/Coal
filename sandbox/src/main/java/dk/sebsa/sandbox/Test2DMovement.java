@@ -3,6 +3,7 @@ package dk.sebsa.sandbox;
 import dk.sebsa.coal.ecs.Component;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Time;
+import dk.sebsa.coal.physm.M2D.MCollider2D;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -31,7 +32,10 @@ public class Test2DMovement extends Component {
     }
 
     @Override
-    public void onTrigger2D() {
-        setEnabled(false);
+    public void onTrigger2D(MCollider2D collider) {
+        if(collider.getEntity().tag.equals("Door")) {
+            setEnabled(false);
+            transform.setPosition(collider.getEntity().transform.getGlobalPosition());
+        }
     }
 }

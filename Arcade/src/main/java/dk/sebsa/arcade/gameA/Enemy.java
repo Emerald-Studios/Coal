@@ -2,9 +2,9 @@ package dk.sebsa.arcade.gameA;
 
 import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.ecs.Component;
-import dk.sebsa.coal.graph.renderes.Collision;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Time;
+import dk.sebsa.coal.physm.M2D.MCollider2D;
 import dk.sebsa.coal.util.Random;
 
 /**
@@ -40,12 +40,18 @@ public class Enemy extends Component {
     }
 
     @Override
-    public void onCollision2D(Collision collision) {
-        if(collision.collider().getEntity().tag.equals("Bullet")) { entity.destroy(); collision.collider().getEntity().destroy();
-            AudioManager.playSound(PlayerController.hit, 1);
-        } else if(collision.collider().getEntity().tag.equals("Enemy") && collisionTimer <= 0) {
+    public void onCollision2D(MCollider2D collider) {
+        if(collider.getEntity().tag.equals("Enemy") && collisionTimer <= 0) {
             direction = direction * -1;
             collisionTimer = 1;
+        }
+    }
+
+    @Override
+    public void onTrigger2D(MCollider2D collider) {
+        if(collider.getEntity().tag.equals("Bullet")) {
+            entity.destroy(); collider.getEntity().destroy();
+            AudioManager.playSound(PlayerController.hit, 1);
         }
     }
 }

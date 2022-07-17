@@ -50,11 +50,11 @@ public class PhysM2DTask extends Task {
             if(Coal.DEBUG) overlapsThisFrame.add(new Rect().set(overlap));
 
             if (mover.isTrigger || solid.isTrigger) {
-                mover.getEntity().callTriggerCallback();
-                solid.getEntity().callTriggerCallback();
+                mover.getEntity().callTriggerCallback(solid);
+                solid.getEntity().callTriggerCallback(mover);
             } else {
-                mover.getEntity().callCollisionCallback();
-                solid.getEntity().callCollisionCallback();
+                mover.getEntity().callCollisionCallback(solid);
+                solid.getEntity().callCollisionCallback(mover);
 
                 if (overlap.width < overlap.height) {
                     if (moverRect.x < overlap.x) mover.getEntity().transform.move(new Vector2f(-overlap.width, 0));
