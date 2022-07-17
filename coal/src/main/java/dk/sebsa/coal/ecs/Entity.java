@@ -117,4 +117,24 @@ public class Entity {
             master.children.remove(0);
         }
     }
+
+    /**
+     * Happens on collision if the collider IS an Trigger
+     * Calls all the components of this entitys onTrigger method
+     */
+    public void callTriggerCallback() {
+        for (Component component : components) {
+            component.onTrigger2D();
+        }
+    }
+
+    /**
+     * Happens on collision if the collider is NOT an Trigger
+     * Calls all the components of this entitys onCollsion method
+     */
+    public void callCollisionCallback() {
+        for (Component component : components) {
+            component.onCollision2D();
+        }
+    }
 }

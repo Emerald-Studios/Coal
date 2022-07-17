@@ -2,9 +2,9 @@ package dk.sebsa.coal.ecs;
 
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
-import dk.sebsa.coal.graph.renderes.ColliderCalculationTask2D;
-import dk.sebsa.coal.graph.renderes.Collision;
 import dk.sebsa.coal.io.GLFWInput;
+import dk.sebsa.coal.physm.MCollision2D;
+import dk.sebsa.coal.physm.PhysM2DTask;
 import dk.sebsa.coal.tasks.Task;
 
 import java.util.ArrayList;
@@ -39,30 +39,21 @@ public class ECSUpdateTask extends Task {
 
     @Override
     public void run() {
+        // Cleanup from last frame
+        MCollision2D.solids.clear();
+        MCollision2D.movers.clear();
+
+        // Actual Update
         recurseAddComponent(master);
 
         for(Component c : components) {
             c.update(input);
         }
 
-        if(Coal.getCapabilities().coalPhysics2D) {
-            try {
-                if(ColliderCalculationTask2D.latch.getCount() > 0)
-                    ColliderCalculationTask2D.latch.await();
-            } catch (InterruptedException e) { /* DO NOTHING */ }
-
-            synchronized (ColliderCalculationTask2D.getCollision()) {
-                for(Collision collision : ColliderCalculationTask2D.getCollision()) {
-                    for(int i = 0; i < collision.main().entity.getComponents().size(); i++ ) { // use this kind to due to conccurrent modification (FOR SOME FUCKING REASON)
-                        if(collision.collider().isTrigger) collision.main().entity.getComponents().get(i).onTrigger2D(collision);
-                        else collision.main().entity.getComponents().get(i).onCollision2D(collision);
-                    }
-                }
-            }
-        }
-
         for(Component c : components) {
             c.lateUpdate(input);
         }
+
+        if(Coal.getCapabilities().coalModernPhysics2D) Coal.instance.getTaskManager().doTask(new PhysM2DTask());
     }
 }

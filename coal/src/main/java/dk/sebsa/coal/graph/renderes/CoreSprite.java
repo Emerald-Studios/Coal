@@ -48,7 +48,7 @@ public class CoreSprite {
         Matrix4x4f projection = Matrix4x4f.ortho(-halfW, halfW, halfH, -halfH, -1, 1);
         mainMesh.bind();
 
-        for(Map<GLSLShaderProgram, Map<Sprite, List<SpriteRenderer>>> renderMap : renderMapList) {
+        if(renderMapList != null) for(Map<GLSLShaderProgram, Map<Sprite, List<SpriteRenderer>>> renderMap : renderMapList) {
             for(GLSLShaderProgram shader : renderMap.keySet()) {
                 Map<Sprite, List<SpriteRenderer>> shaderMap = renderMap.get(shader);
                 shader.bind();

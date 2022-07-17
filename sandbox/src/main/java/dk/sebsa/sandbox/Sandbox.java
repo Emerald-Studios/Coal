@@ -7,7 +7,7 @@ import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.asset.FolderAssetProvider;
 import dk.sebsa.coal.graph.RenderPipeline;
 import dk.sebsa.coal.graph.RenderStage;
-import dk.sebsa.coal.graph.stages.RenderColliders;
+import dk.sebsa.coal.graph.stages.RenderMColliders;
 import dk.sebsa.coal.graph.stages.RenderSprites;
 import dk.sebsa.coal.io.GLFWWindow;
 import dk.sebsa.coal.math.Color;
@@ -28,7 +28,7 @@ public class Sandbox extends Application {
                     .coalTrace(true)
                     .coalAudio(true)
                     .coalSprite2D(true)
-                    .coalPhysics2D(true)
+                    .coalModernPhysics2D(true)
                     .build());
     }
 
@@ -47,12 +47,12 @@ public class Sandbox extends Application {
         AssetManager.addAssetProvider(new FolderAssetProvider("sandboxassets/"));
 
         if(Coal.DEBUG) {
-            debugRenderStage = new RenderColliders(this);
-            debugRenderStage.setEnabled(false);
+            debugRenderStage = new RenderMColliders(this);
+            //debugRenderStage.setEnabled(false);
             renderPipeline = new RenderPipeline.RenderPipelineBuilder()
                     .appendStage(new RenderSprites(this))
                     .appendStage(debugRenderStage).build();
-        } else  renderPipeline = new RenderPipeline.RenderPipelineBuilder()
+        } else renderPipeline = new RenderPipeline.RenderPipelineBuilder()
                 .appendStage(new RenderSprites(this)) .build();
 
 

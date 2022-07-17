@@ -1,7 +1,6 @@
 package dk.sebsa.sandbox;
 
 import dk.sebsa.coal.ecs.Component;
-import dk.sebsa.coal.graph.renderes.Collision;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Time;
 import org.lwjgl.glfw.GLFW;
@@ -23,6 +22,7 @@ public class Test2DMovement extends Component {
         if(input.isKeyDown(GLFW.GLFW_KEY_W)) move2D(0, move);
         if(input.isKeyDown(GLFW.GLFW_KEY_A)) move2D(-move, 0);
         if(input.isKeyDown(GLFW.GLFW_KEY_D)) move2D(move, 0);
+        move2D(0,0);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Test2DMovement extends Component {
     }
 
     @Override
-    public void onTrigger2D(Collision collision) {
+    public void onTrigger2D() {
         setEnabled(false);
     }
 }

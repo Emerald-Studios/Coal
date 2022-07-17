@@ -4,9 +4,12 @@ import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.graph.*;
+import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Matrix4x4f;
-import dk.sebsa.coal.physics.collision.BoxCollider2D;
-import dk.sebsa.coal.physics.collision.Collider2D;
+import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
+import dk.sebsa.coal.physm.M2D.MCollider2D;
+import dk.sebsa.coal.physm.MCollision2D;
+import dk.sebsa.coal.physm.PhysM2DTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +19,13 @@ import static org.lwjgl.opengl.GL42.GL_LINES;
 /**
  * @author sebs
  */
-public class RenderColliders extends RenderStage {
-    public RenderColliders(Application app) {
+public class RenderMColliders extends RenderStage {
+    public RenderMColliders(Application app) {
         super(app);
     }
 
     @Override
-    public String getName() { return "RenderColliders"; }
+    public String getName() { return "RenderMColliders"; }
 
     private GLSLShaderProgram shader;
     private VAO vao1;
@@ -43,35 +46,48 @@ public class RenderColliders extends RenderStage {
     }
 
     private final List<Float> pos = new ArrayList<>();
+    private final List<Rect> rects = new ArrayList<>();
     @Override
     protected void draw(FBO prevFBO) {
         renderPrevFBO(prevFBO);
         if(app.window.isDirty()) setProjection();
 
-        pos.clear();
-        for (Collider2D collider : Collider2D.getCOLLIDERS()) {
-            if (collider instanceof BoxCollider2D) {
-                Rect r = ((BoxCollider2D) collider).getWorldPositionRect();
-
-                // C1 to C2
-                pos.add(r.x); pos.add(r.y);
-                pos.add(r.x+r.width); pos.add(r.y);
-
-                // C2 to C3
-                pos.add(r.x+r.width); pos.add(r.y);
-                pos.add(r.x+r.width); pos.add(r.y-r.height);
-
-                // C3 to C4
-                pos.add(r.x+r.width); pos.add(r.y-r.height);
-                pos.add(r.x); pos.add(r.y-r.height);
-
-                // C4 to C1
-                pos.add(r.x); pos.add(r.y-r.height);
-                pos.add(r.x); pos.add(r.y);
-
-                // C1 C2
-                // C4 C3
+        rects.clear();
+        for (MCollider2D collider : MCollision2D.solids) {
+            if (collider instanceof MAABBCollider2D) {
+                rects.add(((MAABBCollider2D) collider).getWorldPositionRect());
             }
+        }
+
+        //drawList(Color.color(1, 1, 0));
+
+        rects.clear();
+        rects.addAll(PhysM2DTask.overlapsThisFrame);
+
+        drawList(Color.color(1, 0, 0));
+    }
+
+    private void drawList(Color c) {
+        pos.clear();
+        for(Rect r : rects) {
+            // C1 to C2
+            pos.add(r.x); pos.add(r.y);
+            pos.add(r.x+r.width); pos.add(r.y);
+
+            // C2 to C3
+            pos.add(r.x+r.width); pos.add(r.y);
+            pos.add(r.x+r.width); pos.add(r.y-r.height);
+
+            // C3 to C4
+            pos.add(r.x+r.width); pos.add(r.y-r.height);
+            pos.add(r.x); pos.add(r.y-r.height);
+
+            // C4 to C1
+            pos.add(r.x); pos.add(r.y-r.height);
+            pos.add(r.x); pos.add(r.y);
+
+            // C1 C2
+            // C4 C3
         }
 
         // List to Array
@@ -85,6 +101,7 @@ public class RenderColliders extends RenderStage {
         shader.bind();
         shader.setUniform("projection", projection);
         shader.setUniform("mode", 2);
+        shader.setUniformAlt("color", c);
 
         vao1.draw(GL_LINES);
         shader.unbind();
@@ -102,8 +119,9 @@ public class RenderColliders extends RenderStage {
         try {
             shader.createUniform("projection");
             shader.createUniform("mode");
+            shader.createUniform("color");
             //shader.createUniform("pixelScale");
-        } catch (Exception e) { Coal.logger.log("onEnable failed to create uniforms", getName()); }
+        } catch (Exception e) { Coal.logger.error("onEnable failed to create uniforms", getName()); }
     }
 
     @Override

@@ -1,6 +1,5 @@
 package dk.sebsa.coal.ecs;
 
-import dk.sebsa.coal.graph.renderes.Collision;
 import dk.sebsa.coal.io.GLFWInput;
 import dk.sebsa.coal.math.Vector2f;
 import dk.sebsa.coal.math.Vector3f;
@@ -37,11 +36,11 @@ public abstract class Component extends Trash {
         // DO NOTHING!!
     }
 
-    public void onCollision2D(Collision collision) {
+    public void onCollision2D() {
         // DO NOTHING!!
     }
 
-    public void onTrigger2D(Collision collision) {
+    public void onTrigger2D() {
         // DO NOTHING!!
     }
 

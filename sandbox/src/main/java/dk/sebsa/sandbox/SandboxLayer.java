@@ -21,7 +21,7 @@ import dk.sebsa.coal.graph.text.Label;
 import dk.sebsa.coal.graph.text.Language;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.math.Color;
-import dk.sebsa.coal.physics.collision.BoxCollider2D;
+import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -81,26 +81,21 @@ public class SandboxLayer extends Layer {
         sr.layer = 2;
         ee.transform.setPosition(480, 0, 0);
         ee.addComponent(sr);
+        ee.addComponent(new MAABBCollider2D(sr));
 
-
-        ee = new Entity("Object 2");
+        ee = new Entity("Not");
         sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega"));
         sr.scale = 0.8f;
-        sr.layer = 0;
+        ee.transform.setPosition(160,160,0);
+        ee.addComponent(new MAABBCollider2D(sr));
         ee.addComponent(sr);
 
-
         ee = new Entity("Player");
-        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/player.spr"));
-        sr.scale = 0.45f;
+        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/player.spr")); sr.scale = 0.34f;
         sr.layer = 1;
         ee.addComponent(sr);
         ee.addComponent(new Test2DMovement());
-        ee.addComponent(new BoxCollider2D(sr));
-
-        Entity colliderEntity = new Entity("Not");
-        colliderEntity.transform.setPosition(160,160,0);
-        colliderEntity.addComponent(new BoxCollider2D(true));
+        ee.addComponent(new MAABBCollider2D(sr));
     }
 
     @Override
