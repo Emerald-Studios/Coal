@@ -55,4 +55,11 @@ public class Vector3f {
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
+
+    @Contract("_ -> this")
+    public Vector3f add(Vector2f anchor) {
+        this.x += anchor.x;
+        this.y += anchor.y;
+        return this;
+    }
 }

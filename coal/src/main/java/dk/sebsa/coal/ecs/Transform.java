@@ -27,7 +27,7 @@ public class Transform {
     // Getter & "Setters"
     public Vector3f getGlobalPosition() { return position; }
     public Vector3f getPosition() { return localPosition; }
-    public void setPosition(Vector3f pos) {this.localPosition.set(pos); isDirty = true; recalculateGlobalTransformations(); }
+    public void setPosition(Vector3f pos) { this.localPosition.set(pos); isDirty = true; recalculateGlobalTransformations(); }
     public void setPosition(float x, float y, float z) { this.localPosition.set(x, y, x); isDirty = true; recalculateGlobalTransformations(); }
     public void setPosition(float v) { this.localPosition.set(v, v, v); isDirty = true; recalculateGlobalTransformations(); }
 
@@ -51,8 +51,18 @@ public class Transform {
 
     private final Vector2f pos2D = new Vector2f();
     public Matrix4x4f getMatrix2D() {
-        if(isDirty) matrix.setTransformation(pos2D.set(position.x, position.y), 0, Vector2f.VECTOR2F_ONE);
-        isDirty = false;
+        clean();
         return matrix;
+    }
+
+    public void clean() {
+        if(isDirty) {
+            isDirty = false;
+            matrix.setTransformation(pos2D.set(position.x, position.y), 0, Vector2f.VECTOR2F_ONE);
+        }
+    }
+
+    public void move(Vector2f v) {
+        setPosition(position.add(v));
     }
 }

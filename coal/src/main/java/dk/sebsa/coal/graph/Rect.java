@@ -47,6 +47,15 @@ public class Rect {
         return this;
     }
 
+    @Contract(value = "_, _ -> this")
+    public Rect set(Vector2f pos, Vector2f scale) {
+        x = pos.x;
+        y = pos.y;
+        width = scale.x;
+        height = scale.y;
+        return this;
+    }
+
     @Contract(value = "_ -> this")
     public Rect set(Rect r) {
         return set(r.x, r.y, r.width, r.height);
@@ -100,19 +109,34 @@ public class Rect {
     }
 
     @Contract(pure = true)
-    public boolean contains(Vector2f v) {return v.x > x && v.x < x + width && v.y > y && v.y < y + height;}
+    public boolean contains(@NotNull Vector2f v) {return v.x > x && v.x < x + width && v.y > y && v.y < y + height;}
     @Contract(pure = true)
     public Vector2f getSize() {return new Vector2f(width, height);}
 
     @Contract(pure = true)
     public boolean overlap(@NotNull Rect r) { // Assuming (x, y) is top left corner and (x+w, y-h) is bottom right
         if (y < r.y-r.height || y-height > r.y) return false;
-        if(x+width < r.x || x > r.x + r.width) return false;
+        if (x+width < r.x || x > r.x + r.width) return false;
+        return true;
+    }
+
+    public boolean getOverlap(@NotNull Rect r, @NotNull Rect output) {
+        if(!overlap(r)) return false;
+
+        output.x = Math.max(x, r.x);
+        output.y = Math.min(y, r.y);
+        output.width = Math.min(x + width, r.x + r.width) - output.x;
+        output.height = Math.min(y, r.y) - Math.max(y - height, r.y - r.height);
+
         return true;
     }
 
     @Override
     public String toString() {
         return "(" + x + ", " + y + ", " + width + ", " + height + ")";
+    }
+
+    public boolean isZero() {
+        return x == 0 && y == 0 && width == 0 && height == 0;
     }
 }
