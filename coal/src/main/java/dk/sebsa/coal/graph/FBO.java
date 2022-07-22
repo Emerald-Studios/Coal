@@ -32,9 +32,9 @@ public class FBO extends Trash {
     private static final List<FBO> fbos = new ArrayList<>();
     private void trace(Object o) { if(Coal.TRACE) Coal.logger.log(o);}
 
-    public FBO(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public FBO(int w, int h) {
+        this.width = w;
+        this.height = h;
         frameBufferID = createFrameBuffer();
         depthBufferID = createDepthBufferAttachment();
 
@@ -50,11 +50,13 @@ public class FBO extends Trash {
         GL11.glBindTexture(GL_TEXTURE_2D, 0);
         GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, depthBufferID);
         GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, frameBufferID);
+        glViewport(0,0,width,height);
     }
 
     public void unBind() {
         GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+        glViewport(0,0,Coal.instance.getApplication().window.getWidth(),Coal.instance.getApplication().window.getHeight());
     }
 
     public void dispose() { // Will schedule the TC to destroy this
@@ -99,10 +101,10 @@ public class FBO extends Trash {
         fbos.remove(this);
     }
 
-    public static void renderFBO(Application app, FBO fbo, Rect r) {
+    public static void renderFBO(Application app, FBO fbo, Rect r, Rect r2) {
         if(fbo == null) return;
         Core2D.prepare();
-        Core2D.drawTextureWithTextCoords(fbo.getMat(), app.window.rect, r);
+        Core2D.drawTextureWithTextCoords(fbo.getMat(), r, r2);
         Core2D.unprepare();
     }
 }

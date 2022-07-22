@@ -47,10 +47,11 @@ public abstract class RenderStage {
     }
 
     public static final Rect r = new Rect(0, 1, 1, -1);
+    public final Rect fboRect = new Rect();
     //public static final Rect r = new Rect(0, 0, 1, -1);
     protected void renderPrevFBO(FBO prevFBO) {
         if(prevFBO == null) return;
-        FBO.renderFBO(app, prevFBO, r);
+        FBO.renderFBO(app, prevFBO, fboRect.set(0,0,fbo.width, fbo.height), r);
         fbo.bindFrameBuffer();
     }
 
