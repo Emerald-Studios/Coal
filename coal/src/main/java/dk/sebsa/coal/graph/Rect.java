@@ -21,6 +21,10 @@ public class Rect {
         this.height = h;
     }
 
+    public Rect(Rect rect) {
+        this(rect.x, rect.y, rect.width, rect.height);
+    }
+
     public boolean inRect(Vector2f v) {
         return v.x > x && v.x < x+width && v.y > y && v.y < y+height;
     }

@@ -75,7 +75,7 @@ public class GLFWWindow {
 
         log("Create Window (" + windowTitle + ")");
         // Create the window
-        id = glfwCreateWindow(300, 300, "Coal Application", NULL, NULL);
+        id = glfwCreateWindow(260, 310, "Coal Application", NULL, NULL);
         if ( id == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 

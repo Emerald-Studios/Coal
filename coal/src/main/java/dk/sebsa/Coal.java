@@ -15,6 +15,7 @@ import dk.sebsa.coal.enums.AssetLocationType;
 import dk.sebsa.coal.events.LayerStackEventTask;
 import dk.sebsa.coal.events.LayerStackUpdateTask;
 import dk.sebsa.coal.graph.GLSLShaderProgram;
+import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.renderes.Core2D;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.math.Time;
@@ -151,11 +152,16 @@ public class Coal extends Logable {
 
         if(capabilities.coalLoadScreen) {
             log("Render Screen...");
+
+            // Calculate image size from windows size
+            Rect r = new Rect(application.window.rect);
+            r.add(5,5,-10,-10);
+
             // Render Init Screen, this is done once pr color buffer
             Core2D.prepare();
-            InitScreenRenderer.render(application.window.rect);
+            InitScreenRenderer.render(r);
             glfwSwapBuffers(application.window.getID());
-            InitScreenRenderer.render(application.window.rect);
+            InitScreenRenderer.render(r);
             Core2D.unprepare();
             log("Render Screen Done!");
         }
