@@ -181,7 +181,7 @@ public class Coal extends Logable {
 
             // Make Stuff Happen
             ThreadLogging.logAll(logger);
-            taskManager.frame(threadManager);
+            taskManager.frame(threadManager, true);
         }
 
         // Return Capabilities
@@ -223,7 +223,7 @@ public class Coal extends Logable {
             if(capabilities.tcAudioClean) taskManager.doTask(new TCFrameTask()); // Handle event task
 
             while(taskManager.stuffToDo()) {
-                taskManager.frame(threadManager);
+                taskManager.frame(threadManager, false);
                 ThreadLogging.logAll(logger);
             }
 

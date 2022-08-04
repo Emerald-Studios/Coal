@@ -38,7 +38,7 @@ public class TaskManager {
         return !toDo.isEmpty() || !doing.isEmpty();
     }
 
-    public void frame(ThreadManager thm) {
+    public void frame(ThreadManager thm, boolean ignoreTime) {
         while(thm.threadAvaible() && !toDo.isEmpty() ) {
             thm.assignTask(getTask());
         }
@@ -48,6 +48,7 @@ public class TaskManager {
         try {
             for (Task t : doing) {
                 var tt = TimeUnit.SECONDS.convert(Time.getTime() - t.startTime, TimeUnit.MILLISECONDS);
+                if(ignoreTime) continue;
                 if (tt > 12) {
                     t.startTime = Time.getTime();
                     Coal.logger.error("Task " + t + ", has taken more then 12 seconds to run!");

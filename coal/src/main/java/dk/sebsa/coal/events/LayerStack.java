@@ -69,7 +69,7 @@ public class LayerStack {
 
             for(i = 0; i < stack.size(); i++) {
                 if(!stack.get(i).enabled) continue;
-                if(stack.get(i).handleEvent(event)) break;
+                if(stack.get(i).event(event)) break;
             }
         }
     }

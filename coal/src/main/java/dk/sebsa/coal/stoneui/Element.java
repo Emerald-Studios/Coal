@@ -1,5 +1,6 @@
 package dk.sebsa.coal.stoneui;
 
+import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.graph.Rect;
 
 /**
@@ -23,9 +24,14 @@ public abstract class Element<T extends Element<T>> {
         return (T) this;
     }
 
-    public T sixe(int w, int h) {
+    public T size(int w, int h) {
         width = w;
         height = h;
         return (T) this;
+    }
+
+    public boolean handleEvent(Event e) {
+        // DO NOTHING!!
+        return false;
     }
 }

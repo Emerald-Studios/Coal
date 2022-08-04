@@ -49,11 +49,13 @@ public class GLFWInput extends Logable {
                     buttonsPressed[button] = 1;
 
                     ButtonPressedEvent e = new ButtonPressedEvent();
+                    e.mouse = mousePos;
                     e.button = button;
                     app.stack.event(e);
                 } else if(action == 0) {
                     buttonsReleased[button] = 1;
                     ButtonReleasedEvent e = new ButtonReleasedEvent();
+                    e.mouse = mousePos;
                     e.button = button;
                     app.stack.event(e);
                 }
