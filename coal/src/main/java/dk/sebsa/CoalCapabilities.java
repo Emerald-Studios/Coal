@@ -14,6 +14,7 @@ public class CoalCapabilities {
 
     @Builder.Default public final boolean coalAudio = false;
     @Builder.Default public final boolean coalSprite2D = false;
+    @Builder.Default public final boolean coalComponentAsset = false;
     @Builder.Default @Deprecated public final boolean coalPhysics2D = false;
     @Builder.Default public final boolean coalModernPhysics2D = false;
     @Builder.Default public final boolean ignoreErrorShutdown = false;
