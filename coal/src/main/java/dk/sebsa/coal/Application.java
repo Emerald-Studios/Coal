@@ -25,7 +25,7 @@ public abstract class Application {
     private boolean forceClose = false;
 
     public void init() {
-        this.stack = new LayerStack();
+        this.stack = new LayerStack(this);
         this.window = initApp();
 
         window.init();

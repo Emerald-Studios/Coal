@@ -3,7 +3,6 @@ package dk.sebsa.sandbox;
 
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
-import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.audio.Sound;
 import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.enums.EventTypes;
@@ -14,7 +13,6 @@ import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.RenderPipeline;
 import dk.sebsa.coal.graph.Sprite;
 import dk.sebsa.coal.graph.SpriteSheet;
-import dk.sebsa.coal.graph.renderes.GUI;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.graph.text.Font;
 import dk.sebsa.coal.graph.text.Label;
@@ -112,23 +110,13 @@ public class SandboxLayer extends Layer {
     }
 
     @Override
-    protected void render() {
-        GUI.prepare(sheet, application);
-        GUI.box(r1);
-        if(GUI.buttonDown(r2, label))  GUI.label(r3, cum);
+    protected void cleanup() {
 
-        // Enable Audio
-        if(GUI.button(r4, soundsLabel)) sounds = !sounds;
-        if(sounds) {
-            if(GUI.button(new Rect(400, 484, 400, 42), new Label("Fish", font, Color.white))) AudioManager.playSound(anglerfish, 1);
-            if(GUI.button(new Rect(400, 526, 400, 42), new Label("Susan", font, Color.white))) AudioManager.playSound(susan, 1);
-        }
-
-        GUI.unprepare();
     }
 
     @Override
-    protected void cleanup() {
-
+    protected SpriteSheet buildUI() {
+        Box();
+        return sheet;
     }
 }

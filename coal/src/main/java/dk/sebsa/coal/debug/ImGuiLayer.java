@@ -7,6 +7,7 @@ import dk.sebsa.coal.audio.AudioManager;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
+import dk.sebsa.coal.graph.SpriteSheet;
 import dk.sebsa.coal.io.*;
 import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.math.Time;
@@ -72,23 +73,15 @@ public abstract class ImGuiLayer extends Layer {
     }
 
     @Override
-    protected void render() {
-        if(selfDestruct) return;
+    protected SpriteSheet buildUI() {
+        if(selfDestruct) return null;
 
-        // Start new frame
-        CoalImGUI.getImplGlfw().newFrame();
-        ImGui.newFrame();
-
-        // Draw the frame
-        if(!disableDefaultWindows()) drawFrame();
-        draw();
-
-        // Actually render this shit
-        ImGui.render();
-        CoalImGUI.getImplGl3().renderDrawData(ImGui.getDrawData());
+        ImGUI(this::drawFrame);
+        return null;
     }
 
-    private void drawFrame() {
+    private Void drawFrame() {
+        if(disableDefaultWindows()) { draw(); return null; }
         DecimalFormat df = new DecimalFormat("#.#####");
         String aft = df.format(Time.getAFL());
 
@@ -129,6 +122,8 @@ public abstract class ImGuiLayer extends Layer {
             ImGui.text("Sources: " + AudioManager.statusUsed() + "/" + AudioManager.statusAll());
             ImGui.end();
         }
+
+        draw(); return null;
     }
 
     @Override
