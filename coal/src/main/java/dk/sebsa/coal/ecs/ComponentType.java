@@ -2,9 +2,6 @@ package dk.sebsa.coal.ecs;
 
 import dk.sebsa.coal.asset.Asset;
 import dk.sebsa.coal.asset.AssetLocation;
-import dk.sebsa.coal.util.ClassImporter;
-
-import java.io.IOException;
 
 /**
  * @author sebs
