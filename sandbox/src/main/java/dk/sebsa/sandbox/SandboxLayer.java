@@ -99,13 +99,18 @@ public class SandboxLayer extends Layer {
     protected SpriteSheet buildUI() {
         Box();
         Box().pos(100,0).size(200,200);
-        Button(Text("Close"), (b) -> { stateB1 = true; dirty(); })
-                .pos(0,100)
-                .size(100, 20);
 
-        if(stateB1) Button(Text("Sure?"), (b) -> {application.forceClose(); })
-                .pos(0,120)
-                .size(100,20);
+        List(() -> {
+            Button(Text("Close"), (b) -> { stateB1 = !stateB1; dirty(); })
+                    .size(90, 20)
+                    .padding(5);
+
+            if(stateB1) Button(Text("Sure?"), (b) -> application.forceClose())
+                    .size(90,20)
+                    .padding(5);
+
+            return null;
+        }).pos(0,100);
 
         return sheet;
     }

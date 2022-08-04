@@ -3,6 +3,7 @@ package dk.sebsa.coal.events;
 
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
+import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.renderes.GUI;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class LayerStack {
         Coal.logger.log("Layerstack Init " + stack.size(), "LayerStack");
         for(i = 0; i < stack.size(); i++) {
             stack.get(i).init();
-            stack.get(i).fullBuildUI();
+            stack.get(i).fullBuildUI(app);
         }
     }
 
@@ -50,13 +51,13 @@ public class LayerStack {
 
         for(i = 0; i < stack.size(); i++) {
             l = stack.get(i);
+
+            if(app.window.isDirty()) l.elementGroup = null;
             if(l.enabled) {
-                if(l.elements == null) l.fullBuildUI();
+                if(l.elementGroup == null) l.fullBuildUI(app);
                 if(l.preferredSpriteSheet != null) GUI.prepare(l.preferredSpriteSheet, app);
 
-                for(int j = 0; j < l.elements.size(); j++) {
-                    l.elements.get(j).draw();
-                }
+                l.elementGroup.draw(new Rect());
             }
         }
         GUI.unprepare();
