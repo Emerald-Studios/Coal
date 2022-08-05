@@ -54,7 +54,7 @@ public class LayerStack {
 
             if(app.window.isDirty()) l.elementGroup = null;
             if(l.enabled) {
-                if(l.elementGroup == null) l.fullBuildUI(app);
+                if(l.elementGroup == null || l.elementGroup.dirty) l.fullBuildUI(app);
                 if(l.preferredSpriteSheet != null) GUI.prepare(l.preferredSpriteSheet, app);
 
                 l.elementGroup.draw(new Rect());

@@ -30,4 +30,10 @@ public class Group extends Element<Group> {
             elements.get(j).draw(offset);
         }
     }
+
+    public boolean dirty = false;
+    public void dirty() {
+        if(parent != null) parent.dirty();
+        dirty = true;
+    }
 }

@@ -2,6 +2,8 @@ package dk.sebsa.coal.stoneui;
 
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.graph.Rect;
+import dk.sebsa.coal.graph.Sprite;
+import dk.sebsa.coal.stoneui.elements.Group;
 import lombok.Getter;
 
 /**
@@ -11,7 +13,8 @@ public abstract class Element<T extends Element<T>> {
     @Getter
     private float posX, posY;
     @Getter private float width = 100, height = 100;
-    public Element parent;
+    public Group parent;
+    protected Sprite sprite;
 
     private Padding padding;
     private static final Padding zeroPadding = new Padding();
@@ -52,6 +55,11 @@ public abstract class Element<T extends Element<T>> {
     public T padding(int top, int bot, int left, int right) {
         if(padding == null) padding = new Padding();
         padding.set(top, bot, left, right);
+        return (T) this;
+    }
+
+    public T sprite(Sprite sprite) { // USE NULL FOR DEFAULT
+        this.sprite = sprite;
         return (T) this;
     }
 

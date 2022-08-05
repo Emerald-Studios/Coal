@@ -9,6 +9,8 @@ import dk.sebsa.coal.stoneui.Element;
 public class Box extends Element<Box> {
     @Override
     public void render() {
-        GUI.box(rect);
+        if(this.sprite == null)
+            GUI.box(rect);
+        else GUI.box(rect, sprite);
     }
 }

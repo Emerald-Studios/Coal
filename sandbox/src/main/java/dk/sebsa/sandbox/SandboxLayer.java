@@ -15,6 +15,7 @@ import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.graph.text.Language;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
+import dk.sebsa.sandbox.elements.CloseMenu;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -93,22 +94,16 @@ public class SandboxLayer extends Layer {
 
     }
 
-    private boolean stateB1 = false;
 
     @Override
     protected SpriteSheet buildUI() {
         Box();
         Box().pos(100,0).size(200,200);
 
-        List(() -> {
-            Button(Text("Close"), (b) -> { stateB1 = !stateB1; dirty(); })
-                    .size(90, 20)
-                    .padding(5);
-
-            if(stateB1) Button(Text("Sure?"), (b) -> application.forceClose())
-                    .size(90,20)
-                    .padding(5);
-
+        HList(() -> {
+            customElement(new CloseMenu(getSate("1"), application));
+            customElement(new CloseMenu(getSate("2"), application));
+            customElement(new CloseMenu(getSate("3"), application));
             return null;
         }).pos(0,100);
 

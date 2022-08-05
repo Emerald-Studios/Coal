@@ -24,7 +24,9 @@ public class Button extends Element<Button> {
 
     @Override
     protected void render() {
-        GUI.button(rect, text.getLabel());
+        if(this.sprite == null)
+            GUI.button(rect, text.getLabel());
+        else GUI.button(rect,text.getLabel(), sprite);
         clickRect.set(rect);
     }
 

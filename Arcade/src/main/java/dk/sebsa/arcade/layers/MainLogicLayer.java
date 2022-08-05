@@ -7,6 +7,7 @@ import dk.sebsa.coal.Application;
 import dk.sebsa.coal.enums.EventTypes;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
+import dk.sebsa.coal.graph.SpriteSheet;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import org.lwjgl.glfw.GLFW;
 
@@ -46,12 +47,12 @@ public class MainLogicLayer extends Layer {
     }
 
     @Override
-    protected void render() {
-        currentGame.renderUI();
+    protected void cleanup() {
+        currentGame.cleanup();
     }
 
     @Override
-    protected void cleanup() {
-        currentGame.cleanup();
+    protected SpriteSheet buildUI() {
+        return null;
     }
 }

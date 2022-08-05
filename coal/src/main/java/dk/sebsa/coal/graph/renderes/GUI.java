@@ -32,28 +32,28 @@ public class GUI {
     }
     public static void box(Rect rect, Sprite sprite) { Core2D.drawSprite(rect, sprite); }
 
-    public static boolean button(Rect r, Label label) {
+    public static void button(Rect r, Label label) {
         if(!r.contains(app.input.getMousePos())) {
             box(r, spriteButton);
             label(r, label);
-            return false;
+            return;
         }
 
         box(r, spriteButtonHover);
         label(r, label);
-        return app.input.isButtonPressed(0);
+        app.input.isButtonPressed(0);
     }
 
-    public static boolean buttonDown(Rect r, Label label) {
+    public static void button(Rect r, Label label, Sprite sprite) {
         if(!r.contains(app.input.getMousePos())) {
-            box(r, spriteButton);
+            box(r, sprite);
             label(r, label);
-            return false;
+            return;
         }
 
-        box(r, spriteButtonHover);
+        box(r, sprite);
         label(r, label);
-        return app.input.isButtonDown(0);
+        app.input.isButtonPressed(0);
     }
 
     private static final Rect r1 = new Rect();
