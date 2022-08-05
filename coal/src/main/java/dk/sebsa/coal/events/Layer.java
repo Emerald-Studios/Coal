@@ -14,7 +14,7 @@ public abstract class Layer extends RenderingSurface {
 
     protected abstract boolean handleEvent(Event e);
     protected boolean event(Event e) {
-        if(elementGroup.handleEvent(e)) return true;
+        if(elementGroup != null && elementGroup.handleEvent(e)) return true;
 
         return handleEvent(e);
     }
