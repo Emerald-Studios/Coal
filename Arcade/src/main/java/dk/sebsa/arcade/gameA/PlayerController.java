@@ -26,9 +26,9 @@ public class PlayerController extends Component {
 
     @Override
     protected void load() {
-        bulletSprite = (Sprite) AssetManager.getAsset("arcadeassets/game1/bullet.spr");
-        attack = (Sound) AssetManager.getAsset("arcadeassets/game1/Explosion1.ogg");
-        hit = (Sound) AssetManager.getAsset("arcadeassets/game1/Explosion2.ogg");
+        bulletSprite = AssetManager.getAsset("arcadeassets/game1/bullet.spr");
+        attack = AssetManager.getAsset("arcadeassets/game1/Explosion1.ogg");
+        hit = AssetManager.getAsset("arcadeassets/game1/Explosion2.ogg");
     }
 
     @Override

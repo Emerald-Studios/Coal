@@ -75,7 +75,7 @@ public class Core2D {
         currentShader.setUniform("projection", ortho);
         changeColor(Color.white);
         guiMesh.bind();
-        noTexture = (Texture) AssetManager.getAsset("internal/textures/NoTexture.png");
+        noTexture = AssetManager.getAsset("internal/textures/NoTexture.png");
         prepared = true;
     }
 

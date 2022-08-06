@@ -39,7 +39,7 @@ public class SpriteRenderer extends Component {
         if(defaultShader == null) {
             GLSLShaderProgram shader;
             try { shader = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/CoalSpriteDefault.glsl")).loadAsset(); }
-            catch (AssetExitsException e) { shader = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/CoalSpriteDefault.glsl"); }
+            catch (AssetExitsException e) { shader = AssetManager.getAsset("internal/shaders/CoalSpriteDefault.glsl"); }
             defaultShader = shader;
             try {
                 defaultShader.createUniform("anchor");

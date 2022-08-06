@@ -87,10 +87,10 @@ public class GameA extends Game {
     @Override
     public void init(Application app) {
         if(!init) { init = true;
-            playerSprite = (Sprite) AssetManager.getAsset("arcadeassets/game1/player.spr");
-            enemySprite = (Sprite) AssetManager.getAsset("arcadeassets/game1/zote.spr");
-            sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
-            font = (Font) AssetManager.getAsset("arcadeassets/Doom.fnt");
+            playerSprite = AssetManager.getAsset("arcadeassets/game1/player.spr");
+            enemySprite = AssetManager.getAsset("arcadeassets/game1/zote.spr");
+            sheet = AssetManager.getAsset("internal/sheets/BlackGUI.sht");
+            font = AssetManager.getAsset("arcadeassets/Doom.fnt");
         } alive = true;
         application = app;
 

@@ -23,7 +23,7 @@ public class InitScreenRenderer {
         init = true;
         Texture texture;
         try { texture = (Texture) new Texture(new AssetLocation(AssetLocationType.Jar, "/coal/internal/textures/Loading.png")).loadAsset(); }
-        catch (AssetExitsException e) { texture = (Texture) AssetManager.getAsset("internal/textures/Loading.png"); }
+        catch (AssetExitsException e) { texture = AssetManager.getAsset("internal/textures/Loading.png"); }
         mat = new Material(texture);
     }
 

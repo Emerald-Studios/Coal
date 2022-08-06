@@ -36,13 +36,13 @@ public class Mesh2D extends Asset {
     public static Mesh2D getQuad() {
         try {
             return (Mesh2D) new Mesh2D("coal/internal/Quad2D", square, square).loadAsset();
-        } catch (AssetExitsException e) { return (Mesh2D) AssetManager.getAsset("coal/internal/Quad2D"); }
+        } catch (AssetExitsException e) { return AssetManager.getAsset("coal/internal/Quad2D"); }
     }
 
     public static Mesh2D getRenderMesh() {
         try {
             return (Mesh2D) new Mesh2D("coal/internal/RenderMesh2D", square, uv).loadAsset();
-        } catch (AssetExitsException e) { return (Mesh2D) AssetManager.getAsset("coal/internal/RenderMesh2D"); }
+        } catch (AssetExitsException e) { return AssetManager.getAsset("coal/internal/RenderMesh2D"); }
     }
 
     // Main class

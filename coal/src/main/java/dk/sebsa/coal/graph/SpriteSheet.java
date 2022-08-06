@@ -36,7 +36,7 @@ public class SpriteSheet extends Asset {
     protected void load() {
         List<String> raw = FileUtils.readAllLinesList(location.asStream());
         for(String line : raw) {
-            if(line.startsWith("m")) material = (Material) AssetManager.getAsset(line.split(":")[1]);
+            if(line.startsWith("m")) material = AssetManager.getAsset(line.split(":")[1]);
             else if(line.startsWith("o")) {
                 String[] e = line.split(":")[1].split(",");
                 offset = new Rect(Float.parseFloat(e[0]),Float.parseFloat(e[1]),Float.parseFloat(e[2]),Float.parseFloat(e[3]));

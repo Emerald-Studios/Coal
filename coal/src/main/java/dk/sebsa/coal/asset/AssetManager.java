@@ -35,8 +35,8 @@ public class AssetManager {
     @Getter
     private static final Map<String, Asset> assetNameMap = new HashMap<>();
 
-    public static Asset getAsset(String name) {
-        return assetNameMap.get(name);
+    public static <T extends Asset> T getAsset(String name) {
+        return (T) assetNameMap.get(name);
     }
 
     public static void initGetAllAssets(Consumer<Object> log, Consumer<Object> errorLog) {

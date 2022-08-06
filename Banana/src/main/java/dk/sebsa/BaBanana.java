@@ -5,6 +5,7 @@ import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
 import dk.sebsa.coal.graph.Sprite;
+import dk.sebsa.coal.graph.SpriteSheet;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 
 /**
@@ -19,7 +20,7 @@ public class BaBanana extends Layer {
     @Override
     protected void init() {
         Entity player = new Entity("Player");
-        Sprite sprPlayer = (Sprite) AssetManager.getAsset("banban/plr/Player.spr");
+        Sprite sprPlayer = AssetManager.getAsset("banban/plr/Player.spr");
         player.addComponent(new SpriteRenderer(sprPlayer));
     }
 
@@ -29,12 +30,12 @@ public class BaBanana extends Layer {
     }
 
     @Override
-    protected void render() {
+    protected void cleanup() {
 
     }
 
     @Override
-    protected void cleanup() {
-
+    protected SpriteSheet buildUI() {
+        return null;
     }
 }

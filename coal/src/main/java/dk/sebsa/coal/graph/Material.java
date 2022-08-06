@@ -32,7 +32,7 @@ public class Material extends Asset {
     protected void load() {
         List<String> raw = FileUtils.readAllLinesList(location.asStream());
         for(String line : raw) {
-            if(line.startsWith("t")) { isTextured = true; texture = (Texture) AssetManager.getAsset(line.split(":")[1]); }
+            if(line.startsWith("t")) { isTextured = true; texture = AssetManager.getAsset(line.split(":")[1]); if(texture == null) texture = AssetManager.getAsset("internal/textures/NoTexture.png"); }
             else if(line.startsWith("c")) {
                 String[] e = line.split(":")[1].split(",");
                 color = Color.color(Float.parseFloat(e[0]),Float.parseFloat(e[1]),Float.parseFloat(e[2]),Float.parseFloat(e[3]));

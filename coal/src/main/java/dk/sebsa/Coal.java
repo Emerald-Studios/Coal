@@ -147,7 +147,7 @@ public class Coal extends Logable {
         // Core2D init
         GLSLShaderProgram shader2d;
         try { shader2d = (GLSLShaderProgram) new GLSLShaderProgram(new AssetLocation(AssetLocationType.Jar, "/coal/internal/shaders/Coal2dDefault.glsl")).loadAsset(); }
-        catch (AssetExitsException e) { shader2d = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
+        catch (AssetExitsException e) { shader2d = AssetManager.getAsset("internal/shaders/Coal2dDefault.glsl"); }
         Core2D.init(application.window, shader2d);
 
         if(capabilities.coalLoadScreen) {

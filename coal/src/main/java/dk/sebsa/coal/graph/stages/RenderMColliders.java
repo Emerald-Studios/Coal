@@ -115,7 +115,7 @@ public class RenderMColliders extends RenderStage {
         setProjection();
 
         if (shader != null) return;
-        shader = (GLSLShaderProgram) AssetManager.getAsset("internal/shaders/CoalBlankShader.glsl");;
+        shader = AssetManager.getAsset("internal/shaders/CoalBlankShader.glsl");;
         try {
             shader.createUniform("projection");
             shader.createUniform("mode");

@@ -9,10 +9,8 @@ import dk.sebsa.coal.enums.PolygonMode;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
 import dk.sebsa.coal.graph.RenderPipeline;
-import dk.sebsa.coal.graph.Sprite;
 import dk.sebsa.coal.graph.SpriteSheet;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
-import dk.sebsa.coal.graph.text.Language;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
 import dk.sebsa.sandbox.elements.CloseMenu;
@@ -49,12 +47,12 @@ public class SandboxLayer extends Layer {
     @Override
     protected void init() {
         log("Huston fuck me");
-        sheet = (SpriteSheet) AssetManager.getAsset("internal/sheets/BlackGUI.sht");
+        sheet = AssetManager.getAsset("internal/sheets/BlackGUI.sht");
         //lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/en_us.lang"));
-        lang = LangStatic.genStatic((Language) AssetManager.getAsset("sandboxassets/local/da_dk.lang"));
+        lang = LangStatic.genStatic(AssetManager.getAsset("sandboxassets/local/da_dk.lang"));
 
         ee = new Entity("Object");
-        SpriteRenderer sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/Asuna.spr"));
+        SpriteRenderer sr = new SpriteRenderer(AssetManager.getAsset("sandboxassets/Asuna.spr"));
         sr.scale = 0.35f;
         sr.layer = 2;
         ee.transform.setPosition(480, 0, 0);
@@ -62,14 +60,14 @@ public class SandboxLayer extends Layer {
         ee.addComponent(new MAABBCollider2D(sr));
 
         ee = new Entity("Object 2");
-        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/True.sht/Sega"));
+        sr = new SpriteRenderer(AssetManager.getAsset("sandboxassets/True.sht/Sega"));
         sr.scale = 0.8f;
         ee.transform.setPosition(160,160,0);
         ee.addComponent(new MAABBCollider2D(sr));
         ee.addComponent(sr);
 
         ee = new Entity("Player");
-        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/player.spr")); sr.scale = 0.34f;
+        sr = new SpriteRenderer(AssetManager.getAsset("sandboxassets/player.spr")); sr.scale = 0.34f;
         sr.layer = 1;
         ee.addComponent(sr);
         ee.addComponent(new Test2DMovement());
@@ -77,7 +75,7 @@ public class SandboxLayer extends Layer {
 
         ee = new Entity("Object 3 (Trigger)");
         ee.tag = "Door";
-        sr = new SpriteRenderer((Sprite) AssetManager.getAsset("sandboxassets/Door.spr"));
+        sr = new SpriteRenderer(AssetManager.getAsset("sandboxassets/Door.spr"));
         sr.scale = 6f;
         ee.transform.setPosition(0,-190,0);
         ee.addComponent(new MAABBCollider2D(sr).setTrigger(true));
