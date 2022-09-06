@@ -14,19 +14,19 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0.0
  */
 public class TaskManager {
-    private final List<Task> toDo = new ArrayList<>();
+    private final List<Task> toDo = Collections.synchronizedList(new ArrayList<>());
     private final List<Task> doing = Collections.synchronizedList(new ArrayList<>());
 
     public void doTask(Task t) {
+        if (t == null) return;
         toDo.add(t);
     }
 
     public Task getTask() {
-        var r = toDo.get(0);
+        Task r = toDo.get(0);
+        toDo.remove(0);
         doing.add(r);
         r.startTime = Time.getTime();
-
-        toDo.remove(0);
         return r;
     }
 
@@ -39,7 +39,7 @@ public class TaskManager {
     }
 
     public void frame(ThreadManager thm, boolean ignoreTime) {
-        while(thm.threadAvaible() && !toDo.isEmpty() ) {
+        while(thm.threadAvaible() && toDo.size() > 0 ) {
             thm.assignTask(getTask());
         }
 

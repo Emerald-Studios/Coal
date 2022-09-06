@@ -58,6 +58,7 @@ public class ThreadManager extends Logable {
     }
 
     public void assignTask(Task task) {
+        if(task == null) return;
         var t = avaibleThreads.get(0);
         t.currentTask = task;
         t.interrupt();
