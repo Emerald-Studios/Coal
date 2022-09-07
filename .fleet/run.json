@@ -1,0 +1,15 @@
+{
+    "configurations": [
+      {
+        "type": "gradle",
+        "name": "Run Sandbox",
+        "tasks": ["sandbox:run"],
+      },
+      {
+        "type": "gradle",
+        "name": "Build Coal",
+        "tasks": ["coal:clean", "coal:build"],
+      }
+
+    ]
+}
