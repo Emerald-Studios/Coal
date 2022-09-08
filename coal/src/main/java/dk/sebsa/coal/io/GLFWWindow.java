@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
+import java.util.function.Supplier;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -39,14 +40,22 @@ public class GLFWWindow {
     @Getter
     private GLCapabilities glCapabilities;
     public final Rect rect = new Rect();
+    public final Rect renderRect = new Rect();
+    public Supplier<Rect> renderRectProvider;
 
     private void log(String s) { Coal.logger.log(s, "GLFWWindow"); }
     public GLFWWindow(String windowTitle, Color clearColor, int width, int height) {
+        this(windowTitle, clearColor, width, height, null);
+    }
+
+    public GLFWWindow(String windowTitle, Color clearColor, int width, int height, Supplier<Rect> renderRectProvider) {
         this.windowTitle = windowTitle;
         this.clearColor = clearColor;
         this.width = width;
         this.height = height;
         this.isDirty = true;
+        this.renderRectProvider = renderRectProvider;
+
         rect.set(0,0,width,height);
     }
 
@@ -87,6 +96,9 @@ public class GLFWWindow {
                 this.width = w;
                 this.height = h;
                 rect.set(0,0,width,height);
+                if(renderRectProvider == null) renderRect.set(rect);
+                else renderRect.set(renderRectProvider.get());
+                log("RenderRect changed to: " + renderRect);
             }
             minimized = w == 0 && h == 0;
 
@@ -132,6 +144,7 @@ public class GLFWWindow {
         glCapabilities = GL.createCapabilities();
 
         log("Finalizing window setup 2");
+        resetRenderRect();
         // Enable transparency
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -188,7 +201,22 @@ public class GLFWWindow {
         glfwSetErrorCallback(null).free();
     }
 
-    public void setSize(int width, int height) { this.width = width; this.height = height; glfwSetWindowSize(id, this.width, this.height); log("Changed size to: " + width + ", " + height);}
+    public void setSize(int width, int height) {
+        this.width = width; this.height = height;
+        if(renderRectProvider == null) renderRect.set(rect);
+        else renderRect.set(renderRectProvider.get());
+
+        glfwSetWindowSize(id, this.width, this.height);
+        log("Changed size to: " + width + ", " + height);
+        log("RenderRect size: " + renderRect);
+    }
+
+    public void resetRenderRect() {
+        if(renderRectProvider == null) renderRect.set(rect);
+        else renderRect.set(renderRectProvider.get());
+        log("FORCE: RenderRect changed size: " + renderRect);
+    }
+
     public void setClearColor(Color c) { clearColor = c; glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a); log("Changed clearcolor to: " + c); }
     public void setWindowTitle(String s) { windowTitle = s; glfwSetWindowTitle(id, s); log("Changed windowtitle to: " + s); }
 
