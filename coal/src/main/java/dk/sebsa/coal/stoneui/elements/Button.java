@@ -6,6 +6,7 @@ import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.renderes.GUI;
 import dk.sebsa.coal.io.ButtonPressedEvent;
 import dk.sebsa.coal.stoneui.Element;
+import lombok.Getter;
 
 import java.util.function.Consumer;
 
@@ -13,7 +14,7 @@ import java.util.function.Consumer;
  * @author sebs
  */
 public class Button extends Element<Button> {
-    private final Text text;
+    @Getter private final Text text;
     private final Consumer<Button> onClick;
     private final Rect clickRect = new Rect();
 
