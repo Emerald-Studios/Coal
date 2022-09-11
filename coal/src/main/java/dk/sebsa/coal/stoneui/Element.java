@@ -46,6 +46,14 @@ public abstract class Element<T extends Element<T>> {
         return (T) this;
     }
 
+    public T rect(Rect r) {
+        posX = r.x;
+        posY = r.y;
+        width = r.width;
+        height = r.height;
+        return (T) this;
+    }
+
     public T padding(int i) {
         if(padding == null) padding = new Padding();
         padding.set(i);
