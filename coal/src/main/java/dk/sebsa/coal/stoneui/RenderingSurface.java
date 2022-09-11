@@ -31,13 +31,15 @@ public abstract class RenderingSurface {
     // ELEMENTS
     protected List<Group> gqueue = new ArrayList<>();
     private Element element(Element e) {
-        Group g;
-        if(gqueue.isEmpty()) g = elementGroup;
-        else g = gqueue.get(0);
-
+        Group g = cg();
         g.addToGroup(e);
         e.parent = g;
         return e;
+    }
+
+    private Group cg() {
+        if(gqueue.isEmpty()) return elementGroup;
+        else return gqueue.get(0);
     }
 
     protected ImGUIElement ImGUI(Supplier<Void> drawFunction) {
@@ -56,7 +58,7 @@ public abstract class RenderingSurface {
     }
 
     protected Button Button(Text text, Consumer<Button> action) {
-        gqueue.get(0).elements.remove(text);
+        cg().elements.remove(text);
         Button e = new Button(text, action);
         return (Button) element(e);
     }
