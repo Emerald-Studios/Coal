@@ -46,7 +46,7 @@ public class Coal extends Logable {
     public static Coal instance;
 
     // Coal Settings & Info
-    public static final String COAL_VERSION = "1.1.3";
+    public static final String COAL_VERSION = "1.1.4";
     public static boolean DEBUG;
     public static boolean TRACE;
 

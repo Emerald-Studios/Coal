@@ -25,4 +25,8 @@ public class Label {
         this.font = font;
         this.color = color;
     }
+
+    public float getWidth() {
+        return font.getStringWidth(text);
+    }
 }
