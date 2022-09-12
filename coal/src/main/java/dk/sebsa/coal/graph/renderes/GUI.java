@@ -14,9 +14,9 @@ import java.util.Map;
  * @since 1.0.0
  */
 public class GUI {
-    private static Sprite spriteBox;
-    private static Sprite spriteButton;
-    private static Sprite spriteButtonHover;
+    public static Sprite spriteBox;
+    public static Sprite spriteButton;
+    public static Sprite spriteButtonHover;
     private static Application app;
 
     public static void prepare(SpriteSheet sheet, Application application) {
@@ -32,28 +32,17 @@ public class GUI {
     }
     public static void box(Rect rect, Sprite sprite) { Core2D.drawSprite(rect, sprite); }
 
-    public static void button(Rect r, Label label) {
-        if(!r.contains(app.input.getMousePos())) {
-            box(r, spriteButton);
-            label(r, label);
-            return;
-        }
-
-        box(r, spriteButtonHover);
+    public static void button(Rect r, Label label, Sprite sprite, Sprite hoverSprite) {
+        box(r, r.contains(app.input.getMousePos()) ? hoverSprite : sprite);
         label(r, label);
-        app.input.isButtonPressed(0);
     }
 
-    public static void button(Rect r, Label label, Sprite sprite) {
-        if(!r.contains(app.input.getMousePos())) {
-            box(r, sprite);
-            label(r, label);
-            return;
-        }
+    private static final Rect offsetRect = new Rect();
 
-        box(r, sprite);
-        label(r, label);
-        app.input.isButtonPressed(0);
+    public static void button(Rect r, Label label, Sprite sprite, Sprite hoverSprite, float textOffset) {
+        offsetRect.set(r); offsetRect.add(textOffset,0,0,0);
+        box(r, r.contains(app.input.getMousePos()) ? hoverSprite : sprite);
+        label(offsetRect, label);
     }
 
     private static final Rect r1 = new Rect();

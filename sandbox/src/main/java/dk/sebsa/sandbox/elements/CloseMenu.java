@@ -22,7 +22,7 @@ public class CloseMenu extends CustomElement {
         List(() -> {
             Button(Text("Close"), (b) -> { state.set("1", !(Boolean) state.get("1")); dirty(); })
                     .size(90, 20)
-                    .padding(5);
+                    .padding(5).centerText();
 
             if((Boolean) state.get("1")) Button(Text("Sure?"), (b) -> app.forceClose())
                     .size(90,20)
