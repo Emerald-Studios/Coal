@@ -63,6 +63,11 @@ public abstract class RenderingSurface {
         return (Button) element(e);
     }
 
+    protected Button Button(Consumer<Button> action) {
+        Button e = new Button(action);
+        return (Button) element(e);
+    }
+
     // GROUP ELEMENTS
     protected Group Group(Supplier<Void> groupBuilder) {
         Group g = new Group();

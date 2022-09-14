@@ -25,8 +25,14 @@ public class Button extends Element<Button> {
         this.onClick = onClick;
     }
 
+    public Button(Consumer<Button> onClick) {
+        this.text = null;
+        this.onClick = onClick;
+    }
+
     private float textOffset = 0;
     public Button centerText() {
+        assert text != null;
         textOffset = (getWidth() / 2 - (text.getLabel().getFont().getStringWidth(text.getLabel().getText())*1.0f / 2f));
         return this;
     }
@@ -38,6 +44,7 @@ public class Button extends Element<Button> {
         if(sprite == null) sprite = GUI.spriteButton;
 
         clickRect.set(rect);
+        if(text == null) return;
         if(textOffset == 0)
             GUI.button(rect, text.getLabel(), sprite, spriteHover);
         else
