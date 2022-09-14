@@ -44,8 +44,9 @@ public class Button extends Element<Button> {
         if(sprite == null) sprite = GUI.spriteButton;
 
         clickRect.set(rect);
-        if(text == null) return;
-        if(textOffset == 0)
+        if(text == null) {
+            GUI.button(rect, null, sprite, spriteHover);
+        } else if(textOffset == 0)
             GUI.button(rect, text.getLabel(), sprite, spriteHover);
         else
             GUI.button(rect, text.getLabel(), sprite, spriteHover,textOffset);

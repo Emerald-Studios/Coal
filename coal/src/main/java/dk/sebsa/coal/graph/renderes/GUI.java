@@ -34,7 +34,7 @@ public class GUI {
 
     public static void button(Rect r, Label label, Sprite sprite, Sprite hoverSprite) {
         box(r, r.contains(app.input.getMousePos()) ? hoverSprite : sprite);
-        label(r, label);
+        if(label != null) label(r, label);
     }
 
     private static final Rect offsetRect = new Rect();

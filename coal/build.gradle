@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'dk.sebsa'
-version = '1.1.5'
+version = '1.1.6'
 description = 'Java Game Library'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
