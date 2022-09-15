@@ -19,6 +19,7 @@ import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.renderes.Core2D;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.math.Time;
+import dk.sebsa.coal.tasks.Task;
 import dk.sebsa.coal.tasks.TaskManager;
 import dk.sebsa.coal.tasks.ThreadLogging;
 import dk.sebsa.coal.tasks.ThreadManager;
@@ -33,6 +34,9 @@ import lombok.Getter;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -46,7 +50,7 @@ public class Coal extends Logable {
     public static Coal instance;
 
     // Coal Settings & Info
-    public static final String COAL_VERSION = "1.1.6";
+    public static final String COAL_VERSION = "1.1.7";
     public static boolean DEBUG;
     public static boolean TRACE;
 
@@ -142,6 +146,7 @@ public class Coal extends Logable {
         // Add init tasks
         log("Adding init tasks to multi threaded worker system");
         taskManager.doTask(new AssetManagerInitTask(application.window.getID(), application.window.getGlCapabilities()));
+        for(Task t : startTasks) { taskManager.doTask(t); }
         // This is now done after the AssetManger - taskManager.doTask(new LayerStackInitTask(application.stack));
 
         // Core2D init
@@ -191,6 +196,11 @@ public class Coal extends Logable {
         // Pre-Main Loop
         application.window.normalMode();
         log("Exiting...");
+    }
+
+    private final List<Task> startTasks = new ArrayList<>();
+    public void addStartTask(Task task) {
+        startTasks.add(task);
     }
 
     public static void shutdownDueToError() {
