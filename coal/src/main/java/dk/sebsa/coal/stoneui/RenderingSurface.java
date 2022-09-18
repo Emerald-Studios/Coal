@@ -68,6 +68,10 @@ public abstract class RenderingSurface {
         return (Button) element(e);
     }
 
+    protected <T extends Element<T>> Element<T> AdvancedElement(T element) {
+        return (T) element(element);
+    }
+
     // GROUP ELEMENTS
     protected Group Group(Supplier<Void> groupBuilder) {
         Group g = new Group();

@@ -23,6 +23,8 @@ public class Button extends Element<Button> {
     public Button(Text text, Consumer<Button> onClick) {
         this.text = text;
         this.onClick = onClick;
+        this.spriteHover = GUI.spriteButtonHover;
+        this.sprite = GUI.spriteButton;
     }
 
     public Button(Consumer<Button> onClick) {
