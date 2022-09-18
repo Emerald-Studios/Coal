@@ -34,6 +34,7 @@ public class Button extends Element<Button> {
     public Button centerText() {
         assert text != null;
         textOffset = (getWidth() / 2 - (text.getLabel().getFont().getStringWidth(text.getLabel().getText())*1.0f / 2f));
+        if(textOffset % 1 != 0) textOffset -= textOffset % 1;
         return this;
     }
 
