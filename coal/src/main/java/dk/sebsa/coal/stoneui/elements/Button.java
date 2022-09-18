@@ -28,6 +28,8 @@ public class Button extends Element<Button> {
     public Button(Consumer<Button> onClick) {
         this.text = null;
         this.onClick = onClick;
+        this.spriteHover = GUI.spriteButtonHover;
+        this.sprite = GUI.spriteButton;
     }
 
     private float textOffset = 0;
@@ -40,10 +42,6 @@ public class Button extends Element<Button> {
 
     @Override
     protected void render() {
-        if(spriteHover == null)
-            this.spriteHover = GUI.spriteButtonHover;
-        if(sprite == null) sprite = GUI.spriteButton;
-
         clickRect.set(rect);
         if(text == null) {
             GUI.button(rect, null, sprite, spriteHover);

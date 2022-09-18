@@ -30,7 +30,7 @@ public class GUI {
     public static void box(Rect rect) {
         Core2D.drawSprite(rect, spriteBox);
     }
-    public static void box(Rect rect, Sprite sprite) { Core2D.drawSprite(rect, sprite); }
+    public static void box(Rect rect, Sprite sprite) { if(sprite != null) Core2D.drawSprite(rect, sprite); }
 
     public static void button(Rect r, Label label, Sprite sprite, Sprite hoverSprite) {
         box(r, r.contains(app.input.getMousePos()) ? hoverSprite : sprite);
