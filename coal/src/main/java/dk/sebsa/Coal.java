@@ -50,7 +50,7 @@ public class Coal extends Logable {
     public static Coal instance;
 
     // Coal Settings & Info
-    public static final String COAL_VERSION = "1.1.8";
+    public static final String COAL_VERSION = "1.1.9";
     public static boolean DEBUG;
     public static boolean TRACE;
 
@@ -178,7 +178,7 @@ public class Coal extends Logable {
 
         // Pre-Main Loop
         log("Entering pre-main loop");
-        while(taskManager.stuffToDo()) {
+        while(taskManager.stuffToDo() || !postStartTasks.isEmpty()) {
             if(capabilities.coalLoadScreen) {
                 glfwSwapBuffers(application.window.getID()); // swap the color buffers
                 glfwPollEvents(); // Poll for window events.
@@ -187,6 +187,7 @@ public class Coal extends Logable {
             // Make Stuff Happen
             ThreadLogging.logAll(logger);
             taskManager.frame(threadManager, true);
+            if(!taskManager.stuffToDo()) { postStartTasks.forEach((t) -> {taskManager.doTask(t); }); postStartTasks.clear();}
         }
 
         // Return Capabilities
@@ -201,6 +202,11 @@ public class Coal extends Logable {
     private final List<Task> startTasks = new ArrayList<>();
     public void addStartTask(Task task) {
         startTasks.add(task);
+    }
+
+    private final List<Task> postStartTasks = new ArrayList<>();
+    public void addPostStartTask(Task task) {
+        postStartTasks.add(task);
     }
 
     public static void shutdownDueToError() {
