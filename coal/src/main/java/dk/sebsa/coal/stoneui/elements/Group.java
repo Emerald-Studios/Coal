@@ -18,8 +18,8 @@ public class Group extends Element<Group> {
 
     @Override
     public boolean handleEvent(Event e) {
-        for(Element element : elements) {
-            if(element.handleEvent(e)) return true;
+        for(int i = elements.size()-1; i >= 0; i--) {
+            if(elements.get(i).handleEvent(e)) return true;
         } return false;
     }
 
