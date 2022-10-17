@@ -28,16 +28,19 @@ public class Text extends Element<Text> {
         this.color = Color.white;
     }
 
-    public void text(String text) {
+    public Text text(String text) {
         this.text = text;
+        return this;
     }
 
-    public void color(Color color) {
+    public Text color(Color color) {
         this.color = color;
+        return this;
     }
 
-    public void font(Font font) {
+    public Text font(Font font) {
         this.font = font;
+        return this;
     }
 
     public Label getLabel() {
