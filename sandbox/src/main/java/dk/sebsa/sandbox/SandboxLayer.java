@@ -112,6 +112,6 @@ public class SandboxLayer extends Layer {
             return null;
         }).pos(0,100);
 
-        TextField("hello").prefix("{String} ").size(250, 20);
+        TextField(1, "Hello World!").prefix("{String} ").size(250, 20);
     }
 }

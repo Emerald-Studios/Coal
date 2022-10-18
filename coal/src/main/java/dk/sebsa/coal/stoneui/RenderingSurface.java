@@ -67,8 +67,11 @@ public abstract class RenderingSurface {
         return (Button) element(e);
     }
 
-    protected TextField TextField(String currentValue) {
-        TextField e = new TextField(currentValue);
+    private final Map<Integer, String[]> textFields = new HashMap<>();
+    protected TextField TextField(int id, String defaultValue) {
+        TextField e = new TextField(
+                textFields.computeIfAbsent(id, integer -> { return new String[] { defaultValue }; })
+        );
         return (TextField) element(e);
     }
 
