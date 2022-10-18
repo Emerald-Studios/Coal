@@ -3,6 +3,7 @@ package dk.sebsa.coal.stoneui;
 import dk.sebsa.Coal;
 import dk.sebsa.coal.Application;
 import dk.sebsa.coal.graph.SpriteSheet;
+import dk.sebsa.coal.graph.renderes.GUI;
 import dk.sebsa.coal.stoneui.elements.*;
 
 import java.util.ArrayList;
@@ -18,11 +19,14 @@ import java.util.function.Supplier;
 public abstract class RenderingSurface {
     public Group elementGroup;
     public SpriteSheet preferredSpriteSheet;
-    protected abstract SpriteSheet buildUI();
+    protected abstract SpriteSheet prefferedSpriteSheet();
+    protected abstract void buildUI();
     public void fullBuildUI(Application app) {
         elementGroup = new Group();
         elementGroup.size(app.window.rect.width, app.window.rect.height);
-        preferredSpriteSheet = buildUI();
+        preferredSpriteSheet = prefferedSpriteSheet();
+        GUI.genSprites(preferredSpriteSheet);
+        buildUI();
         if(Coal.TRACE) Coal.logger.log("Full UI Gen for Surface: " + getClass().getSimpleName() + ", DONE!");
     }
 
@@ -61,6 +65,11 @@ public abstract class RenderingSurface {
         cg().elements.remove(text);
         Button e = new Button(text, action);
         return (Button) element(e);
+    }
+
+    protected TextField TextField(String currentValue) {
+        TextField e = new TextField(currentValue);
+        return (TextField) element(e);
     }
 
     protected Button Button(Consumer<Button> action) {

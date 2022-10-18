@@ -15,9 +15,13 @@ public abstract class CustomElement extends RenderingSurface {
     public final State state;
 
     @Override
-    protected SpriteSheet buildUI() {
+    protected SpriteSheet prefferedSpriteSheet() {
+        return null;
+    }
+
+    @Override
+    protected void buildUI() {
         elementGroup = new Group();
         build();
-        return null;
     }
 }

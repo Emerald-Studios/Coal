@@ -17,7 +17,7 @@ public class Text extends Element<Text> {
     private Font font;
 
     public static Font defaultFont;
-    private static Font getDefaultFont() {
+    public static Font getDefaultFont() {
         if(defaultFont == null) defaultFont = AssetManager.getAsset("internal/DefaultTextFont.fnt");
         return defaultFont;
     }

@@ -21,10 +21,15 @@ public class GUI {
 
     public static void prepare(SpriteSheet sheet, Application application) {
         if(!Core2D.isPrepared()) Core2D.prepare();
+        app = application;
+
+        genSprites(sheet);
+    }
+
+    public static void genSprites(SpriteSheet sheet) {
         spriteBox = sheet.getSprite("Box");
         spriteButton = sheet.getSprite("Button");
         spriteButtonHover = sheet.getSprite("ButtonHover");
-        app = application;
     }
 
     public static void box(Rect rect) {
