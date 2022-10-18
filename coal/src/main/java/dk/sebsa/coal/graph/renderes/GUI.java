@@ -17,6 +17,7 @@ public class GUI {
     public static Sprite spriteBox;
     public static Sprite spriteButton;
     public static Sprite spriteButtonHover;
+    public static Sprite spritePixel;
     private static Application app;
 
     public static void prepare(SpriteSheet sheet, Application application) {
@@ -30,6 +31,7 @@ public class GUI {
         spriteBox = sheet.getSprite("Box");
         spriteButton = sheet.getSprite("Button");
         spriteButtonHover = sheet.getSprite("ButtonHover");
+        spritePixel = sheet.getSprite("Pixel");
     }
 
     public static void box(Rect rect) {
