@@ -17,14 +17,21 @@ public class GUI {
     public static Sprite spriteBox;
     public static Sprite spriteButton;
     public static Sprite spriteButtonHover;
+    public static Sprite spritePixel;
     private static Application app;
 
     public static void prepare(SpriteSheet sheet, Application application) {
         if(!Core2D.isPrepared()) Core2D.prepare();
+        app = application;
+
+        genSprites(sheet);
+    }
+
+    public static void genSprites(SpriteSheet sheet) {
         spriteBox = sheet.getSprite("Box");
         spriteButton = sheet.getSprite("Button");
         spriteButtonHover = sheet.getSprite("ButtonHover");
-        app = application;
+        spritePixel = sheet.getSprite("Pixel");
     }
 
     public static void box(Rect rect) {

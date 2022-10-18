@@ -10,6 +10,7 @@ import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
 import dk.sebsa.coal.graph.RenderPipeline;
 import dk.sebsa.coal.graph.SpriteSheet;
+import dk.sebsa.coal.graph.renderes.GUI;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
@@ -93,9 +94,14 @@ public class SandboxLayer extends Layer {
 
     }
 
+    @Override
+    protected SpriteSheet prefferedSpriteSheet() {
+        return sheet;
+    }
+
 
     @Override
-    protected SpriteSheet buildUI() {
+    protected void buildUI() {
         Box();
         Box().pos(100,0).size(200,200);
 
@@ -106,6 +112,6 @@ public class SandboxLayer extends Layer {
             return null;
         }).pos(0,100);
 
-        return sheet;
+        TextField(1, "Hello World!").prefix("{String} ").size(250, 20);
     }
 }

@@ -31,6 +31,7 @@ public class GLFWInput extends Logable {
     private final GLFWKeyCallback keyCallback;
     private final GLFWCursorPosCallback cursorCallback;
     private final GLFWScrollCallback scrollCallback;
+    private final GLFWCharCallback charCallback; // For text input
 
     // Main Class
     public GLFWInput(Application app, Logger logger) {
@@ -82,6 +83,15 @@ public class GLFWInput extends Logable {
             }
         };
 
+        charCallback = new GLFWCharCallback() {
+            @Override
+            public void invoke(long window, int codepoint) {
+                CharEvent e = new CharEvent();
+                e.codePoint = codepoint;
+                app.stack.event(e);
+            }
+        };
+
         cursorCallback = new GLFWCursorPosCallback() {
             public void invoke(long window, double xpos, double ypos) {
                 // Create Event
@@ -120,7 +130,7 @@ public class GLFWInput extends Logable {
         GLFW.glfwSetScrollCallback(window.getID(), scrollCallback);
         GLFW.glfwSetMouseButtonCallback(window.getID(), mouseButtonCallback);
 //		GLFW.glfwSetCursorEnterCallback(window.id, cursorEnter);
-//		GLFW.glfwSetCharCallback(window.id, text);
+		GLFW.glfwSetCharCallback(window.getID(), charCallback);
     }
 
     private void resetInputData(boolean all) {

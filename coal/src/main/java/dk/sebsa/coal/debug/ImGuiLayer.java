@@ -73,11 +73,13 @@ public abstract class ImGuiLayer extends Layer {
     }
 
     @Override
-    protected SpriteSheet buildUI() {
-        if(selfDestruct) return null;
-
-        ImGUI(this::drawFrame);
+    protected SpriteSheet prefferedSpriteSheet() {
         return null;
+    }
+
+    @Override
+    protected void buildUI() {
+        if(!selfDestruct) ImGUI(this::drawFrame);
     }
 
     private Void drawFrame() {
