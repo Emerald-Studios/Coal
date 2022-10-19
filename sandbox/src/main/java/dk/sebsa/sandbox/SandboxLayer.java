@@ -5,6 +5,7 @@ import dk.sebsa.coal.Application;
 import dk.sebsa.coal.asset.AssetManager;
 import dk.sebsa.coal.ecs.Entity;
 import dk.sebsa.coal.enums.EventTypes;
+import dk.sebsa.coal.enums.InputTypes;
 import dk.sebsa.coal.enums.PolygonMode;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.events.Layer;
@@ -14,6 +15,7 @@ import dk.sebsa.coal.graph.renderes.GUI;
 import dk.sebsa.coal.graph.renderes.SpriteRenderer;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.physm.M2D.MAABBCollider2D;
+import dk.sebsa.coal.util.InputLimitations;
 import dk.sebsa.sandbox.elements.AdvancedTest;
 import dk.sebsa.sandbox.elements.CloseMenu;
 import org.lwjgl.glfw.GLFW;
@@ -112,6 +114,41 @@ public class SandboxLayer extends Layer {
             return null;
         }).pos(0,100);
 
-        TextField(1, "Hello World!").prefix("{String} ").size(250, 20);
+        List(() -> {
+            TextField(1, "").prefix("{*String} ").size(250, 20).inputLimitations(InputLimitations.builder()
+                .maxLength(14)
+                .inputType(InputTypes.String)
+                .build());
+
+
+            TextField(2, "Hello World").prefix("{azString} ").size(250, 20).inputLimitations(InputLimitations.builder()
+                .maxLength(14)
+                .inputType(InputTypes.StringAlphabetic)
+                .build());
+
+
+            TextField(3, "Hello World 01").prefix("{az01String} ").size(250, 20).inputLimitations(InputLimitations.builder()
+                .maxLength(14)
+                .inputType(InputTypes.StringAlphanumeric)
+                .build());
+
+
+            TextField(4, "99").prefix("{int -30 - 100} ").size(250, 20).inputLimitations(InputLimitations.builder()
+                .maxLength(14)
+                .inputType(InputTypes.Integer)
+                .numberMax(100)
+                .limitNumber(true)
+                .numberMin(-30)
+                .build());
+
+            TextField(5, "1.2").prefix("{float -40.5 - 20} ").size(250, 20).inputLimitations(InputLimitations.builder()
+                .maxLength(14)
+                .inputType(InputTypes.Float)
+                .numberMax(20)
+                .limitNumber(true)
+                .numberMin(-40.5f)
+                .build());
+            return null;
+        }).size(250, 100);
     }
 }

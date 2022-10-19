@@ -1,6 +1,7 @@
 package dk.sebsa.coal.stoneui.elements;
 
 import dk.sebsa.coal.enums.EventTypes;
+import dk.sebsa.coal.enums.InputTypes;
 import dk.sebsa.coal.events.Event;
 import dk.sebsa.coal.graph.Rect;
 import dk.sebsa.coal.graph.renderes.GUI;
@@ -11,6 +12,7 @@ import dk.sebsa.coal.io.CharEvent;
 import dk.sebsa.coal.io.KeyPressedEvent;
 import dk.sebsa.coal.math.Color;
 import dk.sebsa.coal.stoneui.Element;
+import dk.sebsa.coal.util.InputLimitations;
 import org.lwjgl.glfw.GLFW;
 
 public class TextField extends Element<TextField> {
@@ -21,6 +23,7 @@ public class TextField extends Element<TextField> {
     private boolean editing = false;
     private Font font;
     private int cursorPos;
+    private InputLimitations inputLimitations = InputLimitations.builder().build();
 
     public TextField prefix(String prefix) {
         this.prefix = prefix;
@@ -53,7 +56,7 @@ public class TextField extends Element<TextField> {
 
         if(editing) {
             float x = getCursorX(label, cursorPos+prefix.length()-1);
-            GUI.box(r.set(rect.x + x, rect.y-1, 1, rect.height -2), GUI.spritePixel);
+            GUI.box(r.set(rect.x + x, rect.y-1, 1, rect.height - 2), GUI.spritePixel);
         }
     }
 
@@ -74,9 +77,21 @@ public class TextField extends Element<TextField> {
                 editing = false;
             }
         } if(editing) {
-            if(e.eventType() == EventTypes.Char) {
-                value[0] = value[0].substring(0, cursorPos) + (char) ((CharEvent) e).codePoint + value[0].substring(cursorPos);
-                cursorPos++;
+            if(e.eventType() == EventTypes.Char) { // When user tries to write charater
+                char c =  (char) ((CharEvent) e).codePoint;
+                // Check if writing is allowed
+                if(value[0].length() >= inputLimitations.maxLength) return true;
+
+                if(!switch (inputLimitations.inputType) {
+                    case StringAlphabetic -> InputLimitations.ALLOWED_CHARS_ALPHABETIC_S.contains("" + c);
+                    case StringAlphanumeric -> InputLimitations.ALLOWED_CHARS_ALPHANUMERIC_S.contains("" + c);
+                    case Integer -> InputLimitations.ALLOWED_CHARS_INT_S.contains("" + c);
+                    case Float -> InputLimitations.ALLOWED_CHARS_FLOAT_S.contains("" + c);
+                    case String -> true;
+                }) return true;
+
+                value[0] = value[0].substring(0, cursorPos) + c + value[0].substring(cursorPos);
+                cursorPos++; limit();
                 return true;
             } else if(e.eventType() == EventTypes.KeyPressed) {
                 KeyPressedEvent e2 = (KeyPressedEvent) e;
@@ -98,6 +113,20 @@ public class TextField extends Element<TextField> {
     }
 
     private void limit() {
+        if(inputLimitations.limitNumber) {
+            try {
+                if(inputLimitations.inputType.equals(InputTypes.Float)) {
+                    float f = Float.parseFloat(value[0]);
+                    if(f > inputLimitations.numberMax) { f = inputLimitations.numberMax; value[0] = String.valueOf(f); }
+                    else if(f < inputLimitations.numberMin) { f = inputLimitations.numberMin; value[0] = String.valueOf(f); }
+                } else if(inputLimitations.inputType.equals(InputTypes.Integer)) {
+                    int i = Integer.parseInt(value[0]);
+                    if(i > inputLimitations.numberMax) { i = (int) inputLimitations.numberMax; value[0] = String.valueOf(i); }
+                    else if(i < inputLimitations.numberMin) { i = (int) inputLimitations.numberMin; value[0] = String.valueOf(i); }
+                }
+            } catch (NumberFormatException e) { }
+        }
+
         if(cursorPos < 0) cursorPos = 0;
         else if (cursorPos > value[0].length()) cursorPos = value[0].length();
     }
@@ -117,10 +146,14 @@ public class TextField extends Element<TextField> {
 
         float x = clickRect.x;
         for(int i = 0; i < text.length(); i++) {
-            System.out.println(x);
             x += label.getFont().getStringWidth(text.substring(i,i+1));
             if(x >= mouseX) return i;
         }
         return text.length(); // This shouldn't happen but if it does, nothing goes wrong anyway
+    }
+
+    public TextField inputLimitations(InputLimitations limitations) {
+        this.inputLimitations = limitations;
+        return this;
     }
 }
