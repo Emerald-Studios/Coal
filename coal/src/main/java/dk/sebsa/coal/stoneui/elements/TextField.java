@@ -15,6 +15,8 @@ import dk.sebsa.coal.stoneui.Element;
 import dk.sebsa.coal.util.InputLimitations;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.function.Consumer;
+
 public class TextField extends Element<TextField> {
     public final String[] value;
     private String prefix;
@@ -92,6 +94,7 @@ public class TextField extends Element<TextField> {
 
                 value[0] = value[0].substring(0, cursorPos) + c + value[0].substring(cursorPos);
                 cursorPos++; limit();
+                onChanged.accept(value[0]);
                 return true;
             } else if(e.eventType() == EventTypes.KeyPressed) {
                 KeyPressedEvent e2 = (KeyPressedEvent) e;
@@ -100,8 +103,10 @@ public class TextField extends Element<TextField> {
                     if(cursorPos < value[0].length()) value[0] = v.substring(0, cursorPos-1) + v.substring(cursorPos);
                     else value[0] = v.substring(0, cursorPos-1);
                     cursorPos--; limit();
+                    onChanged.accept(value[0]);
                 } else if(e2.key == GLFW.GLFW_KEY_DELETE && v.length() > 0 && cursorPos < value[0].length()) {
                     value[0] = v.substring(0, cursorPos) + v.substring(cursorPos+1, value[0].length());
+                    onChanged.accept(value[0]);
                 }
                 else if(e2.key == GLFW.GLFW_KEY_LEFT) { cursorPos--; limit(); }
                 else if(e2.key == GLFW.GLFW_KEY_RIGHT) { cursorPos++; limit(); }
@@ -154,6 +159,12 @@ public class TextField extends Element<TextField> {
 
     public TextField inputLimitations(InputLimitations limitations) {
         this.inputLimitations = limitations;
+        return this;
+    }
+
+    private Consumer<String> onChanged;
+    public TextField onValueChanged(Consumer<String> onChanged) {
+        this.onChanged = onChanged;
         return this;
     }
 }
